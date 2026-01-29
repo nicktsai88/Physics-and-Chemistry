@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理化學習 App - 實驗總部</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 理化主題配色：科學藍與實驗紫 */
+            --primary: #1565c0;       /* 主色：科學藍 */
+            --bg: #f0f4f8;            /* 背景：淡灰藍 */
+            --card-bg: #ffffff;
+            
+            /* 第3冊配色 - 青色系 */
+            --vol3-main: #00897b;     
+            --vol3-light: #e0f2f1;
+            
+            /* 第4冊配色 - 靛色系 */
+            --vol4-main: #3949ab;
+            --vol4-light: #e8eaf6;
+
+            /* 通用顏色 */
+            --text-dark: #263238;
+            --text-gray: #546e7a;
+            --badge-open-bg: #e3f2fd;
+            --badge-open-text: #1976d2;
+            --badge-locked-bg: #eceff1;
+            --badge-locked-text: #78909c;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg);
+            background-image: radial-gradient(#cfd8dc 1px, transparent 1px);
+            background-size: 20px 20px; /* 點陣背景增加科技感 */
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            text-shadow: 2px 2px 0px rgba(255,255,255,1);
+        }
+
+        .header p {
+            color: var(--text-gray);
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        /* 返回按鈕 - 改為紫橘漸層 */
+        .home-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #7b1fa2 0%, #ff6f00 100%);
+            color: white;
+            padding: 12px 35px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(123, 31, 162, 0.3);
+            transition: all 0.3s ease;
+            border: 2px solid white;
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(123, 31, 162, 0.5);
+        }
+        
+        /* 網格佈局 */
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 25px;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* 卡片基礎樣式 */
+        .app-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-dark);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05), 0 1px 3px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-top: 6px solid transparent; /* 預留頂部顏色條 */
+        }
+
+        .app-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.1);
+        }
+
+        /* 第3冊樣式特化 */
+        .app-card.vol-3 {
+            border-top-color: var(--vol3-main);
+        }
+        .app-card.vol-3 .card-icon {
+            background: var(--vol3-light);
+            border-color: #b2dfdb;
+            color: var(--vol3-main);
+        }
+        .app-card.vol-3 .vol-tag {
+            background: var(--vol3-main);
+        }
+
+        /* 第4冊樣式特化 */
+        .app-card.vol-4 {
+            border-top-color: var(--vol4-main);
+        }
+        .app-card.vol-4 .card-icon {
+            background: var(--vol4-light);
+            border-color: #c5cae9;
+            color: var(--vol4-main);
+        }
+        .app-card.vol-4 .vol-tag {
+            background: var(--vol4-main);
+        }
+
+        /* 卡片內部元素 */
+        .vol-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 1.2em; /* 增大字體 */
+            padding: 4px 12px; /* 增加內距 */
+            border-radius: 6px;
+            font-weight: bold;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 增加一點陰影讓它更立體 */
+        }
+
+        .card-icon {
+            font-size: 2.5em;
+            margin: 15px 0;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid transparent;
+        }
+
+        .card-code {
+            font-size: 0.85em;
+            color: #90a4ae;
+            font-family: monospace;
+            margin-bottom: 5px;
+        }
+
+        .card-title {
+            font-size: 1.25em;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.4;
+            min-height: 2.8em; /* 保持標題高度一致 */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-badge {
+            margin-top: auto;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        /* 開放中 */
+        .card-badge.open {
+            background: var(--badge-open-bg);
+            color: var(--badge-open-text);
+        }
+
+        /* 準備中 */
+        .card-badge.locked {
+            background: var(--badge-locked-bg);
+            color: var(--badge-locked-text);
+        }
+
+        /* 鎖定狀態樣式 */
+        .app-card.locked {
+            filter: grayscale(1);
+            opacity: 0.8;
+            cursor: not-allowed;
+            pointer-events: none;
+            background: #fafafa;
+            border-top-color: #cfd8dc;
+        }
+        .app-card.locked .vol-tag {
+            background: #b0bec5;
+        }
+
+        /* 分隔線標題 */
+        .section-divider {
+            grid-column: 1 / -1;
+            margin: 30px 0 10px 0;
+            font-size: 1.5em;
+            color: var(--text-dark);
+            border-left: 5px solid #ccc;
+            padding-left: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-divider.vol3 { border-color: var(--vol3-main); color: var(--vol3-main); }
+        .section-divider.vol4 { border-color: var(--vol4-main); color: var(--vol4-main); }
+
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>⚗️ 理化學習 App 總部</h1>
+        <p>探索物質的奧秘，從微觀粒子到宏觀現象</p>
+        
+        <!-- 返回百寶箱按鈕 -->
+        <a href="https://nicktsai88.github.io/List/" class="home-btn">
+            🎁 返回快樂學習百寶箱
+        </a>
+    </div>
+
+    <div class="app-grid">
+
+        <!-- ================= 第3冊 (青色系) ================= -->
+        <div class="section-divider vol3">📘 第 3 冊：熱學與化學基礎</div>
+
+        <!-- 3-5-1 溫度 -->
+        <a href="Nature3-5-1.html" class="app-card vol-3">
+            <div class="vol-tag">3-5-1</div>
+            <div class="card-icon">🌡️</div>
+            <div class="card-title">溫度與溫度計</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-5-2 熱量 -->
+        <a href="Nature3-5-2.html" class="app-card vol-3">
+            <div class="vol-tag">3-5-2</div>
+            <div class="card-icon">🔥</div>
+            <div class="card-title">熱量</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-5-3 比熱 -->
+        <a href="Nature3-5-3.html" class="app-card vol-3">
+            <div class="vol-tag">3-5-3</div>
+            <div class="card-icon">🌊</div>
+            <div class="card-title">比熱</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-5-4 熱對物質的影響 -->
+        <a href="Nature3-5-4.html" class="app-card vol-3">
+            <div class="vol-tag">3-5-4</div>
+            <div class="card-icon">🧊</div>
+            <div class="card-title">熱對物質的影響</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-5-5 熱的傳播 -->
+        <a href="Nature3-5-5.html" class="app-card vol-3">
+            <div class="vol-tag">3-5-5</div>
+            <div class="card-icon">🌬️</div>
+            <div class="card-title">熱的傳播方式</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-6-1 元素 -->
+        <a href="Nature3-6-1.html" class="app-card vol-3">
+            <div class="vol-tag">3-6-1</div>
+            <div class="card-icon">🧱</div>
+            <div class="card-title">元素與化合物</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-6-2 常見元素 -->
+        <a href="Nature3-6-2.html" class="app-card vol-3">
+            <div class="vol-tag">3-6-2</div>
+            <div class="card-icon">🪙</div>
+            <div class="card-title">生活中常見的元素</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-6-3 原子 -->
+        <a href="Nature3-6-3.html" class="app-card vol-3">
+            <div class="vol-tag">3-6-3</div>
+            <div class="card-icon">⚛️</div>
+            <div class="card-title">物質結構與原子</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-6-4 週期表 -->
+        <a href="Nature3-6-4.html" class="app-card vol-3">
+            <div class="vol-tag">3-6-4</div>
+            <div class="card-icon">📊</div>
+            <div class="card-title">週期表</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 3-6-5 分子 -->
+        <a href="Nature3-6-5.html" class="app-card vol-3">
+            <div class="vol-tag">3-6-5</div>
+            <div class="card-icon">🔗</div>
+            <div class="card-title">分子與化學式</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+
+        <!-- ================= 第4冊 (靛色系) ================= -->
+        <div class="section-divider vol4">📙 第 4 冊：化學反應與力學</div>
+
+        <!-- 4-1-1 化學反應 -->
+        <a href="Nature4-1-1.html" class="app-card vol-4">
+            <div class="vol-tag">4-1-1</div>
+            <div class="card-icon">🎇</div>
+            <div class="card-title">常見的化學反應</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 4-1-2 質量守恆 -->
+        <a href="Nature4-1-2.html" class="app-card vol-4">
+            <div class="vol-tag">4-1-2</div>
+            <div class="card-icon">⚖️</div>
+            <div class="card-title">質量守恆定律</div>
+            <div class="card-badge open">開放中</div>
+        </a>
+
+        <!-- 4-1-3 化學計量 (準備中) -->
+        <a href="Nature4-1-3.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-1-3</div>
+            <div class="card-icon">🔢</div>
+            <div class="card-title">反應式與化學計量</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-2-1 氧化反應 (準備中) -->
+        <a href="Nature4-2-1.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-2-1</div>
+            <div class="card-icon">🍎</div>
+            <div class="card-title">氧化反應與活性</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-2-2 氧化還原 (準備中) -->
+        <a href="Nature4-2-2.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-2-2</div>
+            <div class="card-icon">🔄</div>
+            <div class="card-title">氧化與還原</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-2-3 應用 (準備中) -->
+        <a href="Nature4-2-3.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-2-3</div>
+            <div class="card-icon">🏭</div>
+            <div class="card-title">氧化還原的應用</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-3-1 電解質 (準備中) -->
+        <a href="Nature4-3-1.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-3-1</div>
+            <div class="card-icon">💡</div>
+            <div class="card-title">電解質</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-3-2 酸和鹼 (準備中) -->
+        <a href="Nature4-3-2.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-3-2</div>
+            <div class="card-icon">🧪</div>
+            <div class="card-title">酸和鹼</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-3-3 pH (準備中) -->
+        <a href="Nature4-3-3.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-3-3</div>
+            <div class="card-icon">🌈</div>
+            <div class="card-title">酸鹼強弱與pH值</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-3-4 酸鹼反應 (準備中) -->
+        <a href="Nature4-3-4.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-3-4</div>
+            <div class="card-icon">🧂</div>
+            <div class="card-title">酸鹼反應</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-4-1 反應速率 (準備中) -->
+        <a href="Nature4-4-1.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-4-1</div>
+            <div class="card-icon">⏱️</div>
+            <div class="card-title">反應速率</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-4-2 平衡 (準備中) -->
+        <a href="Nature4-4-2.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-4-2</div>
+            <div class="card-icon">↔️</div>
+            <div class="card-title">可逆反應與平衡</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-5-1 有機化合物 (準備中) -->
+        <a href="Nature4-5-1.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-5-1</div>
+            <div class="card-icon">🌿</div>
+            <div class="card-title">有機化合物的組成</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-5-2 常見有機 (準備中) -->
+        <a href="Nature4-5-2.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-5-2</div>
+            <div class="card-icon">⛽</div>
+            <div class="card-title">常見的有機化合物</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-5-3 聚合物 (準備中) -->
+        <a href="Nature4-5-3.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-5-3</div>
+            <div class="card-icon">👕</div>
+            <div class="card-title">聚合物與衣料纖維</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-5-4 應用 (準備中) -->
+        <a href="Nature4-5-4.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-5-4</div>
+            <div class="card-icon">🥤</div>
+            <div class="card-title">有機物的生活應用</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-6-1 力與平衡 (準備中) -->
+        <a href="Nature4-6-1.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-6-1</div>
+            <div class="card-icon">🏗️</div>
+            <div class="card-title">力與平衡</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-6-2 摩擦力 (準備中) -->
+        <a href="Nature4-6-2.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-6-2</div>
+            <div class="card-icon">⛸️</div>
+            <div class="card-title">摩擦力</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-6-3 壓力 (準備中) -->
+        <a href="Nature4-6-3.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-6-3</div>
+            <div class="card-icon">📌</div>
+            <div class="card-title">壓力</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+        <!-- 4-6-4 浮力 (準備中) -->
+        <a href="Nature4-6-4.html" class="app-card vol-4 locked">
+            <div class="vol-tag">4-6-4</div>
+            <div class="card-icon">⛵</div>
+            <div class="card-title">浮力</div>
+            <div class="card-badge locked">準備中</div>
+        </a>
+
+    </div>
+
+</body>
+</html>
