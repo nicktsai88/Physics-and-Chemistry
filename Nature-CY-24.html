@@ -7,22 +7,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
-    <!-- Chosen Palette: Warm Neutrals with Sky Blue Accents, supplemented by semantic Green/Red for quiz feedback -->
-    <!-- Application Structure Plan: The SPA is structured as an interactive learning and quizzing dashboard. 
-         1. Core Formulas: Top sticky reference section. 
-         2. Overview: Left column with a doughnut chart showing topic distribution. 
-         3. Interactive Navigation: Left column grid of question buttons, acting as a progress tracker (showing correct/incorrect icons). 
-         4. Dynamic Quiz Area: Right column where students select options. Immediate feedback is provided via color changes and auto-revealing the explanation. 
-         5. Score Modal: A celebratory modal that appears upon completing all questions to summarize performance. 
-         This structure transforms passive reading into active, gamified learning. -->
-    <!-- Visualization & Content Choices: 
-         1. Core Formulas -> Goal: Quick reference -> Presentation: Highlighted Cards -> Justification: Essential for solving problems. 
-         2. Topic Distribution -> Goal: Overview -> Presentation: Doughnut Chart (Chart.js) -> Justification: Shows test focus. 
-         3. Quiz Options -> Goal: Assessment & Feedback -> Presentation: Clickable buttons that change color (Green=Correct, Red=Incorrect) -> Justification: Immediate feedback reinforces learning. 
-         4. Explanations -> Goal: Correction -> Presentation: Hidden block that auto-reveals after answering -> Justification: Ensures students try first, then learn the correct method. 
-         5. Final Score -> Goal: Gamification -> Presentation: Centered Modal -> Justification: Provides a sense of completion. -> Library/Method: Vanilla JS. -->
-    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
-
     <style>
         .chart-container {
             position: relative;
@@ -234,21 +218,21 @@
             {
                 id: 1,
                 topic: "混合氣體莫耳數",
-                text: "某容器含有 C<sub>2</sub>H<sub>2</sub> 和 C<sub>2</sub>H<sub>6</sub> 的混合氣體，其原子總數為分子總數的 6 倍，則 C<sub>2</sub>H<sub>2</sub> 和 C<sub>2</sub>H<sub>6</sub> 的莫耳數比為多少？",
+                text: "某容器含有 C<sub>2</sub>H<sub>2</sub> 和 C<sub>3</sub>H<sub>6</sub> 的混合氣體，其原子總數為分子總數的 6 倍，則 C<sub>2</sub>H<sub>2</sub> 和 C<sub>3</sub>H<sub>6</sub> 的莫耳數比為多少？",
                 options: ["(A) 2:1", "(B) 1:2", "(C) 1:1", "(D) 3:2"],
-                answer: "C",
+                answer: "D",
                 explanation: `
                     <ol class="list-decimal pl-5 space-y-2">
-                        <li>假設 C<sub>2</sub>H<sub>2</sub> 有 <span class="font-mono text-sky-700">x</span> 莫耳、C<sub>2</sub>H<sub>6</sub> 有 <span class="font-mono text-sky-700">y</span> 莫耳。(註：原題漏字應為 C<sub>2</sub>H<sub>6</sub> 乙烷，方能使題目成立)</li>
-                        <li>一個 C<sub>2</sub>H<sub>2</sub> 裡面有 2+2=4 個原子；一個 C<sub>2</sub>H<sub>6</sub> 裡面有 2+6=8 個原子。</li>
+                        <li>假設 C<sub>2</sub>H<sub>2</sub> 有 <span class="font-mono text-sky-700">x</span> 莫耳、C<sub>3</sub>H<sub>6</sub> 有 <span class="font-mono text-sky-700">y</span> 莫耳。</li>
+                        <li>一個 C<sub>2</sub>H<sub>2</sub> 裡面有 2+2=4 個原子；一個 C<sub>3</sub>H<sub>6</sub> 裡面有 3+6=9 個原子。</li>
                         <li>題目說：「原子總數」是「分子總數」的 6 倍：
                             <ul class="list-disc pl-5 mt-1 text-stone-600">
-                                <li>原子總數 = <span class="font-mono">4x + 8y</span></li>
+                                <li>原子總數 = <span class="font-mono">4x + 9y</span></li>
                                 <li>分子總數 = <span class="font-mono">x + y</span></li>
-                                <li>列出方程式：<span class="font-mono">4x + 8y = 6 &times; (x + y)</span></li>
+                                <li>列出方程式：<span class="font-mono">4x + 9y = 6 &times; (x + y)</span></li>
                             </ul>
                         </li>
-                        <li>展開計算：<span class="font-mono">4x + 8y = 6x + 6y</span> &rarr; <span class="font-mono">2y = 2x</span> &rarr; <span class="font-mono">x : y = 1 : 1</span></li>
+                        <li>展開計算：<span class="font-mono">4x + 9y = 6x + 6y</span> &rarr; <span class="font-mono">3y = 2x</span> &rarr; <span class="font-mono">x : y = 3 : 2</span></li>
                     </ol>
                 `,
                 tip: "這類「混合氣體」求比例的題目，利用「代數假設」是最快的！不要怕設未知數。"
