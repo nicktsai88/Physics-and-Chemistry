@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鍾揚理化互動解析中心 - 莫耳數與原子量</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- Chosen Palette: Warm Neutrals with Sky Blue Accents, supplemented by semantic Green/Red for quiz feedback -->
+    <!-- Application Structure Plan: The SPA is structured as an interactive learning and quizzing dashboard. 
+         1. Core Formulas: Top sticky reference section. 
+         2. Overview: Left column with a doughnut chart showing topic distribution. 
+         3. Interactive Navigation: Left column grid of question buttons, acting as a progress tracker (showing correct/incorrect icons). 
+         4. Dynamic Quiz Area: Right column where students select options. Immediate feedback is provided via color changes and auto-revealing the explanation. 
+         5. Score Modal: A celebratory modal that appears upon completing all questions to summarize performance. 
+         This structure transforms passive reading into active, gamified learning. -->
+    <!-- Visualization & Content Choices: 
+         1. Core Formulas -> Goal: Quick reference -> Presentation: Highlighted Cards -> Justification: Essential for solving problems. 
+         2. Topic Distribution -> Goal: Overview -> Presentation: Doughnut Chart (Chart.js) -> Justification: Shows test focus. 
+         3. Quiz Options -> Goal: Assessment & Feedback -> Presentation: Clickable buttons that change color (Green=Correct, Red=Incorrect) -> Justification: Immediate feedback reinforces learning. 
+         4. Explanations -> Goal: Correction -> Presentation: Hidden block that auto-reveals after answering -> Justification: Ensures students try first, then learn the correct method. 
+         5. Final Score -> Goal: Gamification -> Presentation: Centered Modal -> Justification: Provides a sense of completion. -> Library/Method: Vanilla JS. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+    <style>
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 250px;
+            max-height: 250px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 280px;
+                max-height: 280px;
+            }
+        }
+        .concept-card { transition: all 0.3s ease; }
+        .concept-card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .math-fraction { display: inline-block; vertical-align: middle; text-align: center; font-size: 0.9em; margin: 0 4px; }
+        .math-numerator { border-bottom: 1px solid #333; padding: 0 2px; }
+        .math-denominator { padding: 0 2px; }
+        body { background-color: #fafaf9; color: #3f3f46; font-family: '微軟正黑體', sans-serif; }
+        
+        /* 答題選項動畫與樣式 */
+        .option-btn { transition: all 0.2s ease; }
+        .option-btn:not(:disabled):hover { border-color: #38bdf8; background-color: #f0f9ff; transform: translateX(4px); }
+        .option-correct { background-color: #dcfce7 !important; border-color: #22c55e !important; color: #166534 !important; font-weight: bold; }
+        .option-incorrect { background-color: #fee2e2 !important; border-color: #ef4444 !important; color: #991b1b !important; }
+        .option-disabled { opacity: 0.6; cursor: not-allowed; }
+        
+        /* Modal 背景模糊 */
+        .modal-backdrop { background-color: rgba(0, 0, 0, 0.5); backdrop-filter: blur(4px); }
+    </style>
+</head>
+<body class="min-h-screen pb-12">
+
+    <!-- 頂部導覽列 -->
+    <header class="bg-white shadow-sm border-b border-stone-200 sticky top-0 z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <div>
+                <h1 class="text-2xl font-bold text-sky-700">鍾揚理化互動解析中心</h1>
+                <p class="text-sm text-stone-500 mt-1">第24回：莫耳數、原子量、分子量 (進階題)</p>
+            </div>
+            <div class="hidden sm:flex items-center space-x-4">
+                <div class="text-sm font-bold text-stone-500 bg-stone-100 px-3 py-1 rounded-full">
+                    完成度: <span id="progress-text" class="text-sky-600">0/15</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        
+        <!-- 核心公式區 -->
+        <section class="mb-10">
+            <div class="mb-4">
+                <h2 class="text-xl font-bold text-stone-800 flex items-center">
+                    <span class="text-sky-500 mr-2">&#10024;</span> 國中理化解題必備神祕公式
+                </h2>
+                <p class="text-stone-600 text-sm">請將這三個核心轉換記熟，這是打通莫耳數任督二脈的關鍵。準備好後，即可開始下方測驗！</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div class="bg-white rounded-xl p-5 border border-sky-100 shadow-sm concept-card">
+                    <div class="text-sky-600 font-bold mb-2 text-sm">公式 1</div>
+                    <div class="text-lg font-semibold text-stone-800 flex items-center">
+                        莫耳數 = 
+                        <div class="math-fraction">
+                            <div class="math-numerator">質量</div>
+                            <div class="math-denominator">原子量(或分子量)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-sky-100 shadow-sm concept-card">
+                    <div class="text-sky-600 font-bold mb-2 text-sm">公式 2</div>
+                    <div class="text-lg font-semibold text-stone-800 flex items-center">
+                        莫耳數 = 
+                        <div class="math-fraction">
+                            <div class="math-numerator">粒子個數</div>
+                            <div class="math-denominator">6 &times; 10<sup>23</sup></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white rounded-xl p-5 border border-sky-100 shadow-sm concept-card">
+                    <div class="text-sky-600 font-bold mb-2 text-sm">公式 3</div>
+                    <div class="text-lg font-semibold text-stone-800 flex items-center">
+                        單一分子質量 = 
+                        <div class="math-fraction">
+                            <div class="math-numerator">分子量</div>
+                            <div class="math-denominator">6 &times; 10<sup>23</sup></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 互動測驗區 -->
+        <section class="mb-6">
+            <h2 class="text-xl font-bold text-stone-800 mb-2">互動測驗與深度解析</h2>
+            <p class="text-stone-600 text-sm mb-6">點選左側題號進行作答。作答後將自動批改並顯示詳解，完成全部題目後會結算總成績。</p>
+            
+            <div class="flex flex-col lg:flex-row gap-8">
+                
+                <!-- 左側導覽與分析 -->
+                <div class="w-full lg:w-1/3 flex flex-col gap-6">
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-stone-200">
+                        <h3 class="font-bold text-stone-700 mb-4 text-center">本回考題概念分佈</h3>
+                        <div class="chart-container">
+                            <canvas id="topicChart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-5 rounded-xl shadow-sm border border-stone-200 relative">
+                        <h3 class="font-bold text-stone-700 mb-3 flex justify-between items-center">
+                            題目導覽
+                        </h3>
+                        <div class="grid grid-cols-5 gap-2" id="question-navigator">
+                            <!-- JS 生成導覽按鈕 -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 右側題目與解析區 -->
+                <div class="w-full lg:w-2/3">
+                    <div class="bg-white rounded-xl shadow-sm border border-stone-200 overflow-hidden min-h-[500px] flex flex-col relative">
+                        
+                        <div class="bg-stone-50 border-b border-stone-200 p-4 flex justify-between items-center">
+                            <span class="font-bold text-sky-700 text-lg" id="display-q-number">請選擇題目開始測驗</span>
+                            <span class="px-3 py-1 bg-white border border-stone-200 rounded-full text-xs font-semibold text-stone-500" id="display-q-topic">單元概念</span>
+                        </div>
+                        
+                        <div class="p-6 md:p-8 flex-grow">
+                            <!-- 歡迎畫面 -->
+                            <div id="welcome-message" class="text-center text-stone-500 mt-20">
+                                <div class="text-5xl mb-4">&#128187;</div>
+                                <h3 class="text-xl font-bold text-stone-700 mb-2">準備好挑戰了嗎？</h3>
+                                <p class="text-base">請從左側導覽列選擇第 1 題開始作答。</p>
+                            </div>
+
+                            <!-- 題目內容區 -->
+                            <div id="question-content-area" class="hidden">
+                                <div class="text-lg text-stone-800 leading-relaxed mb-6 font-medium" id="display-q-text">
+                                    <!-- 題目敘述 -->
+                                </div>
+
+                                <div class="grid grid-cols-1 gap-3 mb-8" id="display-q-options">
+                                    <!-- 選項按鈕 -->
+                                </div>
+
+                                <div class="border-t border-stone-200 pt-6 flex justify-between items-center">
+                                    <button id="toggle-explanation-btn" class="hidden bg-stone-500 hover:bg-stone-600 text-white font-bold py-2 px-6 rounded-lg transition-colors shadow-sm w-full md:w-auto text-center">
+                                        &#128064; 隱藏/顯示解析
+                                    </button>
+                                    <div id="feedback-message" class="font-bold text-lg hidden"></div>
+                                </div>
+
+                                <!-- 解析區塊 -->
+                                <div id="explanation-area" class="hidden mt-6 bg-sky-50 rounded-lg p-6 border border-sky-100">
+                                    <div class="flex items-center mb-4">
+                                        <div class="font-bold text-stone-800 text-lg mr-4 border-l-4 border-sky-500 pl-3">
+                                            標準答案：<span class="text-sky-600 text-xl" id="display-q-answer"></span>
+                                        </div>
+                                    </div>
+                                    
+                                    <h4 class="font-bold text-stone-700 mb-3 border-b border-sky-200 pb-2">專家解析</h4>
+                                    <div class="text-stone-700 space-y-3 leading-relaxed text-sm md:text-base" id="display-q-explanation">
+                                        <!-- 解析內容 -->
+                                    </div>
+
+                                    <div id="display-q-tip-container" class="mt-6 bg-amber-50 border-l-4 border-amber-400 p-4 rounded-r-lg hidden">
+                                        <div class="font-bold text-amber-700 flex items-center mb-1">
+                                            <span class="mr-2">&#128161;</span> 解題秘訣與補充
+                                        </div>
+                                        <div class="text-amber-800 text-sm" id="display-q-tip"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 結算成績 Modal -->
+    <div id="score-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center modal-backdrop">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center transform scale-95 transition-transform duration-300">
+            <div class="text-6xl mb-4" id="score-emoji">&#127881;</div>
+            <h2 class="text-3xl font-black text-stone-800 mb-2">測驗完成！</h2>
+            <p class="text-stone-500 mb-6">這是一份進階挑戰卷，你的表現如下：</p>
+            
+            <div class="bg-sky-50 rounded-xl p-6 mb-6">
+                <div class="text-sm text-sky-700 font-bold mb-1">總得分</div>
+                <div class="text-6xl font-black text-sky-600" id="final-score-text">100</div>
+                <div class="mt-2 text-sm text-stone-500">
+                    答對 <span id="correct-count-text" class="font-bold text-green-600">15</span> 題 / 共 15 題
+                </div>
+            </div>
+
+            <p class="text-stone-700 font-bold mb-6" id="score-feedback-msg">太厲害了！你已經完全掌握莫耳數的核心概念！</p>
+            
+            <button onclick="closeScoreModal()" class="w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 px-4 rounded-xl transition-colors">
+                檢閱錯誤題目
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questionsData = [
+            {
+                id: 1,
+                topic: "混合氣體莫耳數",
+                text: "某容器含有 C<sub>2</sub>H<sub>2</sub> 和 C<sub>2</sub>H<sub>6</sub> 的混合氣體，其原子總數為分子總數的 6 倍，則 C<sub>2</sub>H<sub>2</sub> 和 C<sub>2</sub>H<sub>6</sub> 的莫耳數比為多少？",
+                options: ["(A) 2:1", "(B) 1:2", "(C) 1:1", "(D) 3:2"],
+                answer: "C",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>假設 C<sub>2</sub>H<sub>2</sub> 有 <span class="font-mono text-sky-700">x</span> 莫耳、C<sub>2</sub>H<sub>6</sub> 有 <span class="font-mono text-sky-700">y</span> 莫耳。(註：原題漏字應為 C<sub>2</sub>H<sub>6</sub> 乙烷，方能使題目成立)</li>
+                        <li>一個 C<sub>2</sub>H<sub>2</sub> 裡面有 2+2=4 個原子；一個 C<sub>2</sub>H<sub>6</sub> 裡面有 2+6=8 個原子。</li>
+                        <li>題目說：「原子總數」是「分子總數」的 6 倍：
+                            <ul class="list-disc pl-5 mt-1 text-stone-600">
+                                <li>原子總數 = <span class="font-mono">4x + 8y</span></li>
+                                <li>分子總數 = <span class="font-mono">x + y</span></li>
+                                <li>列出方程式：<span class="font-mono">4x + 8y = 6 &times; (x + y)</span></li>
+                            </ul>
+                        </li>
+                        <li>展開計算：<span class="font-mono">4x + 8y = 6x + 6y</span> &rarr; <span class="font-mono">2y = 2x</span> &rarr; <span class="font-mono">x : y = 1 : 1</span></li>
+                    </ol>
+                `,
+                tip: "這類「混合氣體」求比例的題目，利用「代數假設」是最快的！不要怕設未知數。"
+            },
+            {
+                id: 2,
+                topic: "原子總數與質量換算",
+                text: "科學家計畫製造一座「太空電梯」，以探測外太空與火星。支撐這座「太空電梯」的纜繩是一束由十億條、長達十萬公里的奈米碳管所製成，每條奈米碳管含有 9.6 &times; 10<sup>17</sup> 個碳原子。試估計這束纜繩至少需要多少公斤的碳來製備？",
+                options: ["(A) 4.8", "(B) 7.2", "(C) 14.4", "(D) 19.2"],
+                answer: "D",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>先算「全部有幾個碳原子」：<br>十億條 = 10<sup>9</sup> 條。每條有 9.6 &times; 10<sup>17</sup> 個碳原子。<br>總原子數 = 10<sup>9</sup> &times; (9.6 &times; 10<sup>17</sup>) = <strong>9.6 &times; 10<sup>26</sup></strong> 個。</li>
+                        <li>將「個數」換成「莫耳數」：<br>莫耳數 = (9.6 &times; 10<sup>26</sup>) / (6 &times; 10<sup>23</sup>) = 1.6 &times; 10<sup>3</sup> = <strong>1600</strong> 莫耳。</li>
+                        <li>將「莫耳數」換成「質量(公克)」：<br>質量 = 莫耳數 &times; 原子量 = 1600 &times; 12 = <strong>19200</strong> 公克。</li>
+                        <li>換算單位：19200 公克 = <strong>19.2</strong> 公斤。</li>
+                    </ol>
+                `,
+                tip: "看清楚題目最後問的是「公斤」還是「公克」，很多同學算到 19200 就會慌張，其實只要除以 1000 就可以了！"
+            },
+            {
+                id: 3,
+                topic: "重量百分比",
+                text: "哺乳動物的紅血球中，血紅素約含重 0.33% 的鐵，Fe之原子量為 56，如果血紅素的分子量為 68000，則一分子的血紅素中含幾個鐵原子？",
+                options: ["(A) 1", "(B) 2", "(C) 3", "(D) 4"],
+                answer: "D",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>這題是在考「重量百分比」。題目說一分子血紅素分子量為 68000，其中含鐵 0.33%。</li>
+                        <li>先算血紅素中「鐵」的總原子量 (所佔的質量比例)：<br><span class="font-mono">68000 &times; 0.33% = 68000 &times; 0.0033 = 224.4</span></li>
+                        <li>因為一個鐵(Fe)的原子量是 56，所以我們看看 224.4 裡面可以裝幾個鐵：<br><span class="font-mono">224.4 &divide; 56 &approx; 4.007</span></li>
+                        <li>也就是說，一個血紅素分子裡面大約含有 <strong>4</strong> 個鐵原子。</li>
+                    </ol>
+                `
+            },
+            {
+                id: 4,
+                topic: "分子量推求",
+                text: "有一純物質，每一個分子的質量約為 7.7 &times; 10<sup>-23</sup> g，則此分子最可能為下列何者？(原子量：H=1, O=16, N=14)",
+                options: ["(A) C<sub>2</sub>H<sub>6</sub>", "(B) NH<sub>4</sub>NO<sub>3</sub>", "(C) CO(NH<sub>2</sub>)<sub>2</sub>", "(D) C<sub>2</sub>H<sub>5</sub>OH"],
+                answer: "D",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>題目說「一個分子」的質量大約是 7.7 &times; 10<sup>-23</sup> 克。</li>
+                        <li>我們要找「一莫耳 (6 &times; 10<sup>23</sup> 個)」的質量，因為「一莫耳的質量 (克) = 它的分子量」。</li>
+                        <li>該物質的分子量 = 單一分子質量 &times; (6 &times; 10<sup>23</sup>)<br><span class="font-mono">= 7.7 &times; 10<sup>-23</sup> &times; 6 &times; 10<sup>23</sup> = <strong>46.2</strong></span></li>
+                        <li>檢查選項的分子量：
+                            <ul class="list-disc pl-5 mt-1 text-stone-600">
+                                <li>(A) C<sub>2</sub>H<sub>6</sub> = 12&times;2 + 1&times;6 = 30</li>
+                                <li>(B) NH<sub>4</sub>NO<sub>3</sub> = 14 + 1&times;4 + 14 + 16&times;3 = 80</li>
+                                <li>(C) CO(NH<sub>2</sub>)<sub>2</sub> = 12 + 16 + (14+2)&times;2 = 60</li>
+                                <li>(D) C<sub>2</sub>H<sub>5</sub>OH = 12&times;2 + 1&times;5 + 16 + 1 = <strong>46</strong></li>
+                            </ul>
+                        </li>
+                        <li>所以最接近的是酒精 (C<sub>2</sub>H<sub>5</sub>OH)。</li>
+                    </ol>
+                `
+            },
+            {
+                id: 5,
+                topic: "原子數比較",
+                text: "下列純物質中，何者所含的氫原子數最多？",
+                options: ["(A) 0.2莫耳氫氣", "(B) 1.8克水", "(C) 0.2莫耳酒精(C<sub>2</sub>H<sub>5</sub>OH)", "(D) 3&times;10<sup>23</sup> 個醋酸分子(CH<sub>3</sub>COOH)"],
+                answer: "D",
+                explanation: `
+                    <p class="mb-2 font-semibold">請先把所有選項都統一換算成「氫原子的莫耳數」才能比較！</p>
+                    <ul class="list-disc pl-5 space-y-2 text-stone-700">
+                        <li><strong>(A) 0.2莫耳氫氣 (H<sub>2</sub>)</strong> &rarr; 含有 0.2 &times; 2 = <strong>0.4</strong> 莫耳的 H 原子。</li>
+                        <li><strong>(B) 1.8克水 (H<sub>2</sub>O)</strong> &rarr; 水分子量 18。水分子有 1.8 / 18 = 0.1 莫耳。含有 0.1 &times; 2 = <strong>0.2</strong> 莫耳的 H 原子。</li>
+                        <li><strong>(C) 0.2莫耳酒精 (C<sub>2</sub>H<sub>5</sub>OH)</strong> &rarr; 酒精有 6 個 H。含有 0.2 &times; 6 = <strong>1.2</strong> 莫耳的 H 原子。</li>
+                        <li><strong>(D) 3 &times; 10<sup>23</sup> 個醋酸分子</strong> &rarr; 分子數是 (3 &times; 10<sup>23</sup>) / (6 &times; 10<sup>23</sup>) = 0.5 莫耳。一個醋酸有 4 個 H，所以含有 0.5 &times; 4 = <strong>2.0</strong> 莫耳的 H 原子。</li>
+                    </ul>
+                    <p class="mt-2 text-sky-700 font-bold">比較結果：2.0 莫耳最多，故選 (D)。</p>
+                `
+            },
+            {
+                id: 6,
+                topic: "原子量標準定義",
+                text: "若將 C 的原子量由 12 改為 24，則下列敘述何者正確？",
+                options: ["(A) 氫原子的原子量仍然不變", "(B) 每一個氫原子的質量變為2倍", "(C) 1克氫原子的個數將變為2倍", "(D) 1克的氫氣所含的分子數目仍然不變"],
+                answer: "D",
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-2">
+                        <li>原子量是一種「比較值」(基準)。如果把碳的標準從 12 變 24 (放大 2 倍)，那麼所有元素的原子量都會跟著標示為原來的 2 倍 (氫原子量會變成 2)。所以 (A) 錯。</li>
+                        <li>但是，這只是「人類定義的數字改變了」，<strong>原子「真正的實際質量」和「實際大小」是絕對不會變的！</strong> 所以 (B) 錯。</li>
+                        <li>因為 1 克還是 1 克重，真正的氫原子有多重也沒有變，所以 1 克裡能裝下的氫原子數目完全一樣。因此 (C) 錯，(D) 正確。</li>
+                    </ul>
+                `,
+                tip: "這題是經典的「改變原子量標準」考題！永遠記住：人為標準改變，不影響物質實際存在的物理量（真實質量、大小、個數）。"
+            },
+            {
+                id: 7,
+                topic: "化學計量與反應式",
+                text: "麵包在製作的過程中會加入小蘇打粉，以使口感膨鬆。已知小蘇打粉受熱後會產生二氧化碳，反應式為：2NaHCO<sub>3</sub> &rarr; Na<sub>2</sub>CO<sub>3</sub> + CO<sub>2</sub> + H<sub>2</sub>O，試問加入 42 克的小蘇打粉最多可產生多少莫耳的二氧化碳？(原子量：H=1, C=12, O=16, Na=23)",
+                options: ["(A) 0.25", "(B) 0.5", "(C) 1", "(D) 2"],
+                answer: "A",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>先算小蘇打 (NaHCO<sub>3</sub>) 的分子量：<span class="font-mono">23 + 1 + 12 + (16&times;3) = 84</span></li>
+                        <li>算出 42 克小蘇打是多少莫耳：<span class="font-mono">42 / 84 = 0.5</span> 莫耳。</li>
+                        <li>看反應式的「係數比」：<br>
+                            <span class="font-mono text-sky-700 font-bold">2</span> NaHCO<sub>3</sub> &rarr; <span class="font-mono text-sky-700 font-bold">1</span> Na<sub>2</sub>CO<sub>3</sub> + <span class="font-mono text-sky-700 font-bold">1</span> CO<sub>2</sub> + <span class="font-mono text-sky-700 font-bold">1</span> H<sub>2</sub>O<br>
+                            係數比 = 2 : 1 : 1 : 1<br>
+                            代表每消耗 2 莫耳的 NaHCO<sub>3</sub>，才會產生 1 莫耳的 CO<sub>2</sub>。(一半的關係)
+                        </li>
+                        <li>今天我們只有 0.5 莫耳的小蘇打，所以產生的二氧化碳 = <span class="font-mono">0.5 &times; (1/2) = <strong>0.25</strong></span> 莫耳。</li>
+                    </ol>
+                `
+            },
+            {
+                id: 8,
+                topic: "原子數比較",
+                text: "質量相同的下列物質：「甲:CH<sub>4</sub>」、「乙:Ca(OH)<sub>2</sub>」、「丙:C<sub>6</sub>H<sub>12</sub>O<sub>6</sub>」、「丁:CH<sub>3</sub>COOH」，哪兩個物質的氫原子數相同？(原子量：C=12、H=1、O=16、Ca=40)",
+                options: ["(A) 甲、乙", "(B) 乙、丙", "(C) 丙、丁", "(D) 甲、丁"],
+                answer: "C",
+                explanation: `
+                    <p class="mb-2">題目說四個物質「質量相同」，我們不妨假設它們的質量通通都是 <span class="font-mono">M</span> 克。</p>
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>先求各物質的分子量：
+                            <ul class="list-none pl-5 mt-1 text-stone-600 font-mono">
+                                <li>甲 CH<sub>4</sub> = 16</li>
+                                <li>乙 Ca(OH)<sub>2</sub> = 40 + (16+1)&times;2 = 74</li>
+                                <li>丙 C<sub>6</sub>H<sub>12</sub>O<sub>6</sub> = 180</li>
+                                <li>丁 CH<sub>3</sub>COOH = 60</li>
+                            </ul>
+                        </li>
+                        <li>算「H原子莫耳數」 = (總質量 &divide; 分子量) &times; (分子中H原子數)：
+                            <ul class="list-none pl-5 mt-1 text-stone-700 font-mono">
+                                <li>甲：(M / 16) &times; 4 = M / 4</li>
+                                <li>乙：(M / 74) &times; 2 = M / 37</li>
+                                <li>丙：(M / 180) &times; 12 = <strong>M / 15</strong></li>
+                                <li>丁：(M / 60) &times; 4 = <strong>M / 15</strong></li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="mt-2 text-sky-700 font-bold">結論：丙和丁算出來都是 M/15，氫原子數相同！</p>
+                `
+            },
+            {
+                id: 9,
+                topic: "化學式內部比例",
+                text: "硫酸銨的化學式為：(NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub>。今取一含純硫酸銨的樣品進行分析，得知其中成分含有氧原子 20 莫耳，則此純硫酸銨的樣品應是多少莫耳？",
+                options: ["(A) 2莫耳", "(B) 3莫耳", "(C) 4莫耳", "(D) 5莫耳"],
+                answer: "D",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>觀察硫酸銨 (NH<sub>4</sub>)<sub>2</sub>SO<sub>4</sub> 的化學式：一個分子裡面包含了 <strong>4</strong> 個「氧(O)原子」。</li>
+                        <li>也就是說：<span class="font-mono">氧原子的莫耳數 = 硫酸銨分子的莫耳數 &times; 4</span></li>
+                        <li>題目告訴我們氧原子有 20 莫耳，所以：<br>
+                            <span class="font-mono">20 = 硫酸銨莫耳數 &times; 4</span><br>
+                            &rarr; 硫酸銨莫耳數 = 20 &divide; 4 = <strong>5</strong> 莫耳。
+                        </li>
+                    </ol>
+                `
+            },
+            {
+                id: 10,
+                topic: "重量百分比",
+                text: "某鈣片每一份質量 1 公克，含有鈣 180 毫克，且鈣成分皆來自 CaCO<sub>3</sub>，則每一份鈣片中含有 CaCO<sub>3</sub> 的重量百分比為多少？(原子量：C=12、O=16、Ca=40)",
+                options: ["(A) 25%", "(B) 45%", "(C) 70%", "(D) 90%"],
+                answer: "B",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>查表得知：一份鈣片 (總重 1g = 1000mg) 中含有「鈣 (Ca)」180 毫克 (<strong>0.18 克</strong>)。</li>
+                        <li>這些鈣全部來自於 CaCO<sub>3</sub> (碳酸鈣)。碳酸鈣的分子量 = 40 + 12 + 16&times;3 = <strong>100</strong>。</li>
+                        <li>在 CaCO<sub>3</sub> 中，鈣(Ca) 所佔的質量比例是 <span class="font-mono">40 / 100 = 40%</span>。</li>
+                        <li>這代表：碳酸鈣總質量 &times; 40% = 裡面的純鈣質量<br>
+                            碳酸鈣總質量 &times; 0.4 = 0.18 克<br>
+                            碳酸鈣總質量 = 0.18 &divide; 0.4 = <strong>0.45 克</strong>。
+                        </li>
+                        <li>最後求重量百分比：<span class="font-mono">(0.45克 / 1克) &times; 100% = <strong>45%</strong></span>。</li>
+                    </ol>
+                `
+            },
+            {
+                id: 11,
+                topic: "重量百分比",
+                text: "黃鐵礦主要成分是二硫化亞鐵(FeS<sub>2</sub>)；今取一樣本 60 公克完全燃燒後，得到 10 公克的 Fe<sub>2</sub>O<sub>3</sub>，若其中的 Fe 皆來自 FeS<sub>2</sub>，則此樣本中 FeS<sub>2</sub> 的含量百分比應為多少？(Fe=56, S=32)",
+                options: ["(A) 25%", "(B) 33%", "(C) 50%", "(D) 100%"],
+                answer: "A",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>題目說產生了 10 克的 Fe<sub>2</sub>O<sub>3</sub>。先算 Fe<sub>2</sub>O<sub>3</sub> 分子量 = <span class="font-mono">56&times;2 + 16&times;3 = 160</span>。</li>
+                        <li>算出 Fe<sub>2</sub>O<sub>3</sub> 有多少莫耳：<span class="font-mono">10 / 160 = 1/16</span> 莫耳。</li>
+                        <li>一個 Fe<sub>2</sub>O<sub>3</sub> 裡面有 2 個 Fe。所以鐵原子 (Fe) 共有 <span class="font-mono">(1/16) &times; 2 = <strong>1/8</strong></span> 莫耳。</li>
+                        <li>這些鐵全部來自於黃鐵礦 FeS<sub>2</sub>。一個 FeS<sub>2</sub> 裡面剛好也是 1 個 Fe，所以代表原本的 FeS<sub>2</sub> 也有 <strong>1/8</strong> 莫耳。</li>
+                        <li>算 FeS<sub>2</sub> 的實際質量：分子量 = <span class="font-mono">56 + 32&times;2 = 120</span>。<br>質量 = 1/8 &times; 120 = <strong>15</strong> 克。</li>
+                        <li>這塊樣本總共 60 克，所以含量百分比 = <span class="font-mono">(15 / 60) &times; 100% = <strong>25%</strong></span>。</li>
+                    </ol>
+                `
+            },
+            {
+                id: 12,
+                topic: "化學計量與反應式",
+                text: "取 1.4g 的金屬氧化物(MO)與稀硫酸完全作用，反應後將溶液蒸乾，得到 3.4g 的金屬硫酸鹽(MSO<sub>4</sub>)。則金屬(M)應是下列何者？(Mg=24, Ca=40, Fe=56, Cu=64)",
+                options: ["(A) Ca", "(B) Cu", "(C) Fe", "(D) Mg"],
+                answer: "A",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>化學反應：MO + H<sub>2</sub>SO<sub>4</sub> &rarr; MSO<sub>4</sub> + H<sub>2</sub>O。</li>
+                        <li>根據質量守恆定律或「莫耳數相同」的概念來解：無論是 MO 還是 MSO<sub>4</sub>，金屬 M 的數量是一模一樣的(係數比 1:1)。</li>
+                        <li>設金屬 M 的原子量為 <span class="font-mono text-sky-700">X</span>。<br>
+                            MO 的分子量為 <span class="font-mono">X + 16</span><br>
+                            MSO<sub>4</sub> 的分子量為 <span class="font-mono">X + 32 + (16&times;4) = X + 96</span>
+                        </li>
+                        <li>因為它們的莫耳數相等：<br>
+                            <span class="font-mono">1.4 / (X + 16) = 3.4 / (X + 96)</span>
+                        </li>
+                        <li>交叉相乘：<br>
+                            <span class="font-mono">1.4 &times; (X + 96) = 3.4 &times; (X + 16)</span><br>
+                            <span class="font-mono">1.4X + 134.4 = 3.4X + 54.4</span><br>
+                            <span class="font-mono">2X = 80</span> &rarr; <span class="font-mono text-sky-700 font-bold">X = 40</span>
+                        </li>
+                        <li>對照原子量表，原子量 40 的元素是<strong>鈣 (Ca)</strong>。</li>
+                    </ol>
+                `
+            },
+            {
+                id: 13,
+                topic: "分子與原子數比較",
+                text: "甲氣球裝有氨氣(NH<sub>3</sub>)，乙氣球裝有水蒸氣(H<sub>2</sub>O)，已知兩氣球所含的氫原子數目相同，關於兩氣球所含分子數目及質量大小的敘述何者正確？",
+                options: ["(A) 甲分子數及質量均比乙大", "(B) 甲分子數及質量均比乙小", "(C) 甲分子數比乙多，質量比乙小", "(D) 甲分子數比乙少，質量比乙大"],
+                answer: "B",
+                explanation: `
+                    <ol class="list-decimal pl-5 space-y-2">
+                        <li>甲裝 NH<sub>3</sub> (一分子有3個H)；乙裝 H<sub>2</sub>O (一分子有2個H)。</li>
+                        <li>題目說「H原子總數相同」。我們假設H原子總共有 6 莫耳 (找3和2的公倍數最好算)。
+                            <ul class="list-disc pl-5 mt-1 text-stone-600">
+                                <li>甲氣球：需要 6 / 3 = <strong>2 莫耳</strong>的 NH<sub>3</sub> 分子。</li>
+                                <li>乙氣球：需要 6 / 2 = <strong>3 莫耳</strong>的 H<sub>2</sub>O 分子。</li>
+                            </ul>
+                            由此可見，甲的<strong>分子數(2莫耳) &lt; 乙的分子數(3莫耳)</strong>。
+                        </li>
+                        <li>接著算質量：
+                            <ul class="list-disc pl-5 mt-1 text-stone-600">
+                                <li>甲質量 = 2 莫耳 &times; 17 (NH<sub>3</sub>分子量) = <strong>34 克</strong>。</li>
+                                <li>乙質量 = 3 莫耳 &times; 18 (H<sub>2</sub>O分子量) = <strong>54 克</strong>。</li>
+                            </ul>
+                            所以甲的<strong>質量 &lt; 乙的質量</strong>。
+                        </li>
+                    </ol>
+                    <p class="mt-2 text-sky-700 font-bold">綜合來看，甲的分子數與質量均比乙小。</p>
+                `
+            },
+            {
+                id: 14,
+                topic: "分子量觀念",
+                text: "已知 NO<sub>2</sub> 及 C<sub>2</sub>H<sub>5</sub>OH 的分子量均為 46，試問下列關於此兩分子的敘述何者正確？",
+                options: ["(A) 相同質量的兩者含有相同的分子個數", "(B) 相同質量的兩者含有相同的原子個數", "(C) 1莫耳的NO<sub>2</sub>質量比1莫耳的C<sub>2</sub>H<sub>5</sub>OH質量小", "(D) 1莫耳的兩者含有相同的原子個數"],
+                answer: "A",
+                explanation: `
+                    <p class="mb-2">兩個物質分子量都是 46。</p>
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li><strong class="text-sky-600">(A) 對：</strong>既然質量相同，分子量又相同，算出來的「莫耳數 = 質量 &divide; 分子量」一定相同！莫耳數一樣，分子個數就一樣。</li>
+                        <li><strong>(B) 錯：</strong>雖然分子數一樣，但是 NO<sub>2</sub> 一個分子只有 3 個原子，C<sub>2</sub>H<sub>5</sub>OH 一個分子有 2+6+1=9 個原子。所以總原子數不同。</li>
+                        <li><strong>(C) 錯：</strong>1莫耳的 NO<sub>2</sub> 質量是 46 克，1莫耳的 C<sub>2</sub>H<sub>5</sub>OH 也是 46 克，兩者質量「相等」。</li>
+                        <li><strong>(D) 錯：</strong>原因同(B)，原子總數 NO<sub>2</sub> (3莫耳) &neq; C<sub>2</sub>H<sub>5</sub>OH (9莫耳)。</li>
+                    </ul>
+                `
+            },
+            {
+                id: 15,
+                topic: "化學反應方程式意義",
+                text: "已知氫氣與氧氣燃燒產生水的反應方程式為 2H<sub>2</sub> + O<sub>2</sub> &rarr; 2H<sub>2</sub>O，試問下列關於化學反應方程式以及係數的說明，何者是正確的？",
+                options: ["(A) 2個氫原子與1個氧原子反應產生2個水分子", "(B) 2莫耳氫氣與1莫耳氧氣反應產生2莫耳水", "(C) 2公克氫氣與1公克氧氣反應產生2公克水", "(D) 2公斤氫氣與1公斤氧氣反應產生2公斤水"],
+                answer: "B",
+                explanation: `
+                    <p class="mb-2 font-semibold">反應方程式中的「係數 2：1：2」代表的是「<span class="text-sky-600">分子個數比</span>」或「<span class="text-sky-600">莫耳數比</span>」，絕對不是質量比！</p>
+                    <ul class="list-disc pl-5 space-y-3">
+                        <li><strong>(A) 錯：</strong>是2個氫「分子」與1個氧「分子」反應。不是原子。</li>
+                        <li><strong class="text-sky-600">(B) 對：</strong>係數比即為莫耳數比，2莫耳 H<sub>2</sub> 加上 1莫耳 O<sub>2</sub> 會產生 2莫耳 H<sub>2</sub>O。</li>
+                        <li><strong>(C) 錯：</strong>如果是質量，要乘上分子量。質量比為 (2&times;2) : (1&times;32) : (2&times;18) = 4 : 32 : 36 = 1 : 8 : 9。</li>
+                        <li><strong>(D) 錯：</strong>質量比不是看係數，同(C)的說明。</li>
+                    </ul>
+                `
+            }
+        ];
+
+        // 狀態管理：記錄使用者的作答 { questionId: { selectedLetter: 'A', isCorrect: true } }
+        let userAnswers = {};
+        let currentQuestionId = null;
+
+        // 圖表資料計算
+        const topicCounts = {};
+        questionsData.forEach(q => {
+            topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1;
+        });
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            renderChart();
+            renderQuestionNavigator();
+            document.getElementById('toggle-explanation-btn').addEventListener('click', toggleExplanation);
+        });
+
+        // 繪製甜甜圈圖 (Chart.js)
+        function renderChart() {
+            const ctx = document.getElementById('topicChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(topicCounts),
+                    datasets: [{
+                        data: Object.values(topicCounts),
+                        backgroundColor: [
+                            '#38bdf8', '#fbbf24', '#f87171', '#34d399', '#a78bfa', '#fb923c', '#94a3b8'
+                        ],
+                        borderWidth: 0,
+                        hoverOffset: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { position: 'bottom', labels: { boxWidth: 12, font: { family: "'微軟正黑體', sans-serif" } } }
+                    },
+                    cutout: '65%'
+                }
+            });
+        }
+
+        // 生成左側題號導覽按鈕
+        function renderQuestionNavigator() {
+            const navContainer = document.getElementById('question-navigator');
+            navContainer.innerHTML = '';
+            questionsData.forEach(q => {
+                const btn = document.createElement('button');
+                btn.className = `py-2 px-1 text-sm font-bold rounded-md border transition-colors relative flex items-center justify-center
+                                 bg-white text-stone-600 border-stone-200 hover:bg-sky-50 hover:text-sky-600 hover:border-sky-200`;
+                
+                // 檢查是否已作答，加上 ✅ 或 ❌
+                let iconHTML = '';
+                if (userAnswers[q.id]) {
+                    if (userAnswers[q.id].isCorrect) {
+                        iconHTML = '<span class="absolute -top-1 -right-1 bg-green-500 text-white rounded-full text-[10px] w-4 h-4 flex items-center justify-center shadow-sm">&#10003;</span>';
+                        btn.classList.add('border-green-300', 'bg-green-50');
+                    } else {
+                        iconHTML = '<span class="absolute -top-1 -right-1 bg-red-500 text-white rounded-full text-[10px] w-4 h-4 flex items-center justify-center shadow-sm">&#10005;</span>';
+                        btn.classList.add('border-red-300', 'bg-red-50');
+                    }
+                }
+
+                btn.innerHTML = `<span>Q${q.id}</span>${iconHTML}`;
+                btn.onclick = () => selectQuestion(q.id);
+                btn.id = `nav-btn-${q.id}`;
+                navContainer.appendChild(btn);
+            });
+        }
+
+        // 選擇並顯示題目
+        function selectQuestion(id) {
+            currentQuestionId = id;
+            const question = questionsData.find(q => q.id === id);
+
+            // 更新左側按鈕的「使用中」狀態樣式
+            document.querySelectorAll('#question-navigator button').forEach(btn => {
+                btn.classList.remove('ring-2', 'ring-sky-500', 'ring-offset-1');
+            });
+            const clickedBtn = document.getElementById(`nav-btn-${id}`);
+            clickedBtn.classList.add('ring-2', 'ring-sky-500', 'ring-offset-1');
+
+            // 切換版面顯示狀態
+            document.getElementById('welcome-message').classList.add('hidden');
+            document.getElementById('question-content-area').classList.remove('hidden');
+            
+            // 填入題目基本資料
+            document.getElementById('display-q-number').innerText = `第 ${question.id} 題`;
+            document.getElementById('display-q-topic').innerText = question.topic;
+            document.getElementById('display-q-text').innerHTML = question.text;
+            
+            // 渲染選項
+            renderOptions(question);
+
+            // 處理已作答的狀態恢復
+            const expArea = document.getElementById('explanation-area');
+            const toggleBtn = document.getElementById('toggle-explanation-btn');
+            const feedbackMsg = document.getElementById('feedback-message');
+            
+            if (userAnswers[id]) {
+                // 如果已經回答過，直接顯示解析與回饋
+                expArea.classList.remove('hidden');
+                toggleBtn.classList.remove('hidden');
+                toggleBtn.innerHTML = '&#128064; 隱藏解析';
+                
+                feedbackMsg.classList.remove('hidden', 'text-green-600', 'text-red-600');
+                if (userAnswers[id].isCorrect) {
+                    feedbackMsg.innerText = "✅ 答對了！";
+                    feedbackMsg.classList.add('text-green-600');
+                } else {
+                    feedbackMsg.innerText = "❌ 答錯了，請看解析";
+                    feedbackMsg.classList.add('text-red-600');
+                }
+            } else {
+                // 還沒回答過，隱藏解析
+                expArea.classList.add('hidden');
+                toggleBtn.classList.add('hidden');
+                feedbackMsg.classList.add('hidden');
+            }
+
+            // 填入解析內容
+            document.getElementById('display-q-answer').innerText = `(${question.answer})`;
+            document.getElementById('display-q-explanation').innerHTML = question.explanation;
+
+            const tipContainer = document.getElementById('display-q-tip-container');
+            if (question.tip) {
+                document.getElementById('display-q-tip').innerText = question.tip;
+                tipContainer.classList.remove('hidden');
+            } else {
+                tipContainer.classList.add('hidden');
+            }
+        }
+
+        // 渲染題目的四個選項
+        function renderOptions(question) {
+            const optionsContainer = document.getElementById('display-q-options');
+            optionsContainer.innerHTML = '';
+            
+            const optionLetters = ['A', 'B', 'C', 'D'];
+            
+            question.options.forEach((optText, index) => {
+                const letter = optionLetters[index];
+                const btn = document.createElement('button');
+                btn.className = "option-btn text-left p-4 border-2 border-stone-200 rounded-xl bg-white text-stone-700 shadow-sm w-full font-medium";
+                btn.innerHTML = optText;
+                
+                // 如果該題已經作答過，套用作答後的樣式並鎖定按鈕
+                if (userAnswers[question.id]) {
+                    btn.disabled = true;
+                    btn.classList.add('option-disabled');
+                    
+                    // 標示正確答案 (綠色)
+                    if (letter === question.answer) {
+                        btn.classList.remove('option-disabled');
+                        btn.classList.add('option-correct');
+                    }
+                    // 標示使用者選錯的答案 (紅色)
+                    else if (letter === userAnswers[question.id].selectedLetter) {
+                        btn.classList.remove('option-disabled');
+                        btn.classList.add('option-incorrect');
+                    }
+                } else {
+                    // 還沒作答，綁定點擊事件
+                    btn.onclick = () => handleAnswerSubmit(question.id, letter);
+                }
+                
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        // 處理使用者點擊選項
+        function handleAnswerSubmit(questionId, selectedLetter) {
+            const question = questionsData.find(q => q.id === questionId);
+            const isCorrect = (selectedLetter === question.answer);
+            
+            // 紀錄作答
+            userAnswers[questionId] = {
+                selectedLetter: selectedLetter,
+                isCorrect: isCorrect
+            };
+
+            // 更新 UI (選項變色、顯示解析、更新左側導覽)
+            renderOptions(question);
+            renderQuestionNavigator();
+            
+            // 重新套用 Active 框線到當前導覽按鈕
+            document.getElementById(`nav-btn-${questionId}`).classList.add('ring-2', 'ring-sky-500', 'ring-offset-1');
+
+            // 自動展開解析與顯示回饋
+            document.getElementById('explanation-area').classList.remove('hidden');
+            const toggleBtn = document.getElementById('toggle-explanation-btn');
+            toggleBtn.classList.remove('hidden');
+            toggleBtn.innerHTML = '&#128064; 隱藏解析';
+            
+            const feedbackMsg = document.getElementById('feedback-message');
+            feedbackMsg.classList.remove('hidden', 'text-green-600', 'text-red-600');
+            if (isCorrect) {
+                feedbackMsg.innerText = "✅ 答對了！";
+                feedbackMsg.classList.add('text-green-600');
+            } else {
+                feedbackMsg.innerText = "❌ 答錯了，請看解析";
+                feedbackMsg.classList.add('text-red-600');
+            }
+
+            // 更新頂端進度文字
+            updateProgress();
+
+            // 檢查是否全部作答完畢
+            checkCompletion();
+        }
+
+        // 更新完成進度文字
+        function updateProgress() {
+            const answeredCount = Object.keys(userAnswers).length;
+            const totalCount = questionsData.length;
+            document.getElementById('progress-text').innerText = `${answeredCount}/${totalCount}`;
+        }
+
+        // 檢查是否完成測驗
+        function checkCompletion() {
+            const answeredCount = Object.keys(userAnswers).length;
+            if (answeredCount === questionsData.length) {
+                // 稍微延遲彈出 Modal，讓使用者有時間看到最後一題的解答
+                setTimeout(showScoreModal, 800);
+            }
+        }
+
+        // 顯示總成績結算畫面
+        function showScoreModal() {
+            let correctCount = 0;
+            for (let id in userAnswers) {
+                if (userAnswers[id].isCorrect) correctCount++;
+            }
+            
+            const totalQuestions = questionsData.length;
+            const score = Math.round((correctCount / totalQuestions) * 100);
+            
+            document.getElementById('final-score-text').innerText = score;
+            document.getElementById('correct-count-text').innerText = correctCount;
+            
+            const feedbackElem = document.getElementById('score-feedback-msg');
+            const emojiElem = document.getElementById('score-emoji');
+            
+            // 根據分數給予不同評語
+            if (score === 100) {
+                feedbackElem.innerText = "完美滿分！你是理化天才，莫耳數完全難不倒你！";
+                feedbackElem.className = "text-sky-600 font-bold mb-6";
+                emojiElem.innerHTML = "&#127942;";
+            } else if (score >= 80) {
+                feedbackElem.innerText = "表現非常優異！只有少數陷阱題沒避開，再看一次解析就完美了！";
+                feedbackElem.className = "text-green-600 font-bold mb-6";
+                emojiElem.innerHTML = "&#127881;";
+            } else if (score >= 60) {
+                feedbackElem.innerText = "及格通關！基礎觀念有掌握，但進階題的計算還需要再細心一點喔。";
+                feedbackElem.className = "text-amber-600 font-bold mb-6";
+                emojiElem.innerHTML = "&#128077;";
+            } else {
+                feedbackElem.innerText = "革命尚未成功！莫耳數是比較抽象的單元，請務必把錯誤題目的詳解看懂，加油！";
+                feedbackElem.className = "text-red-600 font-bold mb-6";
+                emojiElem.innerHTML = "&#128170;";
+            }
+
+            const modal = document.getElementById('score-modal');
+            modal.classList.remove('hidden');
+        }
+
+        // 關閉 Modal
+        function closeScoreModal() {
+            document.getElementById('score-modal').classList.add('hidden');
+        }
+
+        // 手動切換解析的顯示/隱藏
+        function toggleExplanation() {
+            const expArea = document.getElementById('explanation-area');
+            const btn = document.getElementById('toggle-explanation-btn');
+            
+            if (expArea.classList.contains('hidden')) {
+                expArea.classList.remove('hidden');
+                btn.innerHTML = '&#128064; 隱藏解析';
+            } else {
+                expArea.classList.add('hidden');
+                btn.innerHTML = '&#128269; 顯示解析';
+            }
+        }
+    </script>
+</body>
+</html>
