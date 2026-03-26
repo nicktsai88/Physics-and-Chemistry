@@ -245,8 +245,8 @@
 
             {/* 題目列表 (已依據出處分組) */}
             <div className={`flex flex-col ${printMode === 'exam' ? 'gap-6 print:gap-4' : 'gap-10 print:gap-10'}`}>
-              {Object.entries(groupedQuestions).map(([groupName, groupQs]) => (
-                <div key={groupName} className={`flex flex-col ${printMode === 'exam' ? 'gap-4 print:gap-2' : 'gap-8 print:gap-8'}`}>
+              {Object.entries(groupedQuestions).map(([groupName, groupQs], groupIndex) => (
+                <div key={groupName} className={`flex flex-col ${printMode === 'exam' ? 'gap-4 print:gap-2' : 'gap-8 print:gap-8'} ${groupIndex > 0 ? 'print:break-before-page' : ''}`}>
                   
                   {groupQs.map((q, index) => {
                     const isFirst = index === 0;
@@ -312,12 +312,6 @@
                             </div>
                           </div>
                           
-                          {/* 考卷模式的提示字 */}
-                          <div className={`absolute inset-0 flex items-center justify-center opacity-0 ${printMode === 'exam' ? 'print:opacity-100' : ''} hidden print:flex pointer-events-none`}>
-                             <span className="text-gray-300 font-bold tracking-widest text-2xl rotate-12 border-4 border-gray-200 p-4 rounded-xl">
-                               訂正空間 / 作答區
-                             </span>
-                          </div>
                         </div>
 
                       </div>
