@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理化講義互動系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @media print {
+            body { background-color: white; color: black; }
+            .print-hidden { display: none !important; }
+            .print-block { display: block !important; }
+            .print-no-shadow { box-shadow: none !important; }
+            .print-m-0 { margin: 0 !important; }
+            .print-p-0 { padding: 0 !important; }
+            .print-max-w-none { max-width: none !important; }
+            .break-inside-avoid { break-inside: avoid; }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-50 text-gray-800 font-sans">
+
+    <!-- 導覽列 (列印時隱藏) -->
+    <nav class="bg-blue-600 text-white p-4 shadow-md print-hidden sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <h1 class="text-xl font-bold flex items-center gap-2">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                理化講義互動系統
+            </h1>
+            <div class="flex gap-2 bg-blue-700 p-1 rounded-lg">
+                <button id="btn-learn" onclick="setMode('learn')" class="mode-btn px-4 py-2 rounded-md flex items-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg> 
+                    學習模式
+                </button>
+                <button id="btn-quiz" onclick="setMode('quiz')" class="mode-btn px-4 py-2 rounded-md flex items-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path></svg> 
+                    考卷列印
+                </button>
+                <button id="btn-answer" onclick="setMode('answer')" class="mode-btn px-4 py-2 rounded-md flex items-center gap-2 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><polyline points="9 15 11 17 15 13"></polyline></svg> 
+                    解答列印
+                </button>
+            </div>
+            <button onclick="window.print()" class="bg-green-500 hover:bg-green-400 text-white px-4 py-2 rounded-md flex items-center gap-2 shadow font-bold transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg> 
+                列印 (A4直式)
+            </button>
+        </div>
+    </nav>
+
+    <!-- 講義內容區 -->
+    <main class="max-w-4xl mx-auto p-8 bg-white my-8 shadow-lg print-no-shadow print-m-0 print-p-0 print-max-w-none">
+        
+        <!-- 標題 -->
+        <div class="text-center mb-8 pb-4 border-b-2 border-gray-800">
+            <h1 class="text-3xl font-bold mb-2">
+                理化 3-2 酸和鹼 綜合測驗<span id="doc-title-suffix"></span>
+            </h1>
+            <p class="text-gray-600">班級：______ 座號：______ 姓名：____________</p>
+        </div>
+
+        <!-- 主題 1 酸和鹼的性質 -->
+        <section class="mb-10 break-inside-avoid">
+            <h2 class="text-2xl font-bold mb-4 bg-gray-200 p-2 border-l-4 border-blue-600">【主題 1 酸和鹼的性質】</h2>
+            
+            <div class="my-4 break-inside-avoid">
+                <h3 class="font-bold text-xl mb-2">1. 酸和鹼的定義與性質比較：</h3>
+                <table class="w-full border-collapse border border-gray-400">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-400 p-2 w-1/6">項目</th>
+                            <th class="border border-gray-400 p-2 w-5/12 text-center text-red-700">酸 (Acid)</th>
+                            <th class="border border-gray-400 p-2 w-5/12 text-center text-blue-700">鹼 (Base)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold text-center bg-gray-50">定義</td>
+                            <td class="border border-gray-400 p-2">溶於水，可解離出<span class="blank" data-answer="氫"></span>離子 (H⁺)</td>
+                            <td class="border border-gray-400 p-2">溶於水，可解離出<span class="blank" data-answer="氫氧根"></span>離子 (OH⁻)</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold text-center bg-gray-50">解離實例</td>
+                            <td class="border border-gray-400 p-2">
+                                鹽酸：HCl → <span class="blank" data-answer="H⁺"></span> + Cl⁻ <br/>
+                                硫酸：H₂SO₄ → 2H⁺ + <span class="blank" data-answer="SO₄²⁻"></span> <br/>
+                                醋酸：CH₃COOH → H⁺ + <span class="blank" data-answer="CH₃COO⁻"></span>
+                            </td>
+                            <td class="border border-gray-400 p-2">
+                                氫氧化鈉：NaOH → Na⁺ + <span class="blank" data-answer="OH⁻"></span> <br/>
+                                氫氧化鈣：Ca(OH)₂ → Ca²⁺ + <span class="blank" data-answer="2OH⁻"></span> <br/>
+                                氨水：NH₃ + H₂O → <span class="blank" data-answer="NH₄⁺"></span> + OH⁻
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold text-center bg-gray-50">通式</td>
+                            <td class="border border-gray-400 p-2">H⁺ + <span class="blank" data-answer="酸根"></span>或非金屬離子</td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="金屬"></span>離子 + OH⁻</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold text-center bg-gray-50">特性</td>
+                            <td class="border border-gray-400 p-2">
+                                1. 水溶液有<span class="blank" data-answer="酸"></span>味 (如檸檬汁、食醋)。<br/>
+                                2. 水溶液皆為<span class="blank" data-answer="電解質"></span>。<br/>
+                                3. 溶於水中會<span class="blank" data-answer="放出"></span>熱量，使水溫上升。<br/>
+                                4. 酸性溶液<span class="blank" data-answer="無法"></span>溶解油脂。
+                            </td>
+                            <td class="border border-gray-400 p-2">
+                                1. 水溶液有<span class="blank" data-answer="澀"></span>味，摸起來具<span class="blank" data-answer="滑膩"></span>感。<br/>
+                                2. 水溶液皆為<span class="blank" data-answer="電解質"></span>。<br/>
+                                3. 溶於水中會<span class="blank" data-answer="放出"></span>熱量，使水溫上升。<br/>
+                                4. 可去油汙，溶解油和脂肪 (可作<span class="blank" data-answer="清潔劑"></span>)。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold text-center bg-gray-50">與金屬的反應</td>
+                            <td class="border border-gray-400 p-2">
+                                和活性大的金屬 (Mg、Fe、Zn) 反應，會產生<span class="blank" data-answer="氫氣"></span>，使點燃的火柴<span class="blank" data-answer="熄滅"></span>，同時燃燒發出爆鳴聲。
+                            </td>
+                            <td class="border border-gray-400 p-2">
+                                鹼<span class="blank" data-answer="不會"></span>和活性大的金屬反應。
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold text-center bg-gray-50">與碳酸鹽類的反應</td>
+                            <td class="border border-gray-400 p-2">
+                                和碳酸鹽類 (如碳酸鈣) 反應，會產生<span class="blank" data-answer="二氧化碳"></span>，使點燃的火柴<span class="blank" data-answer="熄滅"></span>。
+                            </td>
+                            <td class="border border-gray-400 p-2">
+                                鹼<span class="blank" data-answer="不會"></span>和碳酸鹽類發生反應。
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="my-6 break-inside-avoid">
+                <h3 class="font-bold text-xl mb-2">2. 酸鹼指示劑的顏色變化：</h3>
+                <table class="w-full border-collapse border border-gray-400 text-center">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-400 p-2 w-1/4">指示劑</th>
+                            <th class="border border-gray-400 p-2 w-1/4">酸性中呈色</th>
+                            <th class="border border-gray-400 p-2 w-1/4">中性中呈色</th>
+                            <th class="border border-gray-400 p-2 w-1/4">鹼性中呈色</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold bg-gray-50">石蕊試紙</td>
+                            <td class="border border-gray-400 p-2 text-red-600 font-bold"><span class="blank" data-answer="紅"></span>色</td>
+                            <td class="border border-gray-400 p-2">不變色</td>
+                            <td class="border border-gray-400 p-2 text-blue-600 font-bold"><span class="blank" data-answer="藍"></span>色</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold bg-gray-50">酚酞</td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="無"></span>色</td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="無"></span>色</td>
+                            <td class="border border-gray-400 p-2 text-red-600 font-bold"><span class="blank" data-answer="紅"></span>色</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold bg-gray-50">酚紅 【補充】</td>
+                            <td class="border border-gray-400 p-2 text-yellow-500 font-bold"><span class="blank" data-answer="黃"></span>色</td>
+                            <td class="border border-gray-400 p-2 text-orange-500 font-bold"><span class="blank" data-answer="橙"></span>色</td>
+                            <td class="border border-gray-400 p-2 text-red-600 font-bold"><span class="blank" data-answer="紅"></span>色</td>
+                        </tr>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold bg-gray-50">廣用試紙</td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="紅"></span>(強)、橙、<span class="blank" data-answer="黃"></span>(弱)</td>
+                            <td class="border border-gray-400 p-2 text-green-600 font-bold"><span class="blank" data-answer="綠"></span>色</td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="藍"></span>(弱)、靛、<span class="blank" data-answer="紫"></span>(強)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="my-6 break-inside-avoid">
+                <h3 class="font-bold text-xl mb-2">3. 探討活動 3-1：水溶液強弱分類：</h3>
+                <p class="mb-2">藉由廣用試紙的顏色變化，可將酸鹼進一步細分為強弱：</p>
+                <table class="w-full border-collapse border border-gray-400 text-center">
+                    <thead>
+                        <tr class="bg-gray-100">
+                            <th class="border border-gray-400 p-2">分類</th>
+                            <th class="border border-gray-400 p-2 text-red-600">強酸 (橙、紅)</th>
+                            <th class="border border-gray-400 p-2 text-yellow-600">弱酸 (黃)</th>
+                            <th class="border border-gray-400 p-2 text-purple-600">強鹼 (紫)</th>
+                            <th class="border border-gray-400 p-2 text-blue-600">弱鹼 (藍)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="border border-gray-400 p-2 font-bold bg-gray-50">代表物質</td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="鹽酸"></span></td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="醋酸"></span></td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="氫氧化鈉"></span></td>
+                            <td class="border border-gray-400 p-2"><span class="blank" data-answer="氨水"></span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <hr class="my-8 border-gray-300" />
+
+        <!-- 主題 2 常見的酸 -->
+        <section class="mb-10 break-inside-avoid">
+            <h2 class="text-2xl font-bold mb-4 bg-gray-200 p-2 border-l-4 border-blue-600">【主題 2 常見的酸】</h2>
+            <ol class="list-decimal pl-6 space-y-4 text-lg leading-relaxed">
+                <li><strong>硫酸 (H₂SO₄)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>無色油狀、腐蝕性強，密度比水<span class="blank" data-answer="大"></span>。</li>
+                        <li><strong>老師的話：</strong>沸點<span class="blank" data-answer="高"></span>、難揮發，可利用此特性來製備<span class="blank" data-answer="低沸點"></span>的酸（如鹽酸、硝酸）。</li>
+                        <li>濃硫酸具有很強的<span class="blank" data-answer="脫水"></span>性，可使碳水化合物脫水，形成黑色的<span class="blank" data-answer="碳"></span>。(如滴在方糖或紙張上會變黑)。</li>
+                        <li>有「<span class="blank" data-answer="化學工業之母"></span>」稱號，常用於製造肥料及<span class="blank" data-answer="鉛蓄電池"></span>的電解液。</li>
+                        <li><strong>稀釋安全：</strong>溶於水中會放出大量<span class="blank" data-answer="熱"></span>。稀釋時，必須將<span class="blank" data-answer="濃硫酸"></span>沿杯壁慢慢加入<span class="blank" data-answer="水"></span>中，並攪拌。不可反向操作，以免水沸騰濺出。</li>
+                    </ul>
+                </li>
+                <li><strong>鹽酸 (HCl)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>是<span class="blank" data-answer="氯化氫"></span>氣體溶於水形成的水溶液，無色且具<span class="blank" data-answer="刺鼻"></span>味。<strong>補充：</strong>工業用鹽酸因含有<span class="blank" data-answer="鐵離子(Fe³⁺)"></span>，而略呈<span class="blank" data-answer="黃"></span>色。</li>
+                        <li>打開濃鹽酸瓶蓋時，揮發出的氣體與水蒸氣結合，會形成肉眼可見的白色<span class="blank" data-answer="酸霧"></span>。</li>
+                        <li>可用來清洗金屬表面或作為浴廁清潔劑。<strong>警告：</strong>不可與<span class="blank" data-answer="漂白水"></span>混用，會產生有毒氣體。</li>
+                        <li>清洗大理石時需小心，因大理石成分為<span class="blank" data-answer="碳酸鈣"></span>，會與鹽酸反應產生<span class="blank" data-answer="二氧化碳"></span>。</li>
+                        <li><strong>檢驗法：</strong>遇到<span class="blank" data-answer="氨氣"></span>會結合產生白色的<span class="blank" data-answer="氯化銨"></span>固體微粒 (形成白煙)。</li>
+                    </ul>
+                </li>
+                <li><strong>硝酸 (HNO₃)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>國防工業重要原料。無色且具腐蝕性。</li>
+                        <li>受光線照射會分解出紅棕色、有毒的<span class="blank" data-answer="二氧化氮"></span>氣體，使溶液呈淡黃色。因此必須裝在<span class="blank" data-answer="棕色"></span>玻璃瓶中並避光保存。</li>
+                        <li>活性極強，可與銅、銀反應。銅與<strong>稀</strong>硝酸反應產生無色的<span class="blank" data-answer="一氧化氮"></span>；銅與<strong>濃</strong>硝酸反應產生紅棕色有毒的<span class="blank" data-answer="二氧化氮"></span>。</li>
+                        <li><strong>王水：</strong>由濃硝酸與濃鹽酸以體積比 <span class="blank" data-answer="1：3"></span> 混合而成，可溶解活性極小的<span class="blank" data-answer="金"></span>和鉑。</li>
+                    </ul>
+                </li>
+                <li><strong>醋酸 (CH₃COOH)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>學名<span class="blank" data-answer="乙酸"></span>。易溶於水，但水溶液中不易解離，屬於<span class="blank" data-answer="弱"></span>酸、<span class="blank" data-answer="弱"></span>電解質。</li>
+                        <li>食醋中約含有 <span class="blank" data-answer="5"></span>% 的醋酸。</li>
+                        <li>純度 99.5% 以上的醋酸在 16.7°C 時會凝固成固態，外觀像冰，俗稱<span class="blank" data-answer="冰醋酸"></span>。純醋酸因無法解離出氫離子，呈<span class="blank" data-answer="中"></span>性。</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <hr class="my-8 border-gray-300" />
+
+        <!-- 主題 3 常見的鹼 -->
+        <section class="mb-10 break-inside-avoid">
+            <h2 class="text-2xl font-bold mb-4 bg-gray-200 p-2 border-l-4 border-blue-600">【主題 3 常見的鹼】</h2>
+            <ol class="list-decimal pl-6 space-y-4 text-lg leading-relaxed">
+                <li><strong>氫氧化鈉 (NaOH)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>白色固體，水溶液摸起來有滑膩感，因具強腐蝕性俗稱<span class="blank" data-answer="苛性鈉"></span>，又因溶於水會放出大量熱而稱<span class="blank" data-answer="燒鹼"></span>。</li>
+                        <li>在空氣中極易吸收水氣而變潮濕，此現象稱為<span class="blank" data-answer="潮解"></span>。</li>
+                        <li>也容易吸收空氣中的<span class="blank" data-answer="二氧化碳"></span>形成碳酸鈉而變質，因此必須存放在乾燥的密閉<span class="blank" data-answer="塑膠"></span>容器中。</li>
+                        <li>常用來製造<span class="blank" data-answer="肥皂"></span>、紙張及廚房去油汙清潔劑。</li>
+                    </ul>
+                </li>
+                <li><strong>氫氧化鈣 (Ca(OH)₂)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>白色粉末，俗稱<span class="blank" data-answer="熟石灰"></span>。微溶於水，水溶液俗稱<span class="blank" data-answer="石灰水"></span>。</li>
+                        <li>澄清石灰水可用來檢驗<span class="blank" data-answer="二氧化碳"></span>，通入後會生成白色的混濁沉澱物<span class="blank" data-answer="碳酸鈣"></span>。</li>
+                        <li>將<span class="blank" data-answer="氧化鈣"></span> (CaO，俗稱生石灰) 溶於水中會放熱並產生氫氧化鈣。氧化鈣因易吸水，常作食品包裝內的<span class="blank" data-answer="乾燥劑"></span>。</li>
+                    </ul>
+                </li>
+                <li><strong>石灰的循環關係：</strong>
+                    <div class="bg-gray-100 p-4 rounded-md my-2 border border-gray-300">
+                        (1) 灰石 / 石灰石 (化學式：<span class="blank" data-answer="CaCO₃"></span>) —<span class="blank" data-answer="加熱"></span>—&rarr; 生石灰 <br/>
+                        (2) 生石灰 / 石灰 (化學式：<span class="blank" data-answer="CaO"></span>) —<span class="blank" data-answer="加水"></span>—&rarr; 熟石灰 <br/>
+                        <strong>反應式：</strong> CaO + H₂O &rarr; <span class="blank" data-answer="Ca(OH)₂"></span> + 熱<br/>
+                        (3) 熟石灰 (化學式：<span class="blank" data-answer="Ca(OH)₂"></span>) —<span class="blank" data-answer="加水溶解"></span>—&rarr; 石灰水<br/>
+                        (4) 石灰水 —<span class="blank" data-answer="通入二氧化碳"></span>—&rarr; 灰石 (產生白色混濁沉澱)<br/>
+                        <strong>反應式：</strong> Ca(OH)₂ + CO₂ &rarr; H₂O + <span class="blank" data-answer="CaCO₃"></span>&darr;
+                    </div>
+                </li>
+                <li><strong>氨 (NH₃)：</strong>
+                    <ul class="list-disc pl-6 mt-2 space-y-2">
+                        <li>無色、具有<span class="blank" data-answer="臭"></span>味的氣體，密度比空氣<span class="blank" data-answer="輕"></span>。<strong>急救：</strong>若工廠氨氣外洩，常向空中灑<span class="blank" data-answer="水"></span>以吸收氨氣。</li>
+                        <li>乾燥氨氣及液態氨呈<span class="blank" data-answer="中"></span>性；氨氣溶於水俗稱<span class="blank" data-answer="氨水"></span> (阿摩尼亞)，呈<span class="blank" data-answer="弱鹼"></span>性。</li>
+                        <li>稀釋後的氨水可消腫止癢 (因蚊蟲唾液含有<span class="blank" data-answer="甲酸"></span>)，並可作家庭清潔劑。</li>
+                        <li>氨與二氧化碳作用可生成<span class="blank" data-answer="尿素"></span>，用來製造肥料。</li>
+                        <li><strong>噴泉實驗：</strong>將裝有氨氣或氯化氫氣體的燒瓶倒置於水中。因為氣體極<span class="blank" data-answer="易溶於水"></span>，溶解後燒瓶內壓力<span class="blank" data-answer="小於"></span>外界大氣壓力，水被壓入燒瓶形成噴泉。若下方燒杯水中有加酚酞，氨水噴泉會呈現<span class="blank" data-answer="紅"></span>色。</li>
+                        <li><strong>健康警訊：</strong>檳榔中間通常添加<span class="blank" data-answer="石灰"></span>，嚼食後呈<span class="blank" data-answer="鹼"></span>性會傷害口腔，易引起細胞病變引發口腔癌。</li>
+                    </ul>
+                </li>
+            </ol>
+        </section>
+
+        <hr class="my-8 border-gray-300" />
+
+        <!-- 主題 4 經典與素養試題觀念釐清 -->
+        <section class="mb-10 break-inside-avoid">
+            <h2 class="text-2xl font-bold mb-4 bg-gray-200 p-2 border-l-4 border-blue-600">【主題 4 經典與素養試題觀念釐清】</h2>
+            <ol class="list-decimal pl-6 space-y-4 text-lg leading-relaxed">
+                <li><strong>除垢原理：</strong>電熱水瓶內壁常附著含碳酸鈣和碳酸鎂的鍋垢，應使用微酸性的<span class="blank" data-answer="檸檬汁"></span>或<span class="blank" data-answer="食醋"></span>浸泡去除。</li>
+                <li><strong>純乙酸的物態：</strong>純乙酸液體在25℃環境下逐漸冷卻，若有固體出現並沉於杯底，代表其凝固點（熔點）<span class="blank" data-answer="小於"></span>25℃（實際約為16.7℃），且因沉於杯底，可知固態密度<span class="blank" data-answer="大於"></span>液態密度。</li>
+                <li><strong>虎門銷煙：</strong>將鴉片引入浸泡池後加入石灰（生石灰 CaO）。因石灰溶於水為<span class="blank" data-answer="放熱"></span>反應，產生的高溫能使鴉片更易溶於水中。</li>
+                <li><strong>膨脹劑反應：</strong>製作麵食使用的膨脹劑 (NH₄)₂CO₃，加熱分解會產生 CO₂、H₂O 以及一種具有刺激性臭味的氣體，該氣體為<span class="blank" data-answer="氨氣(NH₃)"></span>。</li>
+                <li><strong>化學試劑溶解安全：</strong>次氯酸鈣（漂白劑成分）溶於水會產生高溫。為避免氣爆，混合步驟應如同稀釋濃硫酸，必須將<span class="blank" data-answer="次氯酸鈣"></span>緩緩加入<span class="blank" data-answer="大量水"></span>中。</li>
+                <li><strong>金屬與酸反應計量：</strong>甲、乙兩種不同的金屬與同濃度鹽酸完全反應。若產生的氫氣(H₂)質量相同，則消耗的鹽酸質量必定<span class="blank" data-answer="相同"></span>，但因甲乙原子量不同，產生的金屬氯化物總質量則會<span class="blank" data-answer="不同"></span>。</li>
+            </ol>
+        </section>
+
+    </main>
+
+    <!-- 列印用頁尾版權/備註資訊 -->
+    <footer class="hidden print-block text-center text-sm text-gray-500 mt-8 pb-8">
+        — 理化 3-2 酸和鹼 測驗卷 —
+    </footer>
+
+    <!-- JavaScript 邏輯 -->
+    <script>
+        function setMode(mode) {
+            // 更新按鈕樣式
+            const buttons = document.querySelectorAll('.mode-btn');
+            buttons.forEach(btn => {
+                btn.className = 'mode-btn px-4 py-2 rounded-md flex items-center gap-2 transition-colors hover:bg-blue-500';
+            });
+            
+            const activeBtn = document.getElementById('btn-' + mode);
+            if (activeBtn) {
+                activeBtn.className = 'mode-btn px-4 py-2 rounded-md flex items-center gap-2 transition-colors bg-white text-blue-700 font-bold shadow';
+            }
+
+            // 更新文件標題與填空樣式
+            const titleSuffix = document.getElementById('doc-title-suffix');
+            const blanks = document.querySelectorAll('.blank');
+
+            if (mode === 'quiz') {
+                titleSuffix.textContent = ' (學生卷)';
+                blanks.forEach(blank => {
+                    // 學生卷：隱藏文字、顯示底線
+                    blank.textContent = blank.getAttribute('data-answer');
+                    blank.className = 'blank inline-block min-w-[3rem] border-b border-gray-500 mx-1 align-bottom text-transparent px-2';
+                });
+            } else if (mode === 'answer' || mode === 'learn') {
+                titleSuffix.textContent = mode === 'answer' ? ' (解答卷)' : '';
+                blanks.forEach(blank => {
+                    // 解答卷/學習模式：顯示紅色解答
+                    blank.textContent = blank.getAttribute('data-answer');
+                    blank.className = 'blank inline-block min-w-[3rem] border-b-2 border-red-500 mx-1 align-bottom text-red-600 font-bold px-2 text-center';
+                });
+            }
+        }
+
+        // 頁面載入時預設為學習模式
+        document.addEventListener('DOMContentLoaded', () => {
+            setMode('learn');
+        });
+    </script>
+</body>
+</html>
