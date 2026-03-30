@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>道明中學 國二下 理化錯題本</title>
+  
+  <!-- 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- 引入 React 與 ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- 引入 Babel 供瀏覽器直接解析 JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- 列印專屬的 CSS 設定 -->
+  <style>
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 15mm;
+      }
+      body {
+        background-color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const MistakeNotebook = () => {
+      const [printMode, setPrintMode] = useState('solution'); // 'exam' or 'solution'
+
+      // 觸發列印
+      const handlePrint = (mode) => {
+        setPrintMode(mode);
+        // 使用 setTimeout 確保 React 狀態更新並渲染完 DOM 後再執行列印
+        setTimeout(() => {
+          window.print();
+        }, 300);
+      };
+
+      const questions = [
+        {
+          id: 2,
+          source: "超級翰將",
+          page: 70,
+          topic: "電解質的定義",
+          question: "下列何者不是電解質？",
+          options: [
+            "(A) 稀硫酸",
+            "(B) 濃硫酸",
+            "(C) 銀",
+            "(D) 肥皂水"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【判斷電解質的關鍵要素】",
+            coreConcept: "電解質必須是「化合物」，且在「溶於水」或「熔融狀態」下能夠解離出正負離子而導電的物質。",
+            details: [
+              { opt: "(A) 稀硫酸 (H₂SO₄)", desc: "強酸化合物，在水中會解離出氫離子 (H⁺) 與硫酸根離子 (SO₄²⁻)，可導電，為電解質。" },
+              { opt: "(B) 濃硫酸 (H₂SO₄)", desc: "本質仍是化合物，加水後同樣能解離導電，屬於電解質。" },
+              { opt: "(C) 銀 (Ag)", desc: "是金屬「元素」，不是化合物。雖然金屬可以導電，但它是利用「自由電子」導電，而非解離出離子，因此不屬於電解質。 (本題正確解答)" },
+              { opt: "(D) 肥皂水", desc: "肥皂主要成分為脂肪酸鈉，溶於水會解離出鈉離子與脂肪酸根離子，水溶液呈鹼性且可導電，為電解質。" }
+            ]
+          }
+        },
+        {
+          id: 6,
+          source: "超級翰將",
+          page: 74,
+          topic: "解離反應式",
+          question: "下列各化合物溶於水時，其解離的反應式何者正確？",
+          options: [
+            "(A) MgCl₂ → Mg²⁺ + Cl₂²⁻",
+            "(B) CuSO₄ → Cu²⁺ + S⁶⁺ + 4O²⁻",
+            "(C) C₂H₅OH → C₂H₅⁺ + OH⁻",
+            "(D) CH₃COOH → CH₃COO⁻ + H⁺"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【化合物解離反應式的判斷】",
+            coreConcept: "電解質解離時，原子團（如硫酸根 SO₄²⁻）通常不會分解；非電解質不會解離；且解離後必須符合電荷守恆與原子不滅。",
+            details: [
+              { opt: "(A) MgCl₂", desc: "應解離為 1 個 Mg²⁺ 與 2 個 Cl⁻。正確寫法為：MgCl₂ → Mg²⁺ + 2Cl⁻。" },
+              { opt: "(B) CuSO₄", desc: "硫酸根 (SO₄²⁻) 是一個原子團，在解離時不會再分解為硫和氧。正確寫法為：CuSO₄ → Cu²⁺ + SO₄²⁻。" },
+              { opt: "(C) C₂H₅OH", desc: "乙醇（酒精）為非電解質，溶於水後仍以分子狀態存在，不會解離出離子。" },
+              { opt: "(D) CH₃COOH", desc: "醋酸為弱酸，在水中會部分解離出醋酸根離子 (CH₃COO⁻) 與氫離子 (H⁺)。完全正確！ (本題正確解答)" }
+            ]
+          }
+        },
+        {
+          id: 8,
+          source: "超級翰將",
+          page: 74,
+          topic: "離子的電子數",
+          question: "下列哪一個離子所含電子數目和氖原子的電子數目相同？\n註：原子序為 Cl=17，Be=4，Ne=10，S=16，Al=13。",
+          options: [
+            "(A) Cl⁻",
+            "(B) Be²⁺",
+            "(C) S²⁻",
+            "(D) Al³⁺"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【原子與離子的電子數判斷】",
+            coreConcept: "中性原子的電子數 = 原子序。當形成離子時，陽離子（帶正電）代表失去電子，陰離子（帶負電）代表得到電子。",
+            details: [
+              { opt: "基準 (Ne)", desc: "氖 (Ne) 的原子序為 10，因此其中性原子的電子數為 10。" },
+              { opt: "(A) Cl⁻", desc: "Cl 原子序 17，得到 1 個電子，電子數 = 17 + 1 = 18。" },
+              { opt: "(B) Be²⁺", desc: "Be 原子序 4，失去 2 個電子，電子數 = 4 - 2 = 2。" },
+              { opt: "(C) S²⁻", desc: "S 原子序 16，得到 2 個電子，電子數 = 16 + 2 = 18。" },
+              { opt: "(D) Al³⁺", desc: "Al 原子序 13，失去 3 個電子，電子數 = 13 - 3 = 10。與 Ne 相同！(本題正確解答)" }
+            ]
+          }
+        },
+        {
+          id: 13,
+          source: "超級翰將",
+          page: 75,
+          topic: "解離模型與離子特性",
+          question: "右圖為實驗裝置之示意圖，某鹽類溶於水後解離為 4 個甲粒子和 8 個乙粒子，其中甲和乙均為帶電的粒子。若已知乙為 Cl⁻，則下列有關此杯水溶液的敘述何者正確？",
+          imageUrl: "Nature-Louis-2-images/hj-p75-13.jpg",
+          options: [
+            "(A) 甲可能為 Na⁺",
+            "(B) 未通電時，甲和乙均分散於水中且靜止不動",
+            "(C) 水溶液中，負電荷的總電量多於正電荷的總電量",
+            "(D) 通電後，甲粒子會向 b 電極移動，乙粒子會向 a 電極移動"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【解離微觀模型與通電行為】",
+            coreConcept: "水溶液必呈電中性；通電時，陽離子移向負極，陰離子移向正極。",
+            details: [
+              { opt: "(A) 判斷甲粒子", desc: "甲與乙的數量比為 4:8 = 1:2。已知乙為帶 1 單位負電的 Cl⁻，為了維持電中性，1 個甲必須帶 2 單位正電 (如 Mg²⁺、Ca²⁺ 等)。而 Na⁺ 只帶 1 單位正電，故錯誤。" },
+              { opt: "(B) 粒子狀態", desc: "離子在水溶液中是可以自由移動的，並非靜止不動。" },
+              { opt: "(C) 電中性", desc: "電解質水溶液必定維持電中性，正、負電荷總量一定相等。" },
+              { opt: "(D) 通電移動", desc: "圖中電池長端為正極(接a)，短端為負極(接b)。甲為陽離子(帶正電)會移向負極b；乙為 Cl⁻(帶負電)會移向正極a。完全正確！" }
+            ]
+          }
+        },
+        {
+          id: 1,
+          source: "超級翰將",
+          page: 75,
+          topic: "生活中的電解質 (素養題)",
+          question: "廚房中有下列四種食品，試問其中哪一項不導電？",
+          options: [
+            "(A) 酒精",
+            "(B) 梅子汁",
+            "(C) 醬油",
+            "(D) 柳橙汁"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【常見物質的電解質判斷】",
+            coreConcept: "判斷物質是否導電，主要是看其成分中是否含有能解離出游離離子的電解質。",
+            details: [
+              { opt: "(A) 酒精", desc: "酒精（乙醇 C₂H₅OH）為非電解質，溶於水後仍以分子狀態存在，不會解離出離子，因此不導電。(本題正確解答)" },
+              { opt: "(B) (D) 果汁類", desc: "梅子汁與柳橙汁中含有天然的有機酸（如果酸、檸檬酸等），屬於弱電解質，可導電。" },
+              { opt: "(C) 醬油", desc: "醬油中含有大量的食鹽（氯化鈉 NaCl），為強電解質，具有良好的導電性。" }
+            ]
+          }
+        },
+        {
+          id: 3,
+          source: "超級翰將",
+          page: 75,
+          topic: "水溶液的電中性計算 (素養題)",
+          question: "小北測得翰將國中地下水中僅含有 4 種離子：Na⁺、Mg²⁺、SO₄²⁻、Cl⁻，其中離子數目比為 Na⁺：Mg²⁺：Cl⁻ = 8：3：4，若 Na⁺ 有 8n 個，則 SO₄²⁻ 離子數目有多少個？",
+          options: [
+            "(A) n",
+            "(B) 3n",
+            "(C) 5n",
+            "(D) 8n"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【電中性原理的數學計算】",
+            coreConcept: "任何電解質水溶液必定維持「電中性」，也就是「陽離子所帶總正電量 = 陰離子所帶總負電量」。",
+            details: [
+              { opt: "步驟1：列出已知離子數", desc: "依據比例，若 Na⁺ 有 8n 個，則 Mg²⁺ 有 3n 個，Cl⁻ 有 4n 個。假設 SO₄²⁻ 有 x 個。" },
+              { opt: "步驟2：計算總正負電量", desc: "總正電量 = (+1)×8n + (+2)×3n = 8n + 6n = 14n。\n總負電量絕對值 = |-1|×4n + |-2|×x = 4n + 2x。" },
+              { opt: "步驟3：利用電中性解未知數", desc: "總正電量 = 總負電量\n14n = 4n + 2x\n10n = 2x\nx = 5n。(C)選項正確。" }
+            ]
+          }
+        },
+        {
+          id: 4,
+          source: "超級翰將",
+          page: 75,
+          topic: "水溶液中的粒子數 (素養題)",
+          question: "阿達將 46 公克的 C₂H₅OH 溶於 9 公克的水中，則根據電離說，水溶液中最多的粒子是下列何者？\n註：原子量為 C=12，H=1，O=16。",
+          options: [
+            "(A) C₂H₅OH",
+            "(B) OH⁻",
+            "(C) H⁺",
+            "(D) H₂O"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【莫耳數轉換與非電解質特性】",
+            coreConcept: "先將質量換算成莫耳數以比較數量，並判斷物質是否會解離。",
+            details: [
+              { opt: "步驟1：計算莫耳數", desc: "C₂H₅OH 分子量為 46，46g ÷ 46 = 1 莫耳；H₂O 分子量為 18，9g ÷ 18 = 0.5 莫耳。" },
+              { opt: "步驟2：解離判斷", desc: "乙醇 (C₂H₅OH) 為非電解質，溶於水不解離，以完整的分子狀態存在；水為極弱電解質，幾乎不解離。" },
+              { opt: "結論", desc: "水溶液中包含 1 莫耳的 C₂H₅OH 分子與 0.5 莫耳的 H₂O 分子。數量最多的是未解離的 C₂H₅OH 分子。(A)正確。" }
+            ]
+          }
+        },
+        {
+          id: 5,
+          source: "超級翰將",
+          page: 75,
+          topic: "電極判斷與離子移動 (素養題)",
+          question: "【題組】把氫氧化鈣溶於水後接上電池與燈泡，示意圖如圖所示。\n電解槽中乙板是正極或負極呢？圖中●粒子代表什麼粒子？",
+          imageUrl: "Nature-Louis-2-images/hj-p75-5.jpg",
+          options: [
+            "(A) 正極、Ca²⁺",
+            "(B) 正極、OH⁻",
+            "(C) 負極、Ca²⁺",
+            "(D) 負極、OH⁻"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【電池極性與離子的移動方向】",
+            coreConcept: "水溶液通電時，陽離子（帶正電）會移向負極；陰離子（帶負電）會移向正極。",
+            details: [
+              { opt: "電池極性判斷", desc: "電池符號中，長條為正極、短條為負極。圖中右側甲板接長條(正極)，左側乙板接短條(負極)。" },
+              { opt: "粒子移動判斷", desc: "圖中●粒子往乙板(負極)移動，異性相吸，表示●粒子帶正電，必定為陽離子。" },
+              { opt: "物質解析", desc: "氫氧化鈣 Ca(OH)₂ 解離會產生 Ca²⁺ (陽離子) 與 OH⁻ (陰離子)。因此往負極移動的●粒子就是 Ca²⁺。故選(C)。" }
+            ]
+          }
+        },
+        {
+          id: 6,
+          source: "超級翰將",
+          page: 75,
+          topic: "解離莫耳數計算 (素養題)",
+          question: "【題組】假設氫氧化鈣可以完全解離，結果共解離產生 0.6 莫耳的離子，則加入水中的氫氧化鈣共有多少莫耳？",
+          options: [
+            "(A) 0.1",
+            "(B) 0.2",
+            "(C) 0.4",
+            "(D) 0.6"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【依據反應式計算離子莫耳數】",
+            coreConcept: "寫出正確的解離方程式，利用係數比找出「分子」與「產生離子總數」的比例關係。",
+            details: [
+              { opt: "反應式與比例", desc: "解離方程式：Ca(OH)₂ → Ca²⁺ + 2OH⁻。這表示 1 莫耳的 Ca(OH)₂ 完全解離，會產生 1 莫耳的 Ca²⁺ 與 2 莫耳的 OH⁻，總共產生 3 莫耳的離子。" },
+              { opt: "莫耳數計算", desc: "若最後共產生了 0.6 莫耳的離子，則原本投入的 Ca(OH)₂ 莫耳數 = 0.6 ÷ 3 = 0.2 莫耳。(B)正確。" }
+            ]
+          }
+        },
+        {
+          id: 7,
+          source: "超級翰將",
+          page: 76,
+          topic: "電解質水溶液的判別 (題組)",
+          question: "【題組】建達欲判別哪一些化合物可以導電，分別取以下七種物質：氯化鈉、醋酸、鹽酸、硝酸鉀、氫氧化鈉、蔗糖、酒精。可以使燈泡發亮的溶液共有幾種？",
+          imageUrl: "Nature-Louis-2-images/hj-p76-7.jpg",
+          options: [
+            "(A) 2",
+            "(B) 3",
+            "(C) 4",
+            "(D) 5"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【常見物質的電解質判斷】",
+            coreConcept: "燈泡發亮代表該水溶液可導電，即判斷何者為「電解質」。酸、鹼、鹽類大多為電解質。",
+            details: [
+              { opt: "電解質 (5種)", desc: "氯化鈉(鹽)、醋酸(弱酸)、鹽酸(強酸)、硝酸鉀(鹽)、氫氧化鈉(強鹼)。這些溶於水皆可導電，使燈泡發亮。" },
+              { opt: "非電解質 (2種)", desc: "蔗糖、酒精。這兩者溶於水呈分子狀態，不解離、不導電。" },
+              { opt: "結論", desc: "共有 5 種溶液能使燈泡發亮。故選(D)。" }
+            ]
+          }
+        },
+        {
+          id: 11,
+          source: "超級翰將",
+          page: 76,
+          topic: "解離的離子數目比 (題組)",
+          question: "【題組】氫氧化鈉水溶液中，OH⁻ 的數目為 Na⁺ 的多少倍？",
+          options: [
+            "(A) 0.5",
+            "(B) 1",
+            "(C) 2",
+            "(D) 4"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【由化學式判斷解離數量】",
+            coreConcept: "解離方程式中，各離子前面的係數即代表其產生的數量（莫耳數）比例。",
+            details: [
+              { opt: "解離方程式", desc: "NaOH → Na⁺ + OH⁻。" },
+              { opt: "數目比", desc: "每解離 1 個 NaOH，會產生 1 個 Na⁺ 和 1 個 OH⁻。因此兩者數目比為 1：1，也就是 1 倍。(B)正確。" }
+            ]
+          }
+        },
+        {
+          id: 2,
+          source: "超級翰將",
+          page: 76,
+          topic: "沉澱反應與濾液的導電性 (優良經典題)",
+          question: "阿永取 1L 的 0.5 M 氯化鋇(BaCl₂)水溶液與 1L 的 0.5 M 硫酸鈉(Na₂SO₄)水溶液混合，立刻產生白色沉澱。將溶液過濾取出沉澱物，確認為硫酸鋇(0.5莫耳)。過濾後的澄清濾液具有良好的導電性，則濾液中「主要的」導電粒子為下列何者？\n註：溶液混合化學反應式為 BaCl₂ + Na₂SO₄ → BaSO₄↓ + 2NaCl",
+          options: [
+            "(A) H⁺、OH⁻",
+            "(B) Na⁺、Cl⁻",
+            "(C) Ba²⁺、Cl⁻",
+            "(D) Na⁺、SO₄²⁻"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【化學反應後的旁觀離子判斷】",
+            coreConcept: "觀察反應方程式，參與沉澱的離子會結合成為固體離開水溶液；未參與沉澱反應的離子（旁觀離子）則會繼續留在水溶液中導電。",
+            details: [
+              { opt: "混合前", desc: "BaCl₂ 提供 Ba²⁺ 與 Cl⁻；Na₂SO₄ 提供 Na⁺ 與 SO₄²⁻。" },
+              { opt: "沉澱反應", desc: "Ba²⁺ 與 SO₄²⁻ 互相結合，產生難溶於水的白色沉澱物 BaSO₄，並在過濾時被濾紙擋下。" },
+              { opt: "剩餘濾液", desc: "Na⁺ 與 Cl⁻ 沒有參與沉澱反應，依舊以解離狀態留在水中形成 NaCl 水溶液。因此濾液中主要的導電粒子為 Na⁺ 與 Cl⁻。(B)正確。" }
+            ]
+          }
+        },
+        {
+          id: 7,
+          source: "超級翰將",
+          page: 77,
+          topic: "原子與離子的電子數計算",
+          question: "已知 Ca 和 Cl 的原子序分別為 20、17，Ca²⁺ 和 Cl⁻ 的質子數和電子數如右表，表中 w、x、y、z 的數值大小比較，下列何者正確？\n(Ca²⁺ 質子數w, 電子數y；Cl⁻ 質子數x, 電子數z)",
+          imageUrl: "Nature-Louis-2-images/hj-p77-7.jpg",
+          options: [
+            "(A) w > z",
+            "(B) x > y",
+            "(C) x > z",
+            "(D) y > w"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【原子序、質子數與離子電子數的關聯】",
+            coreConcept: "質子數永遠等於原子序；而形成離子時，只有「電子」會增加(陰離子)或減少(陽離子)，質子數絕不改變。",
+            details: [
+              { opt: "質子數計算", desc: "不管是否變成離子，質子數不變。Ca(20) 的質子數 w = 20；Cl(17) 的質子數 x = 17。" },
+              { opt: "電子數計算", desc: "Ca²⁺ 代表失去 2 個電子，電子數 y = 20 - 2 = 18。Cl⁻ 代表得到 1 個電子，電子數 z = 17 + 1 = 18。" },
+              { opt: "數值比對", desc: "整理得到 w=20, x=17, y=18, z=18。比對選項，(A) w(20) > z(18)，完全正確！" }
+            ]
+          }
+        }
+      ];
+
+      // 將錯題依據「出處 -> 頁碼 -> 題號」進行排序與分組
+      const sortedQuestions = [...questions].sort((a, b) => {
+        if (a.source !== b.source) return a.source.localeCompare(b.source);
+        if (a.page !== b.page) return a.page - b.page;
+        return a.id - b.id;
+      });
+
+      const groupedQuestions = sortedQuestions.reduce((acc, q) => {
+        const groupName = `${q.source} P${q.page}`;
+        if (!acc[groupName]) acc[groupName] = [];
+        acc[groupName].push(q);
+        return acc;
+      }, {});
+
+      return (
+        <div className="min-h-screen font-sans print:bg-white print:py-0 py-8">
+          
+          {/* 操作區塊 (列印時隱藏) */}
+          <div className="max-w-5xl mx-auto mb-6 px-4 print:hidden">
+            <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-800">📖 道明中學 國二下 理化科 第二次段考範圍</h1>
+                <h2 className="text-lg font-semibold text-gray-700 mt-1">第3章 電解質與酸鹼鹽 &nbsp; 第4章 反應速率與平衡</h2>
+                <p className="text-gray-500 text-sm mt-2">請選擇您要列印的模式。列印格式已預設優化為 A4 直式。</p>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => handlePrint('exam')}
+                  className="px-5 py-2.5 bg-indigo-50 text-indigo-600 font-semibold rounded-md border border-indigo-200 hover:bg-indigo-100 transition-colors flex items-center gap-2 cursor-pointer"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  列印考卷 (隱藏解析)
+                </button>
+                <button 
+                  onClick={() => handlePrint('solution')}
+                  className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                  列印解析卷
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* A4 列印頁面主體 */}
+          <div className="max-w-[210mm] mx-auto bg-white shadow-xl print:shadow-none min-h-[297mm] p-[20mm] print:p-0 print:m-0">
+            
+            {/* 試卷表頭 */}
+            <div className="text-center mb-8 border-b-2 border-gray-800 pb-4">
+              <h2 className="text-2xl font-extrabold tracking-wide text-gray-900">道明中學 國二下 理化科 第二次段考範圍</h2>
+              <h3 className="text-xl font-bold text-gray-800 mt-2">第3章 電解質與酸鹼鹽 &nbsp; 第4章 反應速率與平衡</h3>
+              <div className="flex justify-between mt-6 text-lg font-medium text-gray-700">
+                <span>錯題筆記</span>
+                <span>姓名：<span className="font-bold text-xl tracking-widest border-b-2 border-gray-800 px-8 pb-1">蔡睿洋</span></span>
+              </div>
+            </div>
+
+            {/* 題目列表 (已依據出處分組) */}
+            <div className={`flex flex-col ${printMode === 'exam' ? 'gap-6 print:gap-4' : 'gap-10 print:gap-10'}`}>
+              {Object.entries(groupedQuestions).map(([groupName, groupQs], groupIndex) => (
+                <div key={groupName} className={`flex flex-col ${printMode === 'exam' ? 'gap-4 print:gap-2' : 'gap-8 print:gap-8'} ${groupIndex > 0 ? 'print:break-before-page' : ''}`}>
+                  
+                  {groupQs.map((q, index) => {
+                    const isFirst = index === 0;
+                    
+                    // 單一題目的內容區塊
+                    const questionContent = (
+                      <div key={`${q.source}-${q.page}-${q.id}`} className={`flex flex-row border-b border-gray-300 ${printMode === 'exam' ? 'pb-4 print:pb-3' : 'pb-8 print:pb-8'} ${!isFirst ? 'print:break-inside-avoid' : ''}`}>
+                        
+                        {/* 左側：題目區 */}
+                        <div className="w-1/2 pr-6 border-r-2 border-dashed border-gray-300">
+                          <div className="flex gap-2">
+                            <span className="font-bold text-xl">{q.id}.</span>
+                            <div className="text-lg font-medium leading-relaxed text-gray-800 whitespace-pre-wrap">
+                              {q.question}
+                            </div>
+                          </div>
+                          
+                          {/* 支援圖片顯示 */}
+                          {q.imageUrl && (
+                            <div className={`${printMode === 'exam' ? 'mt-2 mb-1 print:mt-1' : 'mt-4 mb-2'} pl-6`}>
+                              <img src={q.imageUrl} alt="題目附圖" className="max-w-full w-[85%] h-auto rounded border border-gray-200 shadow-sm print:shadow-none print:border-gray-400" />
+                            </div>
+                          )}
+
+                          <div className={`${printMode === 'exam' ? 'mt-2 print:mt-1' : 'mt-4'} pl-6 flex flex-col ${printMode === 'exam' ? 'gap-1 print:gap-0' : 'gap-2'} text-lg`}>
+                            {q.options.map((opt, idx) => (
+                              <div key={idx} className="text-gray-700">{opt}</div>
+                            ))}
+                          </div>
+                        </div>
+
+                        {/* 右側：解析區 */}
+                        <div className="w-1/2 pl-6 relative">
+                          {/* 考卷模式下將原 h-full 加上 print:hidden，徹底釋放高度，讓左側題目決定此題行高 */}
+                          <div className={`h-full ${printMode === 'exam' ? 'print:hidden' : ''}`}>
+                            <div className="flex items-center gap-2 mb-3 text-blue-800">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                              <span className="font-bold text-lg">深度解析</span>
+                              <span className="ml-auto bg-red-100 text-red-700 px-3 py-1 rounded-full text-sm font-bold shadow-sm">
+                                解答：{q.correctAnswer}
+                              </span>
+                            </div>
+                            
+                            <div className="bg-blue-50/50 p-4 rounded-lg border border-blue-100">
+                              <h4 className="font-bold text-[#FF0000] mb-2">{q.explanation.title}</h4>
+                              <p className="text-gray-700 mb-4 leading-relaxed text-sm bg-yellow-100/50 p-2 rounded whitespace-pre-wrap">
+                                <span className="font-semibold text-amber-700">💡 核心觀念：</span>
+                                {q.explanation.coreConcept}
+                              </p>
+                              
+                              <ul className="space-y-3">
+                                {q.explanation.details.map((detail, idx) => (
+                                  <li key={idx} className="text-sm leading-relaxed whitespace-pre-wrap">
+                                    <span className={`font-semibold mr-1 ${q.correctAnswer !== "見解析" && detail.opt.includes(q.correctAnswer + ")") ? 'text-green-700' : 'text-gray-800'}`}>
+                                      {detail.opt}
+                                    </span>
+                                    <span className="text-gray-600">
+                                      {detail.desc}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                          
+                        </div>
+
+                      </div>
+                    );
+
+                    // 若是該出處的第一題，將「出處標籤」與「第一題內容」打包成一個不可分割的區塊 (break-inside-avoid)
+                    if (isFirst) {
+                      return (
+                        <div key={`wrapper-${groupName}`} className="print:break-inside-avoid flex flex-col">
+                          {/* 出處標題標籤 */}
+                          <div className={`flex items-center border-b-2 border-gray-400 pb-2 ${printMode === 'exam' ? 'mb-2 print:mb-1' : 'mb-4'} print:border-gray-800`}>
+                            <span className="bg-[#FF8800] text-white px-4 py-1.5 text-md font-bold rounded-t-lg tracking-widest print:bg-white print:text-[#FF8800] print:border-2 print:border-[#FF8800] print:rounded-md print:px-3">
+                              📂 出處：{groupName}
+                            </span>
+                          </div>
+                          {questionContent}
+                        </div>
+                      );
+                    }
+
+                    // 不是第一題，就直接輸出內容
+                    return questionContent;
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {/* 頁尾 */}
+            <div className="mt-8 text-center text-gray-400 text-sm print:block">
+              - 努力學習，必有收穫 -
+            </div>
+
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<MistakeNotebook />);
+  </script>
+</body>
+</html>
