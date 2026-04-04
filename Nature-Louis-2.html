@@ -1453,11 +1453,15 @@
 
                     // 若是該出處的第一題，將「出處標籤」與「第一題內容」打包成一個不可分割的區塊 (break-inside-avoid)
                     if (isFirst) {
+                      const isHanjin = groupName.includes('超級翰將');
+                      const tagBgClass = isHanjin ? 'bg-[#00ffff] text-gray-900' : 'bg-[#FF8800] text-white';
+                      const printColorClass = isHanjin ? 'print:text-[#00ffff] print:border-[#00ffff]' : 'print:text-[#FF8800] print:border-[#FF8800]';
+
                       return (
                         <div key={`wrapper-${groupName}`} className="print:break-inside-avoid flex flex-col">
                           {/* 出處標題標籤 */}
                           <div className={`flex items-center border-b-2 border-gray-400 pb-2 ${printMode === 'exam' ? 'mb-2 print:mb-1' : 'mb-4'} print:border-gray-800`}>
-                            <span className="bg-[#FF8800] text-white px-4 py-1.5 text-md font-bold rounded-t-lg tracking-widest print:bg-white print:text-[#FF8800] print:border-2 print:border-[#FF8800] print:rounded-md print:px-3">
+                            <span className={`${tagBgClass} px-4 py-1.5 text-md font-bold rounded-t-lg tracking-widest print:bg-white print:border-2 ${printColorClass} print:rounded-md print:px-3`}>
                               📂 出處：{groupName}
                             </span>
                           </div>
