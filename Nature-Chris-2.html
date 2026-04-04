@@ -1051,7 +1051,7 @@
                           {q.imageUrl && (
                             <div className={`${printMode === 'exam' ? 'mt-2 mb-1 print:mt-1' : 'mt-4 mb-2'} pl-6 flex flex-col gap-2`}>
                               {(Array.isArray(q.imageUrl) ? q.imageUrl : [q.imageUrl]).map((img, idx) => (
-                                <img key={idx} src={img} alt="題目附圖" className="max-w-full w-[95%] h-auto rounded border border-gray-200 shadow-sm print:shadow-none print:border-gray-400" />
+                                <img key={idx} src={img} alt="題目附圖" className="max-w-full w-[80%] h-auto rounded border border-gray-200 shadow-sm print:shadow-none print:border-gray-400" />
                               ))}
                             </div>
                           )}
