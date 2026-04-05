@@ -1447,7 +1447,7 @@
         }
       ];
 
-      // 將錯題依據「頁碼 -> 出處類型 -> 題號」進行排序與分組
+      // 將錯題依據「出處類型 -> 頁碼 -> 題號」進行排序與分組
       const sourceRank = {
         "鍾揚理化 第28回小考 酸和鹼": 1,
         "鍾揚理化": 2,
@@ -1457,18 +1457,18 @@
       };
 
       const sortedQuestions = [...questions].sort((a, b) => {
-        if (a.page !== b.page) return a.page - b.page; // 優先按照頁碼排序
-        
         const rankA = sourceRank[a.source] || 99;
         const rankB = sourceRank[b.source] || 99;
-        if (rankA !== rankB) return rankA - rankB;     // 頁碼相同時，依照題型區塊順序
+        if (rankA !== rankB) return rankA - rankB;     // 最優先依照出處(題型)區塊排序
         
-        return a.id - b.id;                            // 題型相同時，依照題號
+        if (a.page !== b.page) return a.page - b.page; // 出處相同時，依照頁碼排序
+        
+        return a.id - b.id;                            // 頁碼相同時，依照題號
       });
 
       const groupedQuestions = sortedQuestions.reduce((acc, q) => {
-        // 若為第28回小考，則標籤僅顯示出處名稱，隱藏頁碼字樣
-        const groupName = q.source.includes('第28回小考') ? q.source : `${q.source} P${q.page}`;
+        // 直接使用出處作為分組標籤，不再串接頁碼
+        const groupName = q.source;
         if (!acc[groupName]) acc[groupName] = [];
         acc[groupName].push(q);
         return acc;
@@ -1532,7 +1532,9 @@
                         {/* 左側：題目區 */}
                         <div className="w-1/2 pr-6 border-r-2 border-dashed border-gray-300">
                           <div className="flex gap-2">
-                            <span className="font-bold text-xl">{q.id}.</span>
+                            <span className="font-bold text-xl whitespace-nowrap">
+                              {q.source.includes('第28回小考') ? `${q.id}.` : `P${q.page}-${q.id}.`}
+                            </span>
                             <div className="text-lg font-medium leading-relaxed text-gray-800 whitespace-pre-wrap">
                               {q.question}
                             </div>

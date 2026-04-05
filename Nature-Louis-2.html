@@ -1798,7 +1798,7 @@
       });
 
       const groupedQuestions = sortedQuestions.reduce((acc, q) => {
-        const groupName = `${q.source} P${q.page}`;
+        const groupName = q.source; // 修改：完全以出處作為最高層級的分組依據
         if (!acc[groupName]) acc[groupName] = [];
         acc[groupName].push(q);
         return acc;
@@ -1862,7 +1862,9 @@
                         {/* 左側：題目區 */}
                         <div className="w-1/2 pr-6 border-r-2 border-dashed border-gray-300">
                           <div className="flex gap-2">
-                            <span className="font-bold text-xl">{q.id}.</span>
+                            <span className="font-bold text-xl whitespace-nowrap">
+                              {q.source.includes('第28回小考') ? `${q.id}.` : `P${q.page}-${q.id}.`}
+                            </span>
                             <div className="text-lg font-medium leading-relaxed text-gray-800 whitespace-pre-wrap">
                               {q.question}
                             </div>
