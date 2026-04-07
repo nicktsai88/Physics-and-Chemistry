@@ -1860,7 +1860,7 @@
                       <div key={`${q.source}-${q.page}-${q.id}`} className={`flex flex-row border-b border-gray-300 ${printMode === 'exam' ? 'pb-4 print:pb-3' : 'pb-8 print:pb-8'} ${!isFirst ? 'print:break-inside-avoid' : ''}`}>
                         
                         {/* 左側：題目區 */}
-                        <div className="w-1/2 pr-6 border-r-2 border-dashed border-gray-300">
+                        <div className="w-[60%] print:w-[65%] pr-6 border-r-2 border-dashed border-gray-300">
                           <div className="flex gap-2">
                             <span className="font-bold text-xl whitespace-nowrap">
                               {q.source.includes('第28回小考') ? `${q.id}.` : `P${q.page}-${q.id}.`}
@@ -1892,7 +1892,7 @@
                         </div>
 
                         {/* 右側：解析區 */}
-                        <div className="w-1/2 pl-6 relative">
+                        <div className="w-[40%] print:w-[35%] pl-6 relative">
                           {/* 考卷模式下將原 h-full 加上 print:hidden，徹底釋放高度，讓左側題目決定此題行高 */}
                           <div className={`h-full ${printMode === 'exam' ? 'print:hidden' : ''}`}>
                             <div className="flex items-center gap-2 mb-4 text-blue-800">
