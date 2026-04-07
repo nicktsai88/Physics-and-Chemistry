@@ -1855,6 +1855,21 @@
                   {groupQs.map((q, index) => {
                     const isFirst = index === 0;
                     
+                    // 判斷選項長度來決定排版欄位數 (智慧橫式排版)
+                    const maxOptLen = q.options.length > 0 ? Math.max(...q.options.map(o => o.length)) : 0;
+                    let gridColsClass = 'grid-cols-1';
+                    if (q.options.length > 4) {
+                      gridColsClass = 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 print:grid-cols-4'; // 眾多選項題型
+                    } else if (q.options.length > 0) {
+                      if (maxOptLen <= 12) {
+                        gridColsClass = 'grid-cols-2 lg:grid-cols-4 print:grid-cols-4'; // 極短選項排成 4 欄
+                      } else if (maxOptLen <= 28) {
+                        gridColsClass = 'grid-cols-1 lg:grid-cols-2 print:grid-cols-2'; // 中等長度排成 2 欄
+                      } else {
+                        gridColsClass = 'grid-cols-1'; // 長選項維持 1 欄
+                      }
+                    }
+
                     // 單一題目的內容區塊
                     const questionContent = (
                       <div key={`${q.source}-${q.page}-${q.id}`} className={`flex flex-row border-b border-gray-300 ${printMode === 'exam' ? 'pb-4 print:pb-3' : 'pb-8 print:pb-8'} ${!isFirst ? 'print:break-inside-avoid' : ''}`}>
@@ -1884,7 +1899,7 @@
                             </div>
                           )}
 
-                          <div className={`${printMode === 'exam' ? 'mt-2 print:mt-1' : 'mt-4'} pl-6 grid ${q.options.length > 4 ? 'grid-cols-2 sm:grid-cols-3 print:grid-cols-3' : 'grid-cols-1'} ${printMode === 'exam' ? 'gap-1 gap-x-4 print:gap-0' : 'gap-2 gap-x-4'} text-lg`}>
+                          <div className={`${printMode === 'exam' ? 'mt-2 print:mt-1' : 'mt-4'} pl-6 grid ${gridColsClass} ${printMode === 'exam' ? 'gap-y-1 gap-x-4 print:gap-y-0' : 'gap-y-2 gap-x-4'} text-lg`}>
                             {q.options.map((opt, idx) => (
                               <div key={idx} className="text-gray-700">{opt}</div>
                             ))}
