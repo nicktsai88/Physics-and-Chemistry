@@ -1888,14 +1888,14 @@
                           {/* 支援圖片顯示 (第一張) */}
                           {q.imageUrl && (
                             <div className={`${printMode === 'exam' ? 'mt-2 mb-1 print:mt-1' : 'mt-4 mb-2'} pl-6`}>
-                              <img src={q.imageUrl} alt="題目附圖" className="max-w-full w-[70%] h-auto rounded border border-gray-200 shadow-sm print:w-[70%] print:shadow-none print:border-gray-400" />
+                              <img src={q.imageUrl} alt="題目附圖" className="w-auto h-auto max-w-[80%] max-h-56 rounded border border-gray-200 shadow-sm print:max-w-[75%] print:max-h-40 print:shadow-none print:border-gray-400" />
                             </div>
                           )}
 
                           {/* 支援雙圖片顯示 (第二張) */}
                           {q.imageUrl2 && (
                             <div className={`${printMode === 'exam' ? 'mt-1 mb-1 print:mt-1' : 'mt-2 mb-2'} pl-6`}>
-                              <img src={q.imageUrl2} alt="題目附圖2" className="max-w-full w-[70%] h-auto rounded border border-gray-200 shadow-sm print:w-[70%] print:shadow-none print:border-gray-400" />
+                              <img src={q.imageUrl2} alt="題目附圖2" className="w-auto h-auto max-w-[80%] max-h-56 rounded border border-gray-200 shadow-sm print:max-w-[75%] print:max-h-40 print:shadow-none print:border-gray-400" />
                             </div>
                           )}
 
