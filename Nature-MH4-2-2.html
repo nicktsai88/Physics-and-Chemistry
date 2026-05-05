@@ -123,7 +123,7 @@
           page: 1,
           topic: "電解池離子移動與電荷",
           question: "弗朗基將某電解質溶於水後解離成兩種帶電的粒子，其數量如右圖中黑色及白色粒子所示；若已知黑色粒子代表氯離子Cl⁻，則下列有關此杯水溶液的敘述，何者正確？",
-          imageUrls: ["Nature-MH4-2-2-images/a4.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/a4.jpg"],
           options: [
             "(A)白色粒子可能是帶正電的鈉離子 Na⁺",
             "(B)一個白色粒子所帶的電量大於一個氯離子所帶的電量",
@@ -289,49 +289,26 @@
             "(D)丙>乙=甲"
           ],
           correctAnswer: "C",
+          table: (
+            <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm w-fit">
+              <table className="min-w-max text-center text-sm">
+                <thead className="bg-gray-100 text-gray-700">
+                  <tr><th className="p-2 border-b border-r">水溶液</th><th className="p-2 border-b border-r">溶質</th><th className="p-2 border-b">說明</th></tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b"><td className="p-2 font-semibold border-r bg-gray-50">甲</td><td className="p-2 border-r">HCl</td><td className="p-2">強酸</td></tr>
+                  <tr className="border-b"><td className="p-2 font-semibold border-r bg-gray-50">乙</td><td className="p-2 border-r">CH₃COOH</td><td className="p-2">弱酸</td></tr>
+                  <tr><td className="p-2 font-semibold border-r bg-gray-50">丙</td><td className="p-2 border-r">NaOH</td><td className="p-2">強鹼</td></tr>
+                </tbody>
+              </table>
+            </div>
+          ),
           explanation: {
             title: "【依據酸鹼強度推判pH值】",
             coreConcept: "強鹼(pH>13) > 弱酸(pH~3) > 強酸(pH~0)。",
             details: [
               { opt: "各溶液定位", desc: "丙是強鹼(NaOH)，pH 值極大(約13以上)。\n甲(HCl)與乙(CH₃COOH)皆為酸性，pH < 7。但甲是強酸完全解離，乙是弱酸僅微量解離，因此甲的 [H⁺] 遠大於乙，對應的 pH 值則是甲更小。" },
               { opt: "(C) 結論", desc: "pH值由大到小排序為：丙(強鹼) > 乙(弱酸) > 甲(強酸)。" }
-            ],
-            table: (
-              <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm w-fit">
-                <table className="min-w-max text-center text-sm">
-                  <thead className="bg-gray-100 text-gray-700">
-                    <tr><th className="p-2 border-b border-r">水溶液</th><th className="p-2 border-b border-r">溶質</th><th className="p-2 border-b">說明</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b"><td className="p-2 font-semibold border-r bg-gray-50">甲</td><td className="p-2 border-r">HCl</td><td className="p-2">強酸</td></tr>
-                    <tr className="border-b"><td className="p-2 font-semibold border-r bg-gray-50">乙</td><td className="p-2 border-r">CH₃COOH</td><td className="p-2">弱酸</td></tr>
-                    <tr><td className="p-2 font-semibold border-r bg-gray-50">丙</td><td className="p-2 border-r">NaOH</td><td className="p-2">強鹼</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            )
-          }
-        },
-        {
-          id: 12,
-          source: "明華國中114下第2次",
-          page: 2,
-          topic: "電解質解離的粒子總數",
-          question: "弗傑在桌上擺了四杯濃度均為0.1M、體積都是200毫升的溶液，分別是蔗糖(C₁₂H₂₂O₁₁)、乙醇(C₂H₅OH)、氯化鈉(NaCl)、乙酸(CH₃COOH)，試問哪一杯所含離子的總數最多？",
-          imageUrls: [],
-          options: [
-            "(A)蔗糖",
-            "(B)乙醇",
-            "(C)氯化鈉",
-            "(D)乙酸"
-          ],
-          correctAnswer: "C",
-          explanation: {
-            title: "【電解質強弱決定離子產量】",
-            coreConcept: "強電解質完全解離；弱電解質部分解離；非電解質不解離。",
-            details: [
-              { opt: "逐一分析", desc: "因為體積與濃度皆相同，原本加入水中的溶質莫耳數都一樣。\n(A)蔗糖與(B)乙醇為非電解質，完全不解離，溶液中的離子數為 0。\n(D)乙酸為弱電解質，只有極少數分子(約1%)解離成離子。\n(C)氯化鈉(NaCl)為強電解質，幾乎 100% 完全解離，1 個 NaCl 會產生 1 個 Na⁺ 和 1 個 Cl⁻ (共2個離子)。" },
-              { opt: "(C)", desc: "因此，氯化鈉水溶液中蘊含的游離離子總數絕對是最多的。" }
             ]
           }
         },
@@ -372,47 +349,24 @@
             "(D)丁"
           ],
           correctAnswer: "D",
+          table: (
+            <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm w-fit">
+              <table className="min-w-max text-center text-sm">
+                <thead className="bg-gray-100 text-gray-700">
+                  <tr><th className="p-2 border-b border-r">燒杯</th><th className="p-2 border-b border-r">甲</th><th className="p-2 border-b border-r">乙</th><th className="p-2 border-b border-r">丙</th><th className="p-2 border-b">丁</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td className="p-2 font-semibold border-r bg-gray-50">[H⁺]</td><td className="p-2 border-r">8×10⁻¹ M</td><td className="p-2 border-r">6×10⁻⁴ M</td><td className="p-2 border-r">4×10⁻⁸ M</td><td className="p-2">3×10⁻¹⁰ M</td></tr>
+                </tbody>
+              </table>
+            </div>
+          ),
           explanation: {
             title: "【pH值與[H⁺]的反比特性】",
             coreConcept: "氫離子濃度 [H⁺] 數值越微小(次方數越負)，計算出來的 pH 值就越大。",
             details: [
               { opt: "濃度比較", desc: "比較表中的 [H⁺] 數值：\n甲 = 8×10⁻¹ (極大)\n乙 = 6×10⁻⁴\n丙 = 4×10⁻⁸\n丁 = 3×10⁻¹⁰ (極小)。" },
               { opt: "(D) 結論", desc: "丁杯的氫離子濃度最低，代表酸性最弱(或鹼性最強)，對應的 pH 值必然是四杯中最大的(pH介於9~10之間)。" }
-            ],
-            table: (
-              <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm w-fit">
-                <table className="min-w-max text-center text-sm">
-                  <thead className="bg-gray-100 text-gray-700">
-                    <tr><th className="p-2 border-b border-r">燒杯</th><th className="p-2 border-b border-r">甲</th><th className="p-2 border-b border-r">乙</th><th className="p-2 border-b border-r">丙</th><th className="p-2 border-b">丁</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr><td className="p-2 font-semibold border-r bg-gray-50">[H⁺]</td><td className="p-2 border-r">8×10⁻¹ M</td><td className="p-2 border-r">6×10⁻⁴ M</td><td className="p-2 border-r">4×10⁻⁸ M</td><td className="p-2">3×10⁻¹⁰ M</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            )
-          }
-        },
-        {
-          id: 15,
-          source: "明華國中114下第2次",
-          page: 2,
-          topic: "體積莫耳濃度基礎計算",
-          question: "將90公克的葡萄糖 C₆H₁₂O₆ 加水配成500毫升的溶液，則此溶液的體積莫耳濃度為何？(原子量：H=1, C=12, O=16)",
-          imageUrls: [],
-          options: [
-            "(A) 0.25M",
-            "(B) 0.5M",
-            "(C) 0.1M",
-            "(D) 1M"
-          ],
-          correctAnswer: "D",
-          explanation: {
-            title: "【質量轉換濃度二步曲】",
-            coreConcept: "濃度(M) = 溶質莫耳數(mol) ÷ 溶液體積(L)。",
-            details: [
-              { opt: "Step 1: 算莫耳數", desc: "葡萄糖的分子量 = (12×6) + (1×12) + (16×6) = 180。90公克 ÷ 180 g/mol = 0.5 莫耳。" },
-              { opt: "Step 2: 算濃度", desc: "溶液體積為 500毫升 = 0.5 公升。莫耳濃度 = 0.5 mol ÷ 0.5 L = 1 M。故選(D)。" }
             ]
           }
         },
@@ -492,7 +446,7 @@
           page: 3,
           topic: "滴定實驗配置",
           question: "酸鹼中和的反應裝置如圖，乙裝置有足量2M氫氧化鈉水溶液，甲裝置有20mL未知濃度的硫酸，若以酚酞為指示劑，則它應該要加入哪個裝置中？",
-          imageUrls: ["Nature-MH4-2-2-images/a19.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/a19.jpg"],
           options: [
             "(A)甲乙都要加",
             "(B)加到甲",
@@ -606,7 +560,7 @@
           page: 4,
           topic: "pH值與反應物濃度",
           question: "有甲、乙、丙和丁四杯體積均為100mL的水溶液，其中兩杯為碳酸鈉溶液，另外兩杯為鹽酸，25℃時這四杯溶液的pH值如圖所示。已知鹽酸和碳酸鈉反應會產生二氧化碳，下列哪兩杯溶液混合後，產生二氧化碳的初始速率最快？\n(圖示：甲位於pH=2，乙位於pH=4，丙位於pH=9，丁位於pH=10)",
-          imageUrls: ["Nature-MH4-2-2-images/a24.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/24.jpg"],
           options: [
             "(A)甲和丙",
             "(B)甲和丁",
@@ -652,7 +606,7 @@
           page: 4,
           topic: "封閉系統的氣體壓力平衡",
           question: "已知貝殼的主要成分為CaCO₃，將貝殼與稀鹽酸放入錐形瓶中，並在瓶口以橡皮塞密封，反應會產生CO₂氣泡。靜置一段時間後，看到錐形瓶內不再產生氣泡，如附圖所示，此時拔開橡皮塞，又可看見氣泡從溶液中冒出。有關拔開橡皮塞前，看不到氣泡冒出。下列何者最可以解釋此現象？",
-          imageUrls: ["Nature-MH4-2-2-images/a26.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/a26.jpg"],
           options: [
             "(A)錐形瓶中化學反應已停止",
             "(B)錐形瓶內反應均已達平衡",
@@ -983,7 +937,7 @@
           page: 7,
           topic: "自熱罐的發熱化學機制",
           question: "圖為一則新聞報導，有一種「自熱罐」飲料，罐身下方隔層有CaO和水，兩者混合後會放出熱量，可使飲料溫度上升至60℃左右。小禾認為附圖中說明產生的物質有誤，應更正為何種物質？\n圖(二)文字：就是CaO加上水\n圖(三)文字：它就有產生碳酸鈣並放出熱量",
-          imageUrls: ["Nature-MH4-2-2-images/a40.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/a40.jpg"],
           options: [
             "(A)圖(二)錯誤，氫氧化鈣",
             "(B)圖(二)錯誤，氫氧化鈉",
@@ -1028,7 +982,7 @@
           page: 8,
           topic: "表面積與產量圖形分析",
           question: "天平兩邊秤盤上分別有甲、乙兩燒杯，燒杯中盛有濃度、體積均相同的鹽酸，靜止時指針指在中央。將質量相同但顆粒大小不同的X、Y兩份大理石碎塊，分別倒入甲、乙兩燒杯。反應剛開始冒出氣體使兩杯質量均減輕，且指針往右偏轉，如圖(二)所示。判斷燒杯內初始反應速率的快慢及其原因，下列說明何者正確？",
-          imageUrls: ["Nature-MH4-2-2-images/a42.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/a42.jpg"],
           options: [
             "(A)甲燒杯較快，因為X的顆粒較大",
             "(B)乙燒杯較快，因為Y的顆粒較大",
@@ -1105,6 +1059,25 @@
             "(D)達米安的結果較準確，瓶內溶液變紅色代表此時溶液呈酸性"
           ],
           correctAnswer: "B",
+          table: (
+            <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm">
+              <table className="min-w-full text-center text-sm">
+                <thead className="bg-gray-100 text-gray-700">
+                  <tr><th colSpan="2" className="p-2 border-b border-r bg-pink-50">安妮亞</th><th colSpan="2" className="p-2 border-b bg-blue-50">達米安</th></tr>
+                  <tr><th className="p-2 border-b border-r">NaOH(mL)</th><th className="p-2 border-b border-r">錐形瓶內溶液顏色</th><th className="p-2 border-b border-r">NaOH(mL)</th><th className="p-2 border-b">錐形瓶內溶液顏色</th></tr>
+                </thead>
+                <tbody>
+                  <tr className="border-b"><td className="p-2 border-r">0</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">0</td><td className="p-2">無色</td></tr>
+                  <tr className="border-b bg-gray-50"><td className="p-2 border-r">0.2</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">1.0</td><td className="p-2">無色</td></tr>
+                  <tr className="border-b"><td className="p-2 border-r">0.5</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.0</td><td className="p-2">無色</td></tr>
+                  <tr className="border-b bg-gray-50"><td className="p-2 border-r">1.0</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.5</td><td className="p-2">無色</td></tr>
+                  <tr className="border-b"><td className="p-2 border-r">1.5</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.7</td><td className="p-2">無色</td></tr>
+                  <tr className="border-b bg-gray-50"><td className="p-2 border-r">2.0</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.9</td><td className="p-2">無色</td></tr>
+                  <tr><td className="p-2 border-r text-pink-700 font-bold">4.0</td><td className="p-2 border-r text-red-500 font-bold">紅色</td><td className="p-2 border-r text-blue-700 font-bold">3.1</td><td className="p-2 text-red-500 font-bold">紅色</td></tr>
+                </tbody>
+              </table>
+            </div>
+          ),
           explanation: {
             title: "【滴定終點的細膩掌控】",
             coreConcept: "在接近滴定終點(指示劑即將變色)時，必須放慢速度，每次只滴入半滴或一滴(減少滴入量)以求精準。",
@@ -1112,26 +1085,7 @@
               { opt: "理論計算", desc: "完全中和所需 NaOH 體積 = (0.3M × 6mL) ÷ 0.6M = 3.0 mL。超過 3.0 mL 溶液即轉為鹼性(酚酞變紅)。" },
               { opt: "手法比較", desc: "安妮亞在 2.0 mL 後，一口氣直接加入 2.0 mL 達到 4.0 mL，導致溶液變成深紅色，嚴重超過了中和點(過滴)。達米安在接近 3.0 mL 時，每次只增加 0.2 mL (從2.5→2.7→2.9→3.1)，成功精準捕捉到剛好變色的瞬間(3.1 mL)。" },
               { opt: "(B) 結論", desc: "達米安的實驗技巧遠比安妮亞精確。滴定實驗的鐵律就是：在接近估計的變色範圍時，必須「逐次減少」滴定液的加入量(一滴一滴加)，才能得到準確的數據。" }
-            ],
-            table: (
-              <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm">
-                <table className="min-w-full text-center text-sm">
-                  <thead className="bg-gray-100 text-gray-700">
-                    <tr><th colSpan="2" className="p-2 border-b border-r bg-pink-50">安妮亞</th><th colSpan="2" className="p-2 border-b bg-blue-50">達米安</th></tr>
-                    <tr><th className="p-2 border-b border-r">NaOH(mL)</th><th className="p-2 border-b border-r">錐形瓶內溶液顏色</th><th className="p-2 border-b border-r">NaOH(mL)</th><th className="p-2 border-b">錐形瓶內溶液顏色</th></tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b"><td className="p-2 border-r">0</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">0</td><td className="p-2">無色</td></tr>
-                    <tr className="border-b bg-gray-50"><td className="p-2 border-r">0.2</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">1.0</td><td className="p-2">無色</td></tr>
-                    <tr className="border-b"><td className="p-2 border-r">0.5</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.0</td><td className="p-2">無色</td></tr>
-                    <tr className="border-b bg-gray-50"><td className="p-2 border-r">1.0</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.5</td><td className="p-2">無色</td></tr>
-                    <tr className="border-b"><td className="p-2 border-r">1.5</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.7</td><td className="p-2">無色</td></tr>
-                    <tr className="border-b bg-gray-50"><td className="p-2 border-r">2.0</td><td className="p-2 border-r">無色</td><td className="p-2 border-r">2.9</td><td className="p-2">無色</td></tr>
-                    <tr><td className="p-2 border-r text-pink-700 font-bold">4.0</td><td className="p-2 border-r text-red-500 font-bold">紅色</td><td className="p-2 border-r text-blue-700 font-bold">3.1</td><td className="p-2 text-red-500 font-bold">紅色</td></tr>
-                  </tbody>
-                </table>
-              </div>
-            )
+            ]
           }
         }
       ];
