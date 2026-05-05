@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>龍華國中 113下第2次 理化錯題本</title>
+  
+  <!-- 引入 Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- 引入 React 與 ReactDOM -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <!-- 引入 Babel 供瀏覽器直接解析 JSX -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- 列印專屬的 CSS 設定 -->
+  <style>
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 15mm;
+      }
+      body {
+        background-color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const MistakeNotebook = () => {
+      const [printMode, setPrintMode] = useState('solution'); // 'exam' or 'solution'
+
+      const handlePrint = (mode) => {
+        setPrintMode(mode);
+        setTimeout(() => {
+          window.print();
+        }, 300);
+      };
+
+      const questions = [
+        // ==================== 單一選擇題 (1~35) ====================
+        {
+          id: 1,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "電解質定義",
+          question: "下列何者不屬於電解質共同的性質？",
+          imageUrls: [],
+          options: [
+            "(A)必為化合物",
+            "(B)本身可導電",
+            "(C)可溶解於水中",
+            "(D)大致可分為酸、鹼、鹽等三類物質"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【電解質的導電條件】",
+            coreConcept: "電解質本身(固態時)通常不導電，必須在「溶於水」或「熔融狀態」下解離出自由離子才能導電。",
+            details: [
+              { opt: "(B) 錯誤", desc: "例如固體的食鹽(NaCl)是電解質，但其本身在固態時離子被晶體結構束縛，無法自由移動，因此不能導電。" },
+              { opt: "正確性質", desc: "電解質必定是化合物(A對)，必須能溶於水(C對，或可熔融)，且主要分為酸、鹼、鹽三大類(D對)。" }
+            ]
+          }
+        },
+        {
+          id: 2,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "原子與離子的性質",
+          question: "下列有關鈉離子與鈉原子的敘述何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)鈉原子比鈉離子多一個電子",
+            "(B)鈉離子與鈉原子性質大致相同",
+            "(C)溶液中可以導電的是鈉原子",
+            "(D)NaOH與NaCl溶於水所產生的鈉離子性質各不相同"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【離子的形成與性質改變】",
+            coreConcept: "金屬原子失去外層電子後形成陽離子，此時其化學性質會發生巨大改變。",
+            details: [
+              { opt: "(A) 正確", desc: "鈉原子(Na)為電中性，當它「失去 1 個電子」後，便會形成帶正電的鈉離子(Na⁺)。因此鈉原子比鈉離子多一個電子。" },
+              { opt: "錯誤選項", desc: "(B)鈉原子極易與水劇烈反應，鈉離子則非常安定，兩者性質截然不同。(C)水溶液中導電的是「離子」而非原子。(D)只要是鈉離子(Na⁺)，無論來源是哪種鹽類，其化學性質皆完全相同。" }
+            ]
+          }
+        },
+        {
+          id: 3,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "常見鹼性物質俗名",
+          question: "有關鹼性物質的敘述，下列何者錯誤？",
+          imageUrls: [],
+          options: [
+            "(A)氨氣為無色有臭味之氣體，易溶於水形成氨水，可做為家庭清潔劑",
+            "(B)氫氧化鈉又稱為苛性鈉",
+            "(C)水管疏通劑內常含有強鹼性的NaOH",
+            "(D)氧化鈣溶於水形成石灰水會放熱，所以氧化鈣又稱”燒鹼”"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【強鹼的俗名與成分】",
+            coreConcept: "燒鹼是氫氧化鈉(NaOH)的俗稱；氧化鈣(CaO)的俗稱是生石灰。",
+            details: [
+              { opt: "(D) 錯誤", desc: "氧化鈣(CaO)俗稱為「生石灰」，加水會放熱並形成氫氧化鈣(熟石灰)。被稱為「燒鹼」或「苛性鈉」的物質是氫氧化鈉(NaOH)，而非氧化鈣。" }
+            ]
+          }
+        },
+        {
+          id: 4,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "體積莫耳濃度計算",
+          question: "取20g的NaOH溶於水中形成水溶液500ml，其體積莫耳濃度應為多少？(原子量：H=1, O=16, Na=23)",
+          imageUrls: [],
+          options: [
+            "(A) 0.25M",
+            "(B) 0.5M",
+            "(C) 1M",
+            "(D) 2M"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【濃度公式的雙步驟換算】",
+            coreConcept: "濃度 (M) = 溶質莫耳數 (mol) ÷ 溶液總體積 (L)。",
+            details: [
+              { opt: "Step 1: 算莫耳數", desc: "NaOH的分子量 = 23 + 16 + 1 = 40。20g 的 NaOH = 20 ÷ 40 = 0.5 莫耳。" },
+              { opt: "Step 2: 算濃度", desc: "溶液體積 500mL = 0.5 L。體積莫耳濃度 = 0.5 mol ÷ 0.5 L = 1 M。故選(C)。" }
+            ]
+          }
+        },
+        {
+          id: 5,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "物質溶於水的酸鹼性",
+          question: "下列各物質溶於水呈鹼性的有幾項？(甲)鈉的氧化物；(乙)二氧化碳；(丙)銅的氧化物；(丁)小蘇打粉；(戊)食鹽。",
+          imageUrls: [],
+          options: [
+            "(A) 1",
+            "(B) 2",
+            "(C) 3",
+            "(D) 4"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【氧化物與鹽類的酸鹼性】",
+            coreConcept: "金屬氧化物溶於水呈鹼性(不溶則中性)；非金屬氧化物溶於水呈酸性。",
+            details: [
+              { opt: "逐項分析", desc: "(甲)鈉的氧化物(Na₂O)溶於水形成NaOH，呈強鹼性。\n(乙)二氧化碳溶於水形成碳酸，呈酸性。\n(丙)銅的氧化物(CuO)不溶於水，呈中性。\n(丁)小蘇打粉(NaHCO₃)溶於水呈弱鹼性。\n(戊)食鹽(NaCl)溶於水呈中性。" },
+              { opt: "(B) 結論", desc: "呈鹼性的只有(甲)與(丁)共 2 項。" }
+            ]
+          }
+        },
+        {
+          id: 6,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "粉塵爆炸與反應速率",
+          question: "將麵粉或玉米粉成堆放在桌上，不易引燃，散佈在空中時，卻能因為一點火花而劇烈燃燒，稱作閃燃，這也是八仙樂園塵爆事件的主要發生原因。關於「塵爆」事件中，玉米粉能劇烈燃燒的原因，何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)溫度高，帶有能量大",
+            "(B)有催化劑參與，加速反應進行",
+            "(C)反應表面積增大，反應變快",
+            "(D)物質的活性改變，容易燃燒"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【接觸面積決定燃燒劇烈度】",
+            coreConcept: "將固體粉末散佈在空氣中，會極大化其與氧氣的接觸總表面積，導致反應速率瞬間飆升。",
+            details: [
+              { opt: "(C)", desc: "成堆的粉末內部接觸不到氧氣。但當粉塵瀰漫在空中時，每一顆微小的粉末都能與周圍的氧氣充分接觸，總「表面積」暴增，只要有些微火源，就會引發極度快速的連鎖燃燒反應(爆炸)。" }
+            ]
+          }
+        },
+        {
+          id: 7,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "影響反應速率的變因",
+          question: "下列何者是利用反應時，因為反應物的濃度大，使反應速率加快的實例？",
+          imageUrls: [],
+          options: [
+            "(A)夏天食物要冰冰箱較不會壞",
+            "(B)線香在純氧中燃燒較旺",
+            "(C)烤肉起火時木炭要敲成碎片",
+            "(D)鈉比鐵更容易燃燒"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【濃度對反應速率的影響】",
+            coreConcept: "氣體的濃度即為純度或壓力。純氧的氧氣濃度遠大於空氣中的氧氣濃度(約21%)。",
+            details: [
+              { opt: "各選項變因", desc: "(A)冰箱：溫度變因。(C)敲成碎片：表面積變因。(D)鈉比鐵易燃：物質本性(活性)變因。" },
+              { opt: "(B) 正確", desc: "將線香放入「純氧」中，氧氣的濃度是平常空氣的近 5 倍。反應物濃度大，碰撞頻率高，燃燒反應速率自然會加快。" }
+            ]
+          }
+        },
+        {
+          id: 8,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "勒沙特列原理：毒氣處理",
+          question: "已知氯水的化學反應為 Cl₂ + H₂O ⇌ H⁺ + Cl⁻ + HClO；因氯氣有劇毒，必須如何處理才不至於汙染環境？",
+          imageUrls: [],
+          options: [
+            "(A)加入適量的氯化鈉溶液",
+            "(B)加入適量的氫氧化鈉溶液",
+            "(C)加入適量的鹽酸",
+            "(D)加入適量的氯化鉀溶液"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【利用酸鹼中和推動平衡】",
+            coreConcept: "要消除劇毒的反應物(Cl₂)，必須強迫化學平衡向右(產物端)移動以消耗之。",
+            details: [
+              { opt: "反應式分析", desc: "產物端有氫離子(H⁺)。根據勒沙特列原理，若要讓反應向右移動，我們必須「減少」產物端的 H⁺。" },
+              { opt: "(B) 正確", desc: "加入鹼性的氫氧化鈉(NaOH)溶液，OH⁻ 會與 H⁺ 發生酸鹼中和變成水。這會導致 H⁺ 濃度下降，系統為了彌補 H⁺ 的損失，便會強迫平衡向右移動，從而大量消耗掉有毒的氯氣(Cl₂)。" }
+            ]
+          }
+        },
+        {
+          id: 9,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "勒沙特列原理：溴水變色",
+          question: "在水溶液中，溴(Br₂)與水作用的平衡反應式如右：Br₂ + H₂O ⇌ H⁺ + Br⁻ + HBrO，Br₂為紅棕色，其餘為無色，下列敘述何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)加入H₂O可使溶液之顏色變淡",
+            "(B)加入NaOH可使溶液顏色變濃",
+            "(C)加入HCl可使平衡向右移動",
+            "(D)加入Br⁻可影響平衡，反應向左"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【同離子效應與稀釋】",
+            coreConcept: "加入產物會使反應逆向移動；加入水稀釋則整體濃度下降顏色變淺。",
+            details: [
+              { opt: "檢驗選項", desc: "(A)加水稀釋雖然會使平衡向右(微量)，但體積變大的稀釋效應佔主導，整體紅棕色必定變淡(此為對的描述，但在本題中D是更標準的化學平衡考點)。\n(B)加NaOH會中和H⁺，平衡向右，Br₂減少，顏色變淡。\n(C)加HCl提供H⁺，平衡向左移動。" },
+              { opt: "(D) 正確", desc: "Br⁻ 是右邊的產物。加入含 Br⁻ 的鹽類(如NaBr)會增加右邊產物的濃度，根據勒沙特列原理，平衡會向「左」移動以消耗多餘的 Br⁻，使得紅棕色的 Br₂ 變多。(註：A與D在學理上皆能說通，但測驗上多以加入離子破壞平衡的(D)為首選標準答案)。" }
+            ]
+          }
+        },
+        {
+          id: 10,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "水溶液的電中性原則",
+          question: "某一燒杯所裝的電中性溶液中僅有 A⁺、B²⁺、C²⁻ 三種離子，若溶液中的離子個數比為 B²⁺ : C²⁻ = 2 : 3，則溶液中的A⁺ : C²⁻ 離子個數比應為下列何者？",
+          imageUrls: [],
+          options: [
+            "(A) 2 : 3",
+            "(B) 3 : 1",
+            "(C) 1 : 2",
+            "(D) 3 : 2"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【正負總電量相等代數解】",
+            coreConcept: "水溶液必定維持電中性：(所有陽離子總正電荷) = (所有陰離子總負電荷)。",
+            details: [
+              { opt: "列式", desc: "設 A⁺ 個數為 Na，B²⁺ 個數為 Nb，C²⁻ 個數為 Nc。電中性方程式：1 × Na + 2 × Nb = 2 × Nc。" },
+              { opt: "代入比例", desc: "已知 Nb : Nc = 2 : 3，可假設 Nb = 2k，Nc = 3k。代入方程式：Na + 2(2k) = 2(3k) ➡️ Na + 4k = 6k ➡️ Na = 2k。" },
+              { opt: "(A) 結論", desc: "因此 Na : Nc = 2k : 3k = 2 : 3。故選(A)。" }
+            ]
+          }
+        },
+        {
+          id: 11,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "人體消化液的pH值",
+          question: "附表是人體四種消化液的酸鹼值，據以判斷下列敘述何者正確？",
+          imageUrls: ["Nature-LH4-2-images/a11.jpg"],
+          options: [
+            "(A)唾液經廣用試紙檢測呈現紅色",
+            "(B)胰液中 [H⁺] 大於 10⁻⁷",
+            "(C)腸液中，[OH⁻] < [H⁺]",
+            "(D)胃中食物進入小腸後，食物中 [H⁺] 會逐漸降低"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【跨器官的酸鹼度變化】",
+            coreConcept: "胃液為強酸(pH 1.5~2.0)，腸液為弱鹼(pH 8.3)。",
+            details: [
+              { opt: "檢驗選項", desc: "(A)唾液pH 6.3~6.8(弱酸)，廣用試紙應呈黃綠色而非紅色(強酸)。\n(B)胰液pH=8.5(鹼性)，[H⁺] = 10⁻⁸·⁵ M，小於 10⁻⁷。\n(C)腸液pH=8.3(鹼性)，鹼性代表 [OH⁻] > [H⁺]。" },
+              { opt: "(D) 正確", desc: "胃液是極酸的環境([H⁺]極高)。當食物進入小腸並混入鹼性的腸液與胰液後，會發生酸鹼中和，使得整體的 pH 值上升，這意味著氫離子濃度 [H⁺] 會逐漸降低。" }
+            ]
+          }
+        },
+        {
+          id: 12,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "碳酸鹽類綜合比較",
+          question: "有關碳酸鈉和碳酸氫鈉的性質比較，下列敘述何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)兩者與鹽酸作用皆可放出CO₂",
+            "(B)兩者皆可拿來烘培麵包",
+            "(C)滴入酚酞指示劑，兩者的水溶液皆呈無色",
+            "(D)兩者加熱均會產生二氧化碳"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【碳酸鹽家族的共同特徵】",
+            coreConcept: "不論是碳酸根(CO₃²⁻)或碳酸氫根(HCO₃⁻)，遇到強酸皆會釋放二氧化碳。",
+            details: [
+              { opt: "(A) 正確", desc: "碳酸鈉(蘇打)與碳酸氫鈉(小蘇打)遇到鹽酸等酸性物質，都會劇烈反應產生 CO₂ 氣泡。" },
+              { opt: "糾正錯誤", desc: "(B)碳酸鈉鹼性太強不宜食用，烘焙使用的是小蘇打(碳酸氫鈉)。\n(C)兩者溶於水皆呈鹼性，滴入酚酞會呈紅色。\n(D)只有小蘇打(NaHCO₃)加熱易分解產生CO₂；碳酸鈉(Na₂CO₃)相當安定，一般加熱不分解。" }
+            ]
+          }
+        },
+        {
+          id: 13,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "生活物質的pH值分布",
+          question: "附圖是某同學對身邊的一些物質測出的pH示意圖，圖中各項物質的特性，何者正確？",
+          imageUrls: ["Nature-LH4-2-images/a13.jpg"],
+          options: [
+            "(A)柳丁汁的氫離子濃度大於泡菜",
+            "(B)胃酸過多的人多食泡菜，可以幫助消化",
+            "(C)牙膏呈鹼性，可以清潔口腔，避免蛀牙",
+            "(D)茶的鹼性比牙膏強"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【pH值與酸鹼生活應用】",
+            coreConcept: "pH<7為酸性(數值越小越酸)，pH>7為鹼性(數值越大越鹼)；弱鹼可中和口腔酸性。",
+            details: [
+              { opt: "讀圖判斷", desc: "圖中顯示柳丁汁與泡菜皆為酸性(pH<7)，且柳丁汁的pH小於泡菜。茶呈微弱酸性，牙膏與血液呈鹼性(pH>7)。" },
+              { opt: "(C) 正確", desc: "細菌分解食物殘渣會產生酸性物質腐蝕牙齒(蛀牙)。牙膏設計為微鹼性(pH約8~9)，正是為了中和口腔內的酸性環境，達到保護牙齒的目的。(註: A選項柳丁汁pH較小，所以[H⁺]確實大於泡菜，學理上A亦對，但測驗常見標準答案會強調C的生活應用。)" }
+            ]
+          }
+        },
+        {
+          id: 14,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "強酸強鹼滴定微觀變化",
+          question: "如附圖為酸鹼中和實驗，以酚酞作指示劑，中和過程中，燒杯中溶液的變化何者錯誤？",
+          imageUrls: ["Nature-LH4-2-images/a14.jpg"],
+          options: [
+            "(A)pH值下降",
+            "(B)Ca²⁺數目減少",
+            "(C)Cl⁻數目增加",
+            "(D)H⁺濃度增加"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【滴定過程的旁觀離子】",
+            coreConcept: "滴定中，未參與中和反應的金屬離子(旁觀離子)數量不會減少。",
+            details: [
+              { opt: "情境分析", desc: "圖中燒杯裝的是 1M「氫氧化鈣」溶液(強鹼，含Ca²⁺與OH⁻)，滴定管滴入的是 1M「鹽酸」(強酸，含H⁺與Cl⁻)。" },
+              { opt: "變動趨勢", desc: "因為不斷加入酸，所以 OH⁻ 被中和，H⁺ 逐漸變多，整體溶液的 pH 值會不斷下降(A、D正確)。因為不斷滴入鹽酸，所以燒杯內的 Cl⁻ 總數會越來越多(C正確)。" },
+              { opt: "(B) 錯誤", desc: "Ca²⁺ 是旁觀離子，不參與酸鹼中和反應生成沉澱或氣體。因此燒杯內原本有多少 Ca²⁺，過程中它的「總數目」就會一直維持不變，絕對不會減少。" }
+            ]
+          }
+        },
+        {
+          id: 15,
+          source: "龍華國中113下第2次",
+          page: 1,
+          topic: "勒沙特列原理：鉻酸根平衡",
+          question: "在 2CrO₄²⁻(黃色) + 2H⁺ ⇌ Cr₂O₇²⁻(橙色) + H₂O 的平衡反應中，下列敘述何者錯誤？",
+          imageUrls: [],
+          options: [
+            "(A)平衡中加入HCl溶液，將使CrO₄²⁻濃度減少",
+            "(B)達平衡時，正、逆反應仍繼續進行且速率相等",
+            "(C)若設法不斷移去生成物，則反應將無法達到平衡",
+            "(D)加入食鹽水溶液後，反應向右移動"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【稀釋效應對平衡的影響】",
+            coreConcept: "加入中性水溶液(如食鹽水)相當於加水稀釋，會導致平衡向「粒子總莫耳數較大」的一方移動。",
+            details: [
+              { opt: "檢驗(A)(B)(C)", desc: "(A)加HCl提供H⁺，平衡向右，黃色的CrO₄²⁻被消耗減少(正確)。(B)這就是動態平衡的定義(正確)。(C)不斷移去產物，反應會被迫一直向右進行無法停歇(正確)。" },
+              { opt: "(D) 錯誤", desc: "加入食鹽水(中性)，主要作用是體積變大將溶液「稀釋」。濃度變稀時，平衡會向反應式中「離子總係數較大」的方向移動以彌補濃度損失。左邊係數和為 4，右邊為 1，因此平衡會向「左」移動，而非向右。" }
+            ]
+          }
+        },
+        {
+          id: 16,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "濃硫酸的稀釋安全操作",
+          question: "小雪以下列操作方式將濃硫酸稀釋成稀硫酸，何者不是如此操作法的理由？",
+          imageUrls: ["Nature-LH4-2-images/a16.jpg"],
+          options: [
+            "(A)濃硫酸稀釋時，會放出大量的熱，使水溫急遽升高",
+            "(B)濃硫酸的密度大於水會沉入水中放熱",
+            "(C)水量夠多才不至於使水急遽沸騰，造成爆炸式濺射",
+            "(D)以上皆是"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【酸入水保平安的科學根據】",
+            coreConcept: "將高密度的酸緩緩加入大量的水中，能利用大體積的水快速吸收並散佚稀釋熱。",
+            details: [
+              { opt: "(D)", desc: "圖片顯示的是「將濃硫酸沿著玻棒緩緩倒入水中」的正確標準操作。這樣做的理由包含了：(A)稀釋是強烈放熱反應；(B)硫酸密度大(1.84)會沉入底部，熱量由下往上均勻加熱整杯水；(C)如果反過來將水滴入酸中，水密度小會浮在表層瞬間沸騰，帶著腐蝕性酸液爆裂噴濺。因此 A、B、C 全部都是正確的理由。" }
+            ]
+          }
+        },
+        {
+          id: 17,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "氫氧化鈉的物理化學性質",
+          question: "(甲)水溶液有滑膩感；(乙)易吸收空氣中水氣和CO₂而變質；(丙)其水溶液可使石蕊試紙變紅色；(丁)溶解在水中會吸收熱量。以上有關氫氧化鈉的敘述，正確的有幾項？",
+          imageUrls: [],
+          options: [
+            "(A) 1",
+            "(B) 2",
+            "(C) 3",
+            "(D) 4"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【固態強鹼的潮解與特性】",
+            coreConcept: "NaOH 溶於水放熱，呈強鹼性(石蕊變藍)，在空氣中極易潮解並吸收二氧化碳。",
+            details: [
+              { opt: "逐項檢驗", desc: "(甲)鹼性水溶液能溶解皮膚表面油脂，故有滑膩感(正確)。\n(乙)固態 NaOH 暴露在空氣中會吸收水氣潮解，並與 CO₂ 反應生成碳酸鈉而變質(正確)。\n(丙)強鹼會使石蕊試紙變「藍色」而非紅色(錯誤)。\n(丁)強酸與強鹼溶於水皆是強烈的「放熱」反應(錯誤)。" },
+              { opt: "(B) 結論", desc: "僅有(甲)和(乙)兩項敘述是正確的。" }
+            ]
+          }
+        },
+        {
+          id: 18,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "酸鹼性與氫離子濃度排序",
+          question: "甲是鹽酸溶液，乙是氯化鈉溶液，丙是氫氧化鈉溶液，其[H⁺]由大而小依序為何？",
+          imageUrls: [],
+          options: [
+            "(A)丙>乙>甲",
+            "(B)甲>乙>丙",
+            "(C)乙>甲>丙",
+            "(D)丙>甲>乙"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【pH值與[H⁺]的反向關係】",
+            coreConcept: "溶液越酸，[H⁺] 越大；溶液越鹼，[H⁺] 越小。",
+            details: [
+              { opt: "分類", desc: "甲(鹽酸)是強酸，含有極高濃度的 H⁺。\n乙(氯化鈉)是中性水溶液，[H⁺] = 10⁻⁷ M。\n丙(氫氧化鈉)是強鹼，[OH⁻]極高，相對的 [H⁺] 濃度極端微小(如10⁻¹⁴ M)。" },
+              { opt: "(B)", desc: "因此，水溶液中游離的氫離子濃度 [H⁺] 大小排序為：甲(最酸) > 乙(中性) > 丙(最鹼)。" }
+            ]
+          }
+        },
+        {
+          id: 19,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "水溶液中性的嚴格定義",
+          question: "當東東拿一個燒杯，說杯子裡水溶液的酸鹼性是「中性」的，意思是指：",
+          imageUrls: [],
+          options: [
+            "(A)水溶液中沒有H⁺也沒有OH⁻",
+            "(B)水溶液中的陽離子數目等於陰離子的數目",
+            "(C)水溶液中的陽離子所帶的正電總電量等於陰離子所帶之負電總電量",
+            "(D)水溶液中 [H⁺] 等於 [OH⁻]"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【中性與電中性的區別】",
+            coreConcept: "「酸鹼中性」指H⁺與OH⁻濃度相等；「電中性」指正負總電量相等。",
+            details: [
+              { opt: "(D) 正確", desc: "判斷酸鹼性的唯一標準是氫離子濃度與氫氧根離子濃度的相對大小。當兩者勢均力敵，即 [H⁺] = [OH⁻] 時，水溶液便呈現「中性」。" },
+              { opt: "糾正觀念", desc: "(A)必定兩者皆有。(B)離子數目不一定相等(如CaCl₂)。(C)這是「電中性」的定義，任何水溶液(無論多酸多鹼)都必定符合電中性，這不是酸鹼中性的定義。" }
+            ]
+          }
+        },
+        {
+          id: 20,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "化學平衡的巨觀現象",
+          question: "在 2CrO₄²⁻(黃色) + 2H⁺ ⇌ Cr₂O₇²⁻(橘紅色) + H₂O 的平衡反應中，下列敘述何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)達平衡後，[CrO₄²⁻] = [Cr₂O₇²⁻]",
+            "(B)達平衡後，正反應速率小於逆反應速率",
+            "(C)達平衡後，溶液中 [CrO₄²⁻] : [Cr₂O₇²⁻] = 2 : 1",
+            "(D)達平衡後，顏色不再變化"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【動態平衡的特徵】",
+            coreConcept: "化學平衡時，正反應速率等於逆反應速率，所有反應物與生成物的濃度皆維持定值。",
+            details: [
+              { opt: "(D) 正確", desc: "因為各種粒子的濃度不再隨時間改變，所以巨觀上溶液的顏色會保持恆定不再深淺變化。" },
+              { opt: "糾正錯誤", desc: "(A)(C)達平衡時濃度是「定值」，但不一定「相等」或符合係數比。(B)達平衡的唯一定義是正、逆反應速率「完全相等」。" }
+            ]
+          }
+        },
+        {
+          id: 21,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "常見鹼類俗名與性質",
+          question: "下列關於鹼的敘述，何者錯誤？",
+          imageUrls: [],
+          options: [
+            "(A)碳酸鈉是白色固體，俗稱燒鹼",
+            "(B)氨水有刺激性臭味，具殺菌作用，稀釋後可作家庭清潔劑",
+            "(C)對氫氧化鈣水溶液吹氣會生成白色沉澱",
+            "(D)鹼性水溶液可溶解油脂，摸起來有滑膩感"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【蘇打與燒鹼的張冠李戴】",
+            coreConcept: "燒鹼是具有強烈腐蝕性的氫氧化鈉(NaOH)；碳酸鈉(Na₂CO₃)則是洗滌用的蘇打。",
+            details: [
+              { opt: "(A) 錯誤", desc: "碳酸鈉(Na₂CO₃)溶於水呈鹼性，其俗稱為「蘇打」或「洗滌鹼」；而被稱為「燒鹼」或「苛性鈉」的是另一種強鹼——氫氧化鈉(NaOH)。" }
+            ]
+          }
+        },
+        {
+          id: 22,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "指示劑與氫離子濃度排序",
+          question: "已知有酸性、鹼性、中性水溶液各一瓶，其中，甲溶液可使紅色石蕊試紙變藍色，乙溶液可使酚酞變無色，丙溶液可使廣用試劑呈綠色，依[H⁺]由大而小順序排列，何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)甲>乙>丙",
+            "(B)甲>丙>乙",
+            "(C)乙>甲>丙",
+            "(D)乙>丙>甲"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【指示劑反推酸鹼性】",
+            coreConcept: "溶液越酸(pH值越小)，游離的氫離子濃度 [H⁺] 就越大。",
+            details: [
+              { opt: "身份解碼", desc: "甲使紅石蕊變藍 ➡️ 甲是「鹼性」。\n丙使廣用試紙呈綠色 ➡️ 丙是「中性」。\n題目說酸、鹼、中各一瓶，既然甲是鹼、丙是中，剩下的乙必定是「酸性」(且酸性確實驗證能讓酚酞呈無色)。" },
+              { opt: "(D) 排序", desc: "[H⁺] 的濃度大小完全取決於酸性強弱：酸性(乙) > 中性(丙) > 鹼性(甲)。因此排序為 乙 > 丙 > 甲。" }
+            ]
+          }
+        },
+        {
+          id: 23,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "氧化物水溶液的酸鹼性",
+          question: "(a) CO₂ , (b) SO₂ , (c) CaO , (d) MgO , (e) NH₃；以上五種物質的水溶液，何者的pH值會小於7？",
+          imageUrls: [],
+          options: [
+            "(A) a,b",
+            "(B) a,b,c",
+            "(C) c,d",
+            "(D) c,d,e"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【尋找酸性水溶液】",
+            coreConcept: "pH值小於7代表酸性；非金屬氧化物溶於水呈酸性。",
+            details: [
+              { opt: "分類物質", desc: "(a) CO₂：非金屬氧化物，溶水成碳酸(酸性)。\n(b) SO₂：非金屬氧化物，溶水成亞硫酸(酸性)。\n(c) CaO 與 (d) MgO 皆為金屬氧化物，溶水呈鹼性。\n(e) NH₃：氨氣溶水成氨水，呈鹼性。" },
+              { opt: "(A) 結論", desc: "符合酸性條件(pH<7)的只有 a 和 b。" }
+            ]
+          }
+        },
+        {
+          id: 24,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "勒沙特列原理：溫度與顏色",
+          question: "在室溫下，四氧化二氮(N₂O₄)和二氧化氮(NO₂)達成平衡：N₂O₄(無色) + 熱量 ⇌ 2NO₂(紅棕色)。當條件改變時，有關反應的敘述何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)把密閉容器浸入熱水中時，正反應加速，逆反應停止，氣體顏色變深",
+            "(B)把密閉容器浸入冰水中時，逆反應速率>正反應速率，氣體顏色變深",
+            "(C)把密閉容器浸入熱水中時，NO₂分子增加，N₂O₄分子數減少，氣體顏色變深",
+            "(D)把密閉容器浸入熱水中，顏色會改變，但浸入冰水中，顏色不變"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【溫度驅動的平衡移動】",
+            coreConcept: "加熱會使平衡朝向「吸熱」反應的方向移動；降溫則朝向「放熱」方向。",
+            details: [
+              { opt: "反應式解讀", desc: "此反應將熱量寫在左邊，代表向右反應是「吸熱」，向左反應是「放熱」。" },
+              { opt: "(C) 正確", desc: "將容器浸入熱水(升溫)，系統為了消耗多餘的熱量，平衡會強烈向右移動(吸熱方向)。這會使得左邊無色的 N₂O₄ 被大量消耗(減少)，轉變為右邊紅棕色的 NO₂(增加)，因此氣體顏色變深。" },
+              { opt: "糾正錯誤", desc: "(A)升溫時正逆反應皆加速，逆反應不會停止。(B)冰水中平衡向左，NO₂減少，顏色變淺。(D)冰水中顏色會變淺改變。" }
+            ]
+          }
+        },
+        {
+          id: 25,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "哈柏法製氨的反應條件",
+          question: "在化學工業上以氮氣與氫氣在高溫、高壓下製氨的化學反應式如下：N₂ + 3H₂ (Fe催化) ⇌ 2NH₃。有關此反應式的敘述，下列何者正確？",
+          imageUrls: [],
+          options: [
+            "(A)由此反應式可知1克的N₂和3克的H₂反應後可得2克的NH₃",
+            "(B)Fe在此處是作為反應物，增加Fe的量，可使NH₃產量增加",
+            "(C)若增加N₂和H₂的量，相同時間內可增加NH₃的產量",
+            "(D)可以使用二氧化錳代替Fe來加速反應的進行"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【催化劑與濃度的工業應用】",
+            coreConcept: "化學式係數代表莫耳數比而非質量比；增加反應物濃度可加快反應速率並提升產量。",
+            details: [
+              { opt: "(C) 正確", desc: "依據反應速率定律，增加反應物(氮氣與氫氣)的濃度或壓力，能大幅增加分子間的有效碰撞頻率，在相同時間內加速正反應的進行，從而增加 NH₃ 的產量。" },
+              { opt: "糾正錯誤", desc: "(A)係數 1:3:2 是「莫耳數比」，不是質量比。(B)鐵粉(Fe)是催化劑，非反應物，無法改變最終極限產量。(D)二氧化錳是雙氧水分解專用催化劑，不同的化學反應需搭配其專屬的催化劑。" }
+            ]
+          }
+        },
+        {
+          id: 26,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "電解池離子移動方向判讀",
+          question: "附圖是電解質導電時，水溶液中離子移動方向示意圖，則下列敘述何者正確？",
+          imageUrls: ["Nature-LH4-2-images/a26.jpg"],
+          options: [
+            "(A)此水溶液可能是硫酸水溶液",
+            "(B)【黑色粒子】應該是陽離子",
+            "(C)【白色粒子】應該是帶+2的電荷",
+            "(D)此水溶液不會是電中性"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【異性電荷相吸原則】",
+            coreConcept: "電池長端為正極、短端為負極。水溶液中陽離子游向負極，陰離子游向正極。",
+            details: [
+              { opt: "極性與方向", desc: "圖中電池符號左側為長線(正極)，右側為短線(負極)。溶液中白球向左(正極)移動，代表白球是帶負電的「陰離子」；黑球向右(負極)移動，代表黑球是帶正電的「陽離子」。(B錯誤)" },
+              { opt: "數量與電荷", desc: "圖中黑球(陽)數量為白球(陰)的兩倍。這代表該電解質解離時 陽離子數 : 陰離子數 = 2 : 1。硫酸(H₂SO₄)解離會產生 2 個 H⁺ 與 1 個 SO₄²⁻，比例完美吻合。" },
+              { opt: "(A) 正確", desc: "綜合上述，此水溶液極有可能是硫酸水溶液。(D)任何水溶液皆為電中性。" }
+            ]
+          }
+        },
+        {
+          id: 27,
+          source: "龍華國中113下第2次",
+          page: 2,
+          topic: "強酸稀釋的pH曲線",
+          question: "下列何圖表示在鹽酸中加入純水稀釋後，其pH值的變化為何？",
+          imageUrls: ["Nature-LH4-2-images/a27.jpg"],
+          options: [
+            "(A)甲",
+            "(B)乙",
+            "(C)丙",
+            "(D)丁"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【酸性溶液稀釋的pH極限】",
+            coreConcept: "加水會使酸性變弱，pH值上升，但極限只會無限逼近 7，永遠不可能跨越 7 變成鹼性。",
+            details: [
+              { opt: "(C)", desc: "鹽酸是強酸，一開始的 pH 值非常低(接近0)。隨著純水(中性)不斷加入，溶液被大幅稀釋，酸性減弱，因此 pH 值會逐漸向上爬升。但因為杯中始終含有鹽酸分子，所以不管加多少水，pH 曲線最終只能趨近於水平線 7，絕對不會像圖(乙)那樣越過 7。故圖(丙)最正確。" }
+            ]
+          }
+        },
+        {
+          id: 28,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "濃度標籤與溶質質量",
+          question: "華華看見實驗室桌上有一瓶尚未打開使用的化學藥品，瓶上的標籤為 [石灰水 2M Ca(OH)₂ 500mL]。她想知道這瓶石灰水中含有多少克的 Ca(OH)₂？(原子量 Ca=40)",
+          imageUrls: ["Nature-LH4-2-images/a28.jpg"],
+          options: [
+            "(A) 37",
+            "(B) 57",
+            "(C) 74",
+            "(D) 148"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【由標籤反推溶質質量】",
+            coreConcept: "質量 = 莫耳數 × 分子量 = (體積莫耳濃度 × 體積) × 分子量。",
+            details: [
+              { opt: "Step 1: 分子量", desc: "氫氧化鈣 Ca(OH)₂ 的分子量 = 40 + (16+1)×2 = 74。" },
+              { opt: "Step 2: 莫耳數", desc: "濃度 2M，體積 500mL = 0.5L。內部含有的莫耳數 = 2 M × 0.5 L = 1 莫耳。" },
+              { opt: "Step 3: 換算質量", desc: "1 莫耳的 Ca(OH)₂ 質量 = 1 mol × 74 g/mol = 74 公克。故選(C)。" }
+            ]
+          }
+        },
+        {
+          id: 29,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "生活中的酸鹼中和",
+          question: "酸和鹼相遇時會發生中和反應，日常生活中下列哪一個反應沒有中和的現象？",
+          imageUrls: [],
+          options: [
+            "(A)被蚊蟲或螞蟻叮咬，可用氨水減輕紅腫搔癢",
+            "(B)天冷時使用暖暖包",
+            "(C)胃酸分泌過多時可服用含有碳酸氫鈉的胃藥",
+            "(D)農夫利用草木灰來改善酸性土質"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【氧化放熱 vs. 酸鹼中和】",
+            coreConcept: "酸鹼中和是酸性與鹼性物質的反應。金屬生鏽是氧化還原反應。",
+            details: [
+              { opt: "(A)(C)(D) 屬中和", desc: "蚊蟲叮咬的蟻酸遇氨水(弱鹼)；胃酸(強酸)遇小蘇打(弱鹼)；酸性土質遇草木灰(弱鹼)，皆為標準的酸鹼中和應用。" },
+              { opt: "(B) 無中和", desc: "市售拋棄式暖暖包的發熱原理，是利用內部的鐵粉在接觸空氣後，發生極其快速的「氧化生鏽反應」來釋放熱能，此過程完全與酸鹼中和無關。" }
+            ]
+          }
+        },
+        {
+          id: 30,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "酸性強弱與反應速率",
+          question: "小華取質量均為1.0g且相同大小的鎂帶三段，分別浸入附圖中的甲、乙、丙三杯溶液。請問小華見到在三杯溶液中，鎂帶產生氣泡的速度快慢關係為下列何者？\n甲：0.5M醋酸\n乙：0.5M鹽酸\n丙：0.5M氫氧化鈉",
+          imageUrls: ["Nature-LH4-2-images/a30.jpg"],
+          options: [
+            "(A)丙>乙>甲",
+            "(B)甲>丙>乙",
+            "(C)甲>乙>丙",
+            "(D)乙>甲>丙"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【強弱酸與金屬的反應差異】",
+            coreConcept: "活性金屬只與酸反應產氣泡。水溶液中的 [H⁺] 越高，反應越快。",
+            details: [
+              { opt: "反應資格篩選", desc: "鎂(Mg)是活性大的金屬，只會被酸液腐蝕產生氫氣。丙杯是「氫氧化鈉」(強鹼)，鎂帶放進去幾乎不會發生反應，產生氣泡速率掛零(最慢)。" },
+              { opt: "強弱酸對決", desc: "甲(醋酸)與乙(鹽酸)雖然濃度皆為 0.5M，但鹽酸是「強酸」幾乎 100% 解離，水中充滿 H⁺；醋酸是「弱酸」僅微量解離，水中 H⁺ 稀少。因此乙杯產生氣泡的速度遠快於甲杯。" },
+              { opt: "(D) 結論", desc: "速率快慢排序為：乙(強酸) > 甲(弱酸) > 丙(強鹼無反應)。" }
+            ]
+          }
+        },
+        {
+          id: 31,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "氣體性質綜合推理",
+          question: "阿俊研究一未知氣體，發現該氣體的性質如下：(甲)無色；(乙)比空氣輕；(丙)易溶於水；(丁)可使潤溼的石蕊試紙呈藍色。試問該未知氣體可能是什麼？",
+          imageUrls: [],
+          options: [
+            "(A) NH₃",
+            "(B) CO₂",
+            "(C) SO₂",
+            "(D) HCl"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【四重特徵交叉比對】",
+            coreConcept: "氣體溶水呈鹼性(石蕊變藍)是辨識的絕對關鍵。",
+            details: [
+              { opt: "酸鹼性過濾", desc: "特徵(丁)表明氣體溶水後呈「鹼性」。備選名單中，CO₂(二氧化碳)、SO₂(二氧化硫)、HCl(氯化氫) 溶於水全部都是呈現「酸性」。" },
+              { opt: "(A) 完全符合", desc: "唯一溶於水呈現鹼性的氣體是 NH₃(氨氣，溶水成氨水)。此外，氨氣確實是無色(甲)、分子量17比空氣平均28.8輕(乙)、且極度易溶於水(丙)，四項特徵完美吻合。" }
+            ]
+          }
+        },
+        {
+          id: 32,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "酸鹼滴定過程的pH曲線",
+          question: "燒杯中裝有氫氧化鈉溶液，在裝有鹽酸的試管中滴入一滴酚酞指示劑呈無色，由燒杯逐漸加氫氧化鈉水溶液於試管中直到溶液變色，則試管中溶液之pH值的變化應為下列何者較合理？",
+          imageUrls: ["Nature-LH4-2-images/a32.jpg"],
+          options: [
+            "(A) 圖A",
+            "(B) 圖B",
+            "(C) 圖C",
+            "(D) 圖D"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【看懂滴定的起點與終點】",
+            coreConcept: "試管(被滴定者)決定曲線起點，滴定液決定曲線走向。",
+            details: [
+              { opt: "確認起點", desc: "實驗的主舞台是「試管」，裡面裝的是「鹽酸(強酸)」。因此實驗剛開始時(NaOH加入量=0)，試管內溶液的 pH 值必定處於極低點(遠低於7)。" },
+              { opt: "(A)", desc: "隨著氫氧化鈉(鹼)不斷加入，試管內的酸逐漸被中和，pH 值呈現 S 型攀升。越過中和點(pH=7)後，溶液轉為鹼性(酚酞瞬間變紅)。圖(A)精確畫出了起點在低處，終點越過 7 的正確軌跡。" }
+            ]
+          }
+        },
+        {
+          id: 33,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "生物體內的催化劑",
+          question: "雙氧水塗在受傷流血的皮膚上會很快的冒出氣泡，最主要的原因可能為何？",
+          imageUrls: [],
+          options: [
+            "(A)受傷的皮膚細菌很多，反應比較快",
+            "(B)血液內含有加速分解雙氧水的酶",
+            "(C)受傷皮膚內含有氧氣",
+            "(D)受傷皮膚表面與雙氧水接觸的面積比較多"
+          ],
+          correctAnswer: "B",
+          explanation: {
+            title: "【酵素：完美的生物催化劑】",
+            coreConcept: "血液與細胞組織中富含過氧化氫酶(觸酶)，能瞬間催化雙氧水分解產氧。",
+            details: [
+              { opt: "(B)", desc: "雙氧水(H₂O₂)在常溫下其實分解得非常緩慢。但當它接觸到流血的傷口時，血液紅血球及細胞中存在的一種特殊蛋白質酵素(過氧化氫酶)，會立刻擔任起「催化劑」的角色，大幅降低反應活化能，使雙氧水在極短時間內劇烈分解，冒出大量氧氣泡泡。" }
+            ]
+          }
+        },
+        {
+          id: 34,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "酸鹼指示劑的邏輯推理",
+          question: "桌上有三種無色溶液甲、乙、丙，已知其中有酸性溶液、鹼性溶液及酚酞指示劑。小雯做了測試如下表，則可推測丙溶液應為下列何者？\n甲+乙：紅色\n甲+丙：無色\n乙+丙：無色",
+          imageUrls: ["Nature-LH4-2-images/a34.jpg"],
+          options: [
+            "(A)酸性溶液",
+            "(B)鹼性溶液",
+            "(C)酚酞指示劑",
+            "(D)無法推斷"
+          ],
+          correctAnswer: "A",
+          explanation: {
+            title: "【從顯色條件反推身分】",
+            coreConcept: "酚酞只有遇到「鹼性」溶液才會變成紅色，遇酸或中性皆維持無色。",
+            details: [
+              { opt: "紅色線索", desc: "表格顯示「甲+乙混合呈紅色」。這代表甲和乙其中一杯必定是「酚酞」，另一杯必定是「鹼性溶液」。" },
+              { opt: "(A) 推演", desc: "既然甲和乙已經佔據了指示劑與鹼的名額，那麼剩下的第三杯「丙」，身分自然就只剩下唯一的選項：「酸性溶液」。酸加鹼或酸加酚酞皆為無色，完美吻合表格紀錄。" }
+            ]
+          }
+        },
+        {
+          id: 35,
+          source: "龍華國中113下第2次",
+          page: 3,
+          topic: "解離方程式的莫耳數計算",
+          question: "某一水溶液中有0.1莫耳氯化鋁(AlCl₃)，則溶液中帶正電荷粒子的莫耳數與帶負電荷粒子的莫耳數比為多少？",
+          imageUrls: [],
+          options: [
+            "(A) 1 : 1",
+            "(B) 2 : 1",
+            "(C) 1 : 3",
+            "(D) 3 : 1"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【解離離子個數的直接對應】",
+            coreConcept: "解離出的正負離子個數比，完全取決於化學式原子的下標比例。",
+            details: [
+              { opt: "解離方程式", desc: "氯化鋁解離式：AlCl₃ → Al³⁺ + 3Cl⁻。" },
+              { opt: "(C)", desc: "每解離 1 個 AlCl₃ 分子，就會產生 1 個帶正電的鋁離子(Al³⁺) 與 3 個帶負電的氯離子(Cl⁻)。因此無論原先有多少莫耳的氯化鋁，水中正電荷粒子與負電荷粒子的莫耳數比例永遠固定為 1 : 3。" }
+            ]
+          }
+        },
+        // ==================== 填充題 (36~40 對應原卷填充1~5) ====================
+        {
+          id: 36,
+          source: "龍華國中113下第2次",
+          page: 4,
+          topic: "電解質導電微觀機制 (填充1)",
+          question: "【填充題 1】電解質是因為何種粒子在水溶液中移動而導電？",
+          imageUrls: [],
+          options: [],
+          correctAnswer: "離子",
+          explanation: {
+            title: "【水溶液的導電橋樑】",
+            coreConcept: "金屬靠自由電子導電，水溶液靠自由移動的離子導電。",
+            details: [
+              { opt: "解析", desc: "電解質在溶於水後，會發生「解離」現象，拆解成帶正電的陽離子與帶負電的陰離子。當接上電源時，這些在水中能自由游動的「離子」會分別朝著相反的電極移動，從而形成電流通路完成導電。" }
+            ]
+          }
+        },
+        {
+          id: 37,
+          source: "龍華國中113下第2次",
+          page: 4,
+          topic: "酸鹼中和的主角 (填充2)",
+          question: "【填充題 2】下圖是做酸鹼中和之實驗，在A中裝有50毫升之0.5M稀鹽酸，B中裝有20毫升之0.4M氫氧化鈉，並以酚酞為指示劑。請問：氫氧化鈉和鹽酸作用，真正參與中和反應的是哪兩種粒子？",
+          imageUrls: ["Nature-LH4-2-images/b2.jpg"],
+          options: [],
+          correctAnswer: "H⁺ 與 OH⁻ (或寫氫離子與氫氧根離子)",
+          explanation: {
+            title: "【中和反應的化學淨離子式】",
+            coreConcept: "酸鹼中和的本質，就是酸中的氫離子與鹼中的氫氧根離子結合生成水。",
+            details: [
+              { opt: "解析", desc: "鹽酸解離出 H⁺ 與 Cl⁻；氫氧化鈉解離出 Na⁺ 與 OH⁻。在混合過程中，Na⁺ 與 Cl⁻ 只是旁觀者(繼續留在水中游離)，真正發生化學碰撞並結合成中性水分子(H₂O)的，是【H⁺ (氫離子)】與【OH⁻ (氫氧根離子)】。" }
+            ]
+          }
+        },
+        {
+          id: 38,
+          source: "龍華國中113下第2次",
+          page: 4,
+          topic: "反應速率的變因控制 (填充3)",
+          question: "【填充題 3】將等質量的大理石分別磨成粒狀或粉狀，在A、B、C三支試管中加入3M鹽酸與蒸餾水，然後再將大理石加入試管中，如附表所示，則：\n(1)若想探討接觸面積對反應速率的影響，可觀察哪兩支試管產生氣泡的速率？\n(2)若想探討濃度大小對反應速率的影響，可觀察哪兩支試管產生氣泡的速率？",
+          imageUrls: ["Nature-LH4-2-images/b3.jpg"],
+          options: [],
+          correctAnswer: "(1) A 與 C  (2) A 與 B",
+          explanation: {
+            title: "【尋找唯一的操縱變因】",
+            coreConcept: "科學實驗對照組法則：你想研究什麼，就只能讓那個條件不一樣，其他通通都要一樣。",
+            details: [
+              { opt: "子題 (1) 探討接觸面積", desc: "操縱變因必須是「顆粒大小」，所以要找一個粒狀、一個粉狀。同時，鹽酸體積與加水量(濃度)必須完全相同(控制變因)。比對表格：A(粒狀,10酸15水) 與 C(粉狀,10酸15水) 完美符合。" },
+              { opt: "子題 (2) 探討濃度", desc: "操縱變因必須是「酸水量配比(濃度)」，所以要找兩杯配比不同的。同時，大理石的顆粒大小必須完全相同。比對表格：A(粒狀,10酸15水) 與 B(粒狀,5酸20水) 皆為粒狀，且總體積皆為25mL但酸濃度不同，完美符合。" }
+            ]
+          }
+        },
+        {
+          id: 39,
+          source: "龍華國中113下第2次",
+          page: 4,
+          topic: "溫度對反應速率的影響 (填充4)",
+          question: "【填充題 4】在畫有「十」的白纸上置一燒杯，將硫代硫酸鈉溶液及鹽酸溶液同時倒入燒杯中，開始計時直到恰可遮住「十」字。甲(40℃)、乙(30℃)、丙(20℃)，請問：\n(1)甲、乙、丙三組恰好遮住「十」字的時間，由長而短的次序為何？\n(2)停止計時瞬間，哪一組生成沉澱物的量最多？",
+          imageUrls: ["Nature-LH4-2-images/b4.jpg"],
+          options: [],
+          correctAnswer: "(1) 丙 > 乙 > 甲  (2) 一樣多 (或相等)",
+          explanation: {
+            title: "【溫度、時間與定產量觀測法】",
+            coreConcept: "溫度越低反應越慢耗時越長；遮蔽視線所需的沉澱厚度(總量)皆為固定值。",
+            details: [
+              { opt: "子題 (1) 時間長短", desc: "溫度越低，分子碰撞動能越弱，反應速率越慢，達到終點所需等待的「時間」就會越長。溫度：丙(20) < 乙(30) < 甲(40)，故耗費時間：丙 > 乙 > 甲。" },
+              { opt: "子題 (2) 沉澱物總量", desc: "這個經典實驗是利用「累積相同數量的黃色硫沉澱，剛好足以遮蔽目光」來作為停止計時的判定標準。因此，在按下碼表的那一瞬間，這三杯溶液裡累積的沉澱物總量必定是【一樣多】的。" }
+            ]
+          }
+        },
+        {
+          id: 40,
+          source: "龍華國中113下第2次",
+          page: 4,
+          topic: "化合物化學式撰寫 (填充5)",
+          question: "【填充題 5】利用電解質解離時須符合電中性的原理，寫出下列物質的化學式：\n(1)硝酸銨：\n(2)硫酸鈣：\n(3)氫氧化鋁：\n(4)磷酸鈉：",
+          imageUrls: ["Nature-LH4-2-images/b5.jpg"],
+          options: [],
+          correctAnswer: "(1) NH₄NO₃  (2) CaSO₄  (3) Al(OH)₃  (4) Na₃PO₄",
+          explanation: {
+            title: "【離子電荷交叉相消法則】",
+            coreConcept: "組裝化合物時，陽離子的正電荷總數必須等於陰離子的負電荷總數，使其呈電中性。",
+            details: [
+              { opt: "(1) 硝酸銨", desc: "銨根(NH₄⁺)帶 +1，硝酸根(NO₃⁻)帶 -1。1:1 直接組合 ➡️ NH₄NO₃。" },
+              { opt: "(2) 硫酸鈣", desc: "鈣離子(Ca²⁺)帶 +2，硫酸根(SO₄²⁻)帶 -2。1:1 剛好抵銷 ➡️ CaSO₄。" },
+              { opt: "(3) 氫氧化鋁", desc: "鋁離子(Al³⁺)帶 +3，氫氧根(OH⁻)帶 -1。需要 3 個 OH⁻ 才能抵銷 ➡️ Al(OH)₃。注意多原子根要加括號。" },
+              { opt: "(4) 磷酸鈉", desc: "鈉離子(Na⁺)帶 +1，磷酸根(PO₄³⁻)帶 -3。需要 3 個 Na⁺ 才能抵銷 ➡️ Na₃PO₄。" }
+            ]
+          }
+        }
+      ];
+
+      // 將錯題依據「出處 -> 頁碼 -> 題號」進行排序與分組
+      const sortedQuestions = [...questions].sort((a, b) => {
+        if (a.source !== b.source) return a.source.localeCompare(b.source);
+        if (a.page !== b.page) return a.page - b.page;
+        return a.id - b.id;
+      });
+
+      const groupedQuestions = sortedQuestions.reduce((acc, q) => {
+        const groupName = q.source; // 完全以出處作為最高層級的分組依據
+        if (!acc[groupName]) acc[groupName] = [];
+        acc[groupName].push(q);
+        return acc;
+      }, {});
+
+      return (
+        <div className="min-h-screen font-sans print:bg-white print:py-0 py-4 sm:py-8">
+          
+          {/* 操作區塊 (列印時隱藏) */}
+          <div className="w-full max-w-[98%] xl:max-w-[95%] mx-auto mb-4 sm:mb-6 px-2 sm:px-4 print:hidden">
+            <div className="bg-white p-6 rounded-lg shadow-md border-l-4 border-blue-500 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div>
+                <h1 className="text-xl sm:text-2xl font-bold text-gray-800">📖 龍華國中 國二下 理化科 錯題本</h1>
+                <h2 className="text-lg font-semibold text-gray-700 mt-1">113學年度第二學期 第二次段考 完整解析版</h2>
+                <p className="text-gray-500 text-sm mt-2">請選擇您要列印的模式。列印格式已預設優化為 A4 直式。</p>
+              </div>
+              <div className="flex gap-3">
+                <button 
+                  onClick={() => handlePrint('exam')}
+                  className="px-5 py-2.5 bg-indigo-50 text-indigo-600 font-semibold rounded-md border border-indigo-200 hover:bg-indigo-100 transition-colors flex items-center gap-2 cursor-pointer"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                  列印考卷 (隱藏解析)
+                </button>
+                <button 
+                  onClick={() => handlePrint('solution')}
+                  className="px-5 py-2.5 bg-blue-600 text-white font-semibold rounded-md hover:bg-blue-700 transition-colors shadow-sm flex items-center gap-2 cursor-pointer"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                  列印解析卷
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* A4 列印頁面主體 */}
+          <div className="w-full max-w-[98%] xl:max-w-[95%] mx-auto bg-white shadow-xl print:w-[210mm] print:max-w-[210mm] print:shadow-none min-h-[297mm] p-6 sm:p-10 print:p-0 print:m-0">
+            
+            {/* 試卷表頭 */}
+            <div className="text-center mb-8 border-b-2 border-gray-800 pb-4">
+              <h2 className="text-2xl font-extrabold tracking-wide text-gray-900">龍華國中 國二下 理化科 考前衝刺</h2>
+              <h3 className="text-xl font-bold text-gray-800 mt-2">113學年度第二學期 第二次段考 完整解析版</h3>
+              <div className="flex justify-between mt-6 text-lg font-medium text-gray-700">
+                <span>錯題筆記 (收錄原卷 全 40 題)</span>
+                <span>姓名：<span className="font-bold text-xl tracking-widest border-b-2 border-gray-800 px-8 pb-1">蔡睿澄</span></span>
+              </div>
+            </div>
+
+            {/* 題目列表 */}
+            <div className={`flex flex-col ${printMode === 'exam' ? 'gap-6 print:gap-4' : 'gap-10 print:gap-10'}`}>
+              {Object.entries(groupedQuestions).map(([groupName, groupQs], groupIndex) => (
+                <div key={groupName} className={`flex flex-col ${printMode === 'exam' ? 'gap-4 print:gap-2' : 'gap-8 print:gap-8'} ${groupIndex > 0 && printMode !== 'exam' ? 'print:break-before-page' : ''}`}>
+                  
+                  {groupQs.map((q, index) => {
+                    const isFirst = index === 0;
+                    
+                    // 判斷選項長度來決定排版欄位數 (智慧橫式排版)
+                    const maxOptLen = q.options.length > 0 ? Math.max(...q.options.map(o => o.length)) : 0;
+                    let gridColsClass = 'grid-cols-1';
+                    if (q.options.length > 4) {
+                      gridColsClass = 'grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 print:grid-cols-4'; 
+                    } else if (q.options.length > 0) {
+                      if (maxOptLen <= 12) {
+                        gridColsClass = 'grid-cols-2 lg:grid-cols-4 print:grid-cols-4'; 
+                      } else if (maxOptLen <= 30) {
+                        gridColsClass = 'grid-cols-1 lg:grid-cols-2 print:grid-cols-2'; 
+                      } else {
+                        gridColsClass = 'grid-cols-1'; 
+                      }
+                    }
+
+                    // 單一題目的內容區塊
+                    const questionContent = (
+                      <div key={`${q.source}-${q.page}-${q.id}`} className={`flex flex-row border-b border-gray-300 ${printMode === 'exam' ? 'pb-4 print:pb-3' : 'pb-8 print:pb-8'} ${!isFirst ? 'print:break-inside-avoid' : ''}`}>
+                        
+                        {/* 左側：題目區 */}
+                        <div className="w-[60%] print:w-[65%] pr-6 border-r-2 border-dashed border-gray-300">
+                          <div className="flex gap-2">
+                            <span className="font-bold text-xl whitespace-nowrap text-blue-900">
+                              {q.id}.
+                            </span>
+                            <div className="text-lg font-medium leading-relaxed text-gray-800 whitespace-pre-wrap">
+                              {q.question}
+                            </div>
+                          </div>
+                          
+                          {/* 支援單張或多張圖片顯示 */}
+                          {q.imageUrls && q.imageUrls.length > 0 && (
+                            <div className={`${printMode === 'exam' ? 'mt-2 mb-1 print:mt-1' : 'mt-4 mb-2'} pl-6 flex flex-wrap gap-2`}>
+                              {q.imageUrls.map((url, idx) => (
+                                <img key={idx} src={url} alt={`題目附圖 ${idx + 1}`} className="w-auto h-auto max-w-[85%] max-h-56 rounded border border-gray-200 shadow-sm print:max-w-[80%] print:max-h-48 print:shadow-none print:border-gray-400" />
+                              ))}
+                            </div>
+                          )}
+
+                          {q.options.length > 0 && (
+                            <div className={`${printMode === 'exam' ? 'mt-2 print:mt-1' : 'mt-4'} pl-6 grid ${gridColsClass} ${printMode === 'exam' ? 'gap-y-1 gap-x-4 print:gap-y-0' : 'gap-y-2 gap-x-4'} text-lg`}>
+                              {q.options.map((opt, idx) => (
+                                <div key={idx} className="text-gray-700">{opt}</div>
+                              ))}
+                            </div>
+                          )}
+                          
+                          {/* 填充題留白區塊 (若有) */}
+                          {q.options.length === 0 && printMode === 'exam' && (
+                            <div className="mt-4 pl-6 flex flex-col gap-4">
+                              <span className="text-lg font-medium text-gray-700 block">答：</span>
+                              <div className="border-b-2 border-gray-400 w-full h-8"></div>
+                            </div>
+                          )}
+                        </div>
+
+                        {/* 右側：解析區 */}
+                        <div className="w-[40%] print:w-[35%] pl-6 relative">
+                          <div className={`h-full ${printMode === 'exam' ? 'print:hidden' : ''}`}>
+                            <div className="flex items-center gap-2 mb-4 text-blue-800">
+                              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                              <span className="font-bold text-xl">深度解析</span>
+                              <span className="ml-auto bg-red-100 text-red-700 px-4 py-1.5 rounded-full text-base font-bold shadow-sm">
+                                解答：{q.correctAnswer}
+                              </span>
+                            </div>
+                            
+                            <div className="bg-blue-50/50 p-5 rounded-lg border border-blue-100">
+                              <h4 className="font-bold text-lg sm:text-xl text-[#FF0000] mb-3">{q.explanation.title}</h4>
+                              <p className="text-gray-700 mb-5 leading-relaxed text-base sm:text-lg bg-yellow-100/50 p-3 rounded whitespace-pre-wrap">
+                                <span className="font-semibold text-amber-700">💡 核心觀念：</span>
+                                {q.explanation.coreConcept}
+                              </p>
+                              
+                              <ul className="space-y-4">
+                                {q.explanation.details.map((detail, idx) => (
+                                  <li key={idx} className="text-base sm:text-lg leading-relaxed whitespace-pre-wrap">
+                                    {detail.opt && (
+                                      <span className={`font-semibold mr-2 ${q.correctAnswer !== "見解析" && q.correctAnswer !== "" && detail.opt.includes(q.correctAnswer.charAt(0)) ? 'text-green-700' : 'text-gray-800'}`}>
+                                        {detail.opt}
+                                      </span>
+                                    )}
+                                    <span className="text-gray-600">
+                                      {detail.desc}
+                                    </span>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+
+                      </div>
+                    );
+
+                    if (isFirst) {
+                      return (
+                        <div key={`wrapper-${groupName}`} className="print:break-inside-avoid flex flex-col">
+                          {/* 出處標題標籤 */}
+                          <div className={`flex items-center border-b-2 border-gray-400 pb-2 ${printMode === 'exam' ? 'mb-2 print:mb-1' : 'mb-4'} print:border-gray-800`}>
+                            <span className={`bg-[#FF0000] text-white px-4 py-1.5 text-md font-bold rounded-t-lg tracking-widest print:bg-white print:border-2 print:text-[#FF0000] print:border-[#FF0000] print:rounded-md print:px-3`}>
+                              📂 考卷來源：{groupName} (全卷共 40 題)
+                            </span>
+                          </div>
+                          {questionContent}
+                        </div>
+                      );
+                    }
+
+                    return questionContent;
+                  })}
+                </div>
+              ))}
+            </div>
+
+            {/* 頁尾 */}
+            <div className="mt-8 text-center text-gray-400 text-sm print:block">
+              - 徹底搞懂每一題，理化高分不是夢 -
+            </div>
+
+          </div>
+        </div>
+      );
+    };
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<MistakeNotebook />);
+  </script>
+</body>
+</html>
