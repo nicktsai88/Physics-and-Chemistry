@@ -127,7 +127,7 @@
           options: [
             "(A)白色粒子可能是帶正電的鈉離子 Na⁺",
             "(B)一個白色粒子所帶的電量大於一個氯離子所帶的電量",
-            "(C)若將開關按上通電後，黑色粒子會向a電極移動、白色粒子會向b電極移動",
+            "(C)若將開關按上通電後，黑色粒子會向電極移動、白色粒子會向b電極移動",
             "(D)未通電時，此兩種帶電的粒子靜止不動但均勻分散於水中"
           ],
           correctAnswer: "B",
@@ -137,7 +137,7 @@
             details: [
               { opt: "圖形數量比", desc: "圖中黑色粒子(Cl⁻)有 6 顆，白色粒子有 3 顆。負離子數量是正離子的兩倍，為了維持電中性，代表 1 顆白色粒子必須攜帶 +2 的電荷(如 Ca²⁺、Cu²⁺等)。因此 (A)Na⁺(+1) 是錯誤的。" },
               { opt: "(B) 正確", desc: "一個白色粒子帶 +2 電量，一個氯離子帶 -1 電量。在電荷絕對值大小上，|+2| > |-1|，故白色粒子的電量較大。" },
-              { opt: "糾正錯誤", desc: "(C)電池長端為正極(左邊接a)，短端為負極(右邊接b)。黑色 Cl⁻ 帶負電，會游向正極 a；白色 M²⁺ 帶正電，會游向負極 b。原選項文字若有漏字(向電極移動)，但嚴謹分析下(B)最明確無誤。\n(D)未通電時，離子在水中會不停地做不規則熱運動，而非靜止不動。" }
+              { opt: "糾正錯誤", desc: "(C)電池長端為正極(左邊接a)，短端為負極(右邊接b)。黑色 Cl⁻ 帶負電，會游向正極 a；白色 M²⁺ 帶正電，會游向負極 b。\n(D)未通電時，離子在水中會不停地做不規則熱運動，而非靜止不動。" }
             ]
           }
         },
@@ -282,13 +282,6 @@
           topic: "強弱酸鹼的pH值排序",
           question: "室溫下，約兒分別配製甲、乙、丙三杯濃度皆為0.2M的水溶液，其溶質種類與說明，如表所示。這三杯水溶液pH值的大小關係，應為下列何者？",
           imageUrls: [],
-          options: [
-            "(A)甲>乙>丙",
-            "(B)甲=乙>丙",
-            "(C)丙>乙>甲",
-            "(D)丙>乙=甲"
-          ],
-          correctAnswer: "C",
           table: (
             <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm w-fit">
               <table className="min-w-max text-center text-sm">
@@ -303,12 +296,42 @@
               </table>
             </div>
           ),
+          options: [
+            "(A)甲>乙>丙",
+            "(B)甲=乙>丙",
+            "(C)丙>乙>甲",
+            "(D)丙>乙=甲"
+          ],
+          correctAnswer: "C",
           explanation: {
             title: "【依據酸鹼強度推判pH值】",
             coreConcept: "強鹼(pH>13) > 弱酸(pH~3) > 強酸(pH~0)。",
             details: [
               { opt: "各溶液定位", desc: "丙是強鹼(NaOH)，pH 值極大(約13以上)。\n甲(HCl)與乙(CH₃COOH)皆為酸性，pH < 7。但甲是強酸完全解離，乙是弱酸僅微量解離，因此甲的 [H⁺] 遠大於乙，對應的 pH 值則是甲更小。" },
               { opt: "(C) 結論", desc: "pH值由大到小排序為：丙(強鹼) > 乙(弱酸) > 甲(強酸)。" }
+            ]
+          }
+        },
+        {
+          id: 12,
+          source: "明華國中114下第2次",
+          page: 2,
+          topic: "電解質解離的粒子總數",
+          question: "弗傑在桌上擺了四杯濃度均為0.1M、體積都是200毫升的溶液，分別是蔗糖(C₁₂H₂₂O₁₁)、乙醇(C₂H₅OH)、氯化鈉(NaCl)、乙酸(CH₃COOH)，試問哪一杯所含離子的總數最多？",
+          imageUrls: [],
+          options: [
+            "(A)蔗糖",
+            "(B)乙醇",
+            "(C)氯化鈉",
+            "(D)乙酸"
+          ],
+          correctAnswer: "C",
+          explanation: {
+            title: "【電解質強弱決定離子產量】",
+            coreConcept: "強電解質完全解離；弱電解質部分解離；非電解質不解離。",
+            details: [
+              { opt: "逐一分析", desc: "因為體積與濃度皆相同，原本加入水中的溶質莫耳數都一樣。\n(A)蔗糖與(B)乙醇為非電解質，完全不解離，溶液中的離子數為 0。\n(D)乙酸為弱電解質，只有極少數分子(約1%)解離成離子。\n(C)氯化鈉(NaCl)為強電解質，幾乎 100% 完全解離，1 個 NaCl 會產生 1 個 Na⁺ 和 1 個 Cl⁻ (共2個離子)。" },
+              { opt: "(C)", desc: "因此，氯化鈉水溶液中蘊含的游離離子總數絕對是最多的。" }
             ]
           }
         },
@@ -342,13 +365,6 @@
           topic: "氫離子濃度與pH值換算",
           question: "室溫下，有四杯水溶液其氫離子的濃度如下表所示，哪一杯水溶液的pH值最大？",
           imageUrls: [],
-          options: [
-            "(A)甲",
-            "(B)乙",
-            "(C)丙",
-            "(D)丁"
-          ],
-          correctAnswer: "D",
           table: (
             <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm w-fit">
               <table className="min-w-max text-center text-sm">
@@ -361,12 +377,42 @@
               </table>
             </div>
           ),
+          options: [
+            "(A)甲",
+            "(B)乙",
+            "(C)丙",
+            "(D)丁"
+          ],
+          correctAnswer: "D",
           explanation: {
             title: "【pH值與[H⁺]的反比特性】",
             coreConcept: "氫離子濃度 [H⁺] 數值越微小(次方數越負)，計算出來的 pH 值就越大。",
             details: [
               { opt: "濃度比較", desc: "比較表中的 [H⁺] 數值：\n甲 = 8×10⁻¹ (極大)\n乙 = 6×10⁻⁴\n丙 = 4×10⁻⁸\n丁 = 3×10⁻¹⁰ (極小)。" },
               { opt: "(D) 結論", desc: "丁杯的氫離子濃度最低，代表酸性最弱(或鹼性最強)，對應的 pH 值必然是四杯中最大的(pH介於9~10之間)。" }
+            ]
+          }
+        },
+        {
+          id: 15,
+          source: "明華國中114下第2次",
+          page: 2,
+          topic: "體積莫耳濃度基礎計算",
+          question: "將90公克的葡萄糖 C₆H₁₂O₆ 加水配成500毫升的溶液，則此溶液的體積莫耳濃度為何？(原子量：H=1, C=12, O=16)",
+          imageUrls: [],
+          options: [
+            "(A) 0.25M",
+            "(B) 0.5M",
+            "(C) 0.1M",
+            "(D) 1M"
+          ],
+          correctAnswer: "D",
+          explanation: {
+            title: "【質量轉換濃度二步曲】",
+            coreConcept: "濃度(M) = 溶質莫耳數(mol) ÷ 溶液體積(L)。",
+            details: [
+              { opt: "Step 1: 算莫耳數", desc: "葡萄糖的分子量 = (12×6) + (1×12) + (16×6) = 180。90公克 ÷ 180 g/mol = 0.5 莫耳。" },
+              { opt: "Step 2: 算濃度", desc: "溶液體積為 500毫升 = 0.5 公升。莫耳濃度 = 0.5 mol ÷ 0.5 L = 1 M。故選(D)。" }
             ]
           }
         },
@@ -560,7 +606,7 @@
           page: 4,
           topic: "pH值與反應物濃度",
           question: "有甲、乙、丙和丁四杯體積均為100mL的水溶液，其中兩杯為碳酸鈉溶液，另外兩杯為鹽酸，25℃時這四杯溶液的pH值如圖所示。已知鹽酸和碳酸鈉反應會產生二氧化碳，下列哪兩杯溶液混合後，產生二氧化碳的初始速率最快？\n(圖示：甲位於pH=2，乙位於pH=4，丙位於pH=9，丁位於pH=10)",
-          imageUrls: ["Nature-LH4-2-2-images/24.jpg"],
+          imageUrls: ["Nature-LH4-2-2-images/a24.jpg"],
           options: [
             "(A)甲和丙",
             "(B)甲和丁",
@@ -773,13 +819,6 @@
             "(D)丁>丙>乙=甲"
           ],
           correctAnswer: "A",
-          explanation: {
-            title: "【人為設定的測量終點】",
-            coreConcept: "這個實驗是利用「累積相同厚度的黃色硫沉澱」來作為停止計時的視覺基準點。",
-            details: [
-              { opt: "(A)", desc: "不管各組實驗的溫度或濃度條件為何、反應花費了多少時間，只要我們是在「恰好完全遮住十字」的那一瞬間按下停止鍵，就代表這四個燒杯在停止計時的當下，內部累積的黃色硫粉總量必定是完全一模一樣的。" }
-            ]
-          },
           table: (
             <div className="overflow-x-auto my-3 rounded-lg border border-gray-300 shadow-sm">
               <table className="min-w-full text-center text-sm">
@@ -794,7 +833,14 @@
                 </tbody>
               </table>
             </div>
-          )
+          ),
+          explanation: {
+            title: "【人為設定的測量終點】",
+            coreConcept: "這個實驗是利用「累積相同厚度的黃色硫沉澱」來作為停止計時的視覺基準點。",
+            details: [
+              { opt: "(A)", desc: "不管各組實驗的溫度或濃度條件為何、反應花費了多少時間，只要我們是在「恰好完全遮住十字」的那一瞬間按下停止鍵，就代表這四個燒杯在停止計時的當下，內部累積的黃色硫粉總量必定是完全一模一樣的。" }
+            ]
+          }
         },
         {
           id: 34,
@@ -1288,4 +1334,4 @@
     root.render(<MistakeNotebook />);
   </script>
 </body>
-</html>
+</html>F
